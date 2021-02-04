@@ -14,13 +14,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
-    "twig/twig": "3.*",
-    "voku/urlify": "5.*",
-    "hashids/hashids": "4.*",
-    "symfony/yaml": "5.*",
-    "phpmailer/phpmailer": "6.*",
-    "rbdwllr/reallysimplejwt": "4.*"
+    
   },
   "autoload": {
     "psr-4": {
