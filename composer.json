@@ -18,7 +18,7 @@
     "twig/twig": "3.*",
     "voku/urlify": "5.*",
     "hashids/hashids": "4.*",
-    "symphony/yaml": "5.*",
+    "symphony/yaml": "^3.4 | ^4.0 | ^5.0",
     "phpmailer/phpmailer": "6.*",
     "rbdwllr/reallysimplejwt": "4.*"
   },
