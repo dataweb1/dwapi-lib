@@ -1,5 +1,5 @@
 {
-  "name": "dataweb/dwapi-lib",
+  "name": "dwapi-lib",
   "type": "library",
   "description": "dwAPI",
   "keywords": ["rest","openapi","mysql","drupal"],
