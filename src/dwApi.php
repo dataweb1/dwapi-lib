@@ -45,8 +45,9 @@ class dwApi
   /**
    * Api constructor.
    */
-  public function __construct() {
-
+  public function __construct($api_path, $reference_path) {
+    self::$api_path = $api_path;
+    self::$reference_path = $reference_path;
   }
 
   /**
