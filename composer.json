@@ -3,13 +3,13 @@
   "type": "library",
   "description": "dwAPI",
   "keywords": ["rest","api","mysql","drupal", "stoplight"],
-  "homepage": "https://www.dwapi.dev",
+  "homepage": "https://dwapi.dev",
   "license": "MIT",
   "authors": [
     {
       "name": "Bert Jansen",
       "email": "bert@data-web.be",
-      "homepage": "https://www.data-web.be",
+      "homepage": "https://dwapi.dev",
       "role": "Developer"
     }
   ],
