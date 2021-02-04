@@ -1,6 +1,5 @@
 {
   "name": "dataweb/dwapi-lib",
-  "type": "library",
   "description": "dwAPI",
   "keywords": ["rest","openapi","mysql","drupal"],
   "homepage": "https://dwapi.dev",
@@ -14,7 +13,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2.0",
+    "php": ">=7.4",
     "twig/twig": "3.*",
     "voku/urlify": "5.*",
     "hashids/hashids": "4.*",
