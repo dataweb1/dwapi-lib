@@ -2,7 +2,7 @@
   "name": "dataweb/dwapi-lib",
   "type": "library",
   "description": "dwAPI",
-  "keywords": ["rest","api","mysql","drupal", "stoplight"],
+  "keywords": ["rest","openapi","mysql","drupal"],
   "homepage": "https://dwapi.dev",
   "license": "MIT",
   "authors": [
