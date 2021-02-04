@@ -20,8 +20,7 @@
     "hashids/hashids": "4.*",
     "symphony/yaml": "5.*",
     "phpmailer/phpmailer": "6.*",
-    "rbdwllr/reallysimplejwt": "4.*",
-    "dataweb/dwapi": "dev-main"
+    "rbdwllr/reallysimplejwt": "4.*"
   },
   "autoload": {
     "psr-4": {
