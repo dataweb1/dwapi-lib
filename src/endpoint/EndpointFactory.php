@@ -9,7 +9,7 @@ use dwApiLib\reference\Reference;
 
 /**
  * Class EndpointFactory
- * @package dwApi\endpoint
+ * @package dwApiLib\endpoint
  */
 class EndpointFactory {
 

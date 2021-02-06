@@ -2,8 +2,8 @@
 namespace dwApiLib\reference;
 
 /**
- * Class Path
- * @package dwApi\reference
+ * Class PathDefinition
+ * @package dwApiLib\reference
  */
 class PathDefinition {
   private $spec_path;

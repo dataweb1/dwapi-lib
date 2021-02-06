@@ -12,7 +12,7 @@ use dwApiLib\storage\Mysql;
 
 /**
  * Class ItemRepository
- * @package dwApi\query\mysql
+ * @package dwApiLib\query\mysql
  */
 class Query extends BaseQuery implements QueryInterface {
 

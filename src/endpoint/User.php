@@ -8,13 +8,9 @@ use dwApiLib\token\AccessToken;
 
 /**
  * Class User
- * @package dwApi\endpoint
+ * @package dwApiLib\endpoint
  */
 class User extends Endpoint {
-  public function __construct(dwApiLib $api)
-  {
-    parent::__construct($api);
-  }
 
   /**
    * Login user.

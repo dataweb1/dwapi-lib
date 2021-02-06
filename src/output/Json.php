@@ -4,7 +4,7 @@ use dwApiLib\api\Response;
 
 /**
  * Class Json
- * @package dwApi\output
+ * @package dwApiLib\output
  */
 class Json {
   private $response;

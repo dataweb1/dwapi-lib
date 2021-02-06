@@ -7,7 +7,7 @@ use dwApiLib\storage\Mysql;
 
 /**
  * Class EntityType
- * @package dwApi\query\mysql
+ * @package dwApiLib\query\mysql
  */
 class EntityType implements EntityTypeInterface {
   public $entity;

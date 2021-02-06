@@ -6,8 +6,8 @@ use ReallySimpleJWT\Token as SimpleJWTToken;
 
 
 /**
- * Class Token
- * @package dwApi\api
+ * Class JwtToken
+ * @package dwApiLib\api
  */
 class JwtToken
 {

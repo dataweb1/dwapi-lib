@@ -7,7 +7,7 @@ use voku\helper\URLify;
 
 /**
  * Class Template
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class Template {
 

@@ -8,7 +8,7 @@ use dwApiLib\reference\Reference;
 
 /**
  * Class Request
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class Request
 {
@@ -18,20 +18,75 @@ class Request
    * @var PathDefinition
    */
   public $path_definition;
+
+  /**
+   * @var string
+   */
   public $method;
+
+  /**
+   * @var string
+   */
   public $endpoint;
+
+  /**
+   * @var string
+   */
   public $action;
+
+  /**
+   * @var string|null
+   */
   public $project;
+
+  /**
+   * @var string|null
+   */
   public $entity;
+
+  /**
+   * @var bool|null
+   */
   public $token_required;
+
+  /**
+   * @var string|null
+   */
   public $hash;
+
+  /**
+   * @var array
+   */
   public $parameters = [];
+
+  /**
+   * @var bool
+   */
   public $debug = false;
+
+  /**
+   * @var string|null
+   */
   public $token = NULL;
+
+  /**
+   * @var string|null
+   */
   public $token_type = NULL;
+
+  /**
+   * @var array|bool|mixed|null
+   */
   public $mail;
+
+  /**
+   * @var array|bool|mixed|null
+   */
   public $redirect;
 
+  /**
+   * @var Request|null
+   */
   private static $instance = null;
 
   /**
@@ -56,8 +111,8 @@ class Request
    */
   public function initPath() {
     if ($this->path_definition = Reference::getInstance()->getPathDefinition($this->path, $this->method)) {
-      $this->endpoint = $this->path_definition->getBasePathElement(0);
-      $this->action = $this->path_definition->getBasePathElement(1);
+      $this->endpoint = (string)$this->path_definition->getBasePathElement(0);
+      $this->action = (string)$this->path_definition->getBasePathElement(1);
       if ($this->action == "") {
         $this->action = $this->method;
       }

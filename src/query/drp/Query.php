@@ -8,8 +8,8 @@ use dwApiLib\storage\Drp;
 
 
 /**
- * Class ItemRepository
- * @package dwApi\query\drp
+ * Class Query
+ * @package dwApiLib\query\drp
  */
 class Query extends BaseQuery implements QueryInterface {
 

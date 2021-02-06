@@ -4,10 +4,13 @@ use Throwable;
 
 /**
  * Class DwapiException
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class DwapiException extends \Exception {
 
+  /**
+   * @var int|null
+   */
   private $response_code = NULL;
 
   const DW_EXTERNAL_ERROR = 9000;

@@ -6,11 +6,22 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Class Mail
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class Mail{
+  /**
+   * @var array|bool|mixed|null
+   */
   private $mail_parameters;
+
+  /**
+   * @var Request|null
+   */
   private $request;
+
+  /**
+   * @var Response|null
+   */
   private $response;
 
   public function __construct()

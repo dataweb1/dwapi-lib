@@ -6,10 +6,13 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Helper
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class Helper {
 
+  /**
+   * @var array
+   */
   static $elements_to_mask = ["password", "new_password", "pass"];
 
   /**

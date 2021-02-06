@@ -6,7 +6,7 @@ use dwApiLib\api\Request;
 
 /**
  * Class TokenFactory
- * @package dwApi\token
+ * @package dwApiLib\token
  */
 class TokenFactory
 {

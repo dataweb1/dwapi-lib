@@ -4,7 +4,7 @@ use dwApiLib\api\Project;
 
 /**
  * Class Mysql
- * @package dwApi\storage
+ * @package dwApiLib\storage
  */
 class Mysql
 {

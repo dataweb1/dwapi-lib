@@ -6,7 +6,7 @@ use dwApiLib\query\UserQueryInterface;
 
 /**
  * Class UserQuery
- * @package dwApi\query\drp
+ * @package dwApiLib\query\drp
  */
 class UserQuery extends Query implements UserQueryInterface {
 

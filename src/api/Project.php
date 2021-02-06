@@ -4,14 +4,21 @@ namespace dwApiLib\api;
 
 /**
  * Class Project
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class Project {
+
+  /**
+   * @var string|null
+   */
   public $project;
   public $type;
   public $credentials;
   public $site;
 
+  /**
+   * @var Project|null
+   */
   private static $instance = null;
 
 

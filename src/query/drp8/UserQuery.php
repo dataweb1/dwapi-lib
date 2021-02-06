@@ -4,7 +4,7 @@ use dwApiLib\query\drp\UserQuery as drpUserQuery;
 
 /**
  * Class UserQuery
- * @package dwApi\query\drp8
+ * @package dwApiLib\query\drp8
  */
 class UserQuery extends drpUserQuery {
 

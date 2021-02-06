@@ -4,7 +4,7 @@ use dwApiLib\api\DwapiException;
 
 /**
  * Class Item
- * @package dwApi\endpoint
+ * @package dwApiLib\endpoint
  */
 class Item extends Endpoint {
 

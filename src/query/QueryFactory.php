@@ -6,7 +6,7 @@ use dwApiLib\api\Request;
 
 /**
  * Class QueryFactory
- * @package dwApi\query
+ * @package dwApiLib\query
  */
 class QueryFactory {
   /**

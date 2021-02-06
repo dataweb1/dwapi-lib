@@ -7,7 +7,7 @@ use dwApiLib\api\Template;
 
 /**
  * Class Redirect
- * @package dwApi\output
+ * @package dwApiLib\output
  */
 class Redirect
 {

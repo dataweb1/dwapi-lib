@@ -1,15 +1,13 @@
 <?php
 namespace dwApiLib\reference;
 
-
 use dwApiLib\api\DwapiException;
 use dwApiLib\dwApiLib;
 use dwApiLib\api\Helper;
-use dwApiLib\reference\PathDefinition;
 
 /**
  * Class Reference
- * @package dwApi\reference
+ * @package dwApiLib\reference
  */
 class Reference {
   private $reference;

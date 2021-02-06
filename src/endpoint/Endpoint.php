@@ -12,17 +12,28 @@ use Hashids\Hashids;
 
 /**
  * Class Endpoint
- * @package dwApi\endpoint
+ * @package dwApiLib\endpoint
  */
 abstract class Endpoint
 {
+  /**
+   * @var Request|null
+   */
   protected $request;
+
+  /**
+   * @var Response|null
+   */
   protected $response;
 
   /**
    * @var JwtToken
    */
   protected $current_token;
+
+  /**
+   * @var mixed
+   */
   protected $logged_in_user;
 
   /**

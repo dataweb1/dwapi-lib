@@ -5,13 +5,28 @@ use dwApiLib\dwApiLib;
 
 /**
  * Class Response
- * @package dwApi\api
+ * @package dwApiLib\api
  */
 class Response {
+
+  /**
+   * @var Request|null
+   */
   private $request;
 
+  /**
+   * @var int
+   */
   public $http_response_code = 200;
+
+  /**
+   * @var array
+   */
   public $result;
+
+  /**
+   * @var array
+   */
   public $debug;
 
   /**
@@ -19,6 +34,9 @@ class Response {
    */
   public $error;
 
+  /**
+   * @var Response|null
+   */
   private static $instance = null;
 
 

@@ -6,7 +6,7 @@ use dwApiLib\output\Redirect;
 
 /**
  * Class OutputFactory
- * @package dwApi\output
+ * @package dwApiLib\output
  */
 class OutputFactory
 {

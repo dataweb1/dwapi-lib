@@ -5,7 +5,7 @@ use dwApiLib\api\Project;
 
 /**
  * Class Drp
- * @package dwApi\storage
+ * @package dwApiLib\storage
  */
 class Drp
 {

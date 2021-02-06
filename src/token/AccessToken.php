@@ -8,7 +8,7 @@ use Hashids\Hashids;
 
 /**
  * Class AccessToken
- * @package dwApi\token
+ * @package dwApiLib\token
  */
 class AccessToken {
 
