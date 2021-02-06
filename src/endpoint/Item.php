@@ -1,6 +1,6 @@
 <?php
-namespace dwApi\endpoint;
-use dwApi\api\DwapiException;
+namespace dwApiLib\endpoint;
+use dwApiLib\api\DwapiException;
 
 /**
  * Class Item

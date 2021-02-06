@@ -1,8 +1,8 @@
 <?php
-namespace dwApi\query;
-use dwApi\api\DwapiException;
-use dwApi\api\Project;
-use dwApi\api\Request;
+namespace dwApiLib\query;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\Project;
+use dwApiLib\api\Request;
 
 /**
  * Class QueryFactory

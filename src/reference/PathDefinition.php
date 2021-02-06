@@ -1,5 +1,5 @@
 <?php
-namespace dwApi\reference;
+namespace dwApiLib\reference;
 
 /**
  * Class Path

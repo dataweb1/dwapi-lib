@@ -1,8 +1,8 @@
 <?php
-namespace dwApi\query\mysql;
-use dwApi\api\DwapiException;
-use dwApi\query\EntityTypeInterface;
-use dwApi\storage\Mysql;
+namespace dwApiLib\query\mysql;
+use dwApiLib\api\DwapiException;
+use dwApiLib\query\EntityTypeInterface;
+use dwApiLib\storage\Mysql;
 
 
 /**

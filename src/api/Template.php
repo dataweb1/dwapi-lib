@@ -1,5 +1,5 @@
 <?php
-namespace dwApi\api;
+namespace dwApiLib\api;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use voku\helper\URLify;

@@ -1,6 +1,6 @@
 <?php
-namespace dwApi\query\drp8;
-use dwApi\query\drp\UserQuery as drpUserQuery;
+namespace dwApiLib\query\drp8;
+use dwApiLib\query\drp\UserQuery as drpUserQuery;
 
 /**
  * Class UserQuery

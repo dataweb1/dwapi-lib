@@ -1,9 +1,9 @@
 <?php
-namespace dwApi\output;
-use dwApi\dwApi;
-use dwApi\api\Request;
-use dwApi\api\Response;
-use dwApi\api\Template;
+namespace dwApiLib\output;
+use dwApiLib\dwApiLib;
+use dwApiLib\api\Request;
+use dwApiLib\api\Response;
+use dwApiLib\api\Template;
 
 /**
  * Class Redirect

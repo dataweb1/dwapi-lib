@@ -1,6 +1,6 @@
 <?php
-namespace dwApi\output;
-use dwApi\api\Response;
+namespace dwApiLib\output;
+use dwApiLib\api\Response;
 
 /**
  * Class Json

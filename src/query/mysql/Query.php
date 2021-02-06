@@ -1,13 +1,13 @@
 <?php
-namespace dwApi\query\mysql;
-use dwApi\api\DwapiException;
-use dwApi\api\Helper;
-use dwApi\api\Request;
-use dwApi\query\BaseQuery;
-use dwApi\query\QueryInterface;
-use dwApi\query\UserQueryInterface;
+namespace dwApiLib\query\mysql;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\Helper;
+use dwApiLib\api\Request;
+use dwApiLib\query\BaseQuery;
+use dwApiLib\query\QueryInterface;
+use dwApiLib\query\UserQueryInterface;
 use Hashids\Hashids;
-use dwApi\storage\Mysql;
+use dwApiLib\storage\Mysql;
 
 
 /**

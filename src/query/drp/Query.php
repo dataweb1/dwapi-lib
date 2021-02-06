@@ -1,9 +1,9 @@
 <?php
-namespace dwApi\query\drp;
-use dwApi\api\DwapiException;
-use dwApi\query\BaseQuery;
-use dwApi\query\QueryInterface;
-use dwApi\storage\Drp;
+namespace dwApiLib\query\drp;
+use dwApiLib\api\DwapiException;
+use dwApiLib\query\BaseQuery;
+use dwApiLib\query\QueryInterface;
+use dwApiLib\storage\Drp;
 
 
 

@@ -1,8 +1,8 @@
 <?php
-namespace dwApi\query\drp;
+namespace dwApiLib\query\drp;
 
-use dwApi\api\DwapiException;
-use dwApi\query\UserQueryInterface;
+use dwApiLib\api\DwapiException;
+use dwApiLib\query\UserQueryInterface;
 
 /**
  * Class UserQuery

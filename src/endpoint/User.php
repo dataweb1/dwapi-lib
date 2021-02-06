@@ -1,9 +1,9 @@
 <?php
-namespace dwApi\endpoint;
-use dwApi\api\DwapiException;
-use dwApi\api\JwtToken;
-use dwApi\dwApi;
-use dwApi\token\AccessToken;
+namespace dwApiLib\endpoint;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\JwtToken;
+use dwApiLib\dwApiLib;
+use dwApiLib\token\AccessToken;
 
 
 /**
@@ -11,7 +11,7 @@ use dwApi\token\AccessToken;
  * @package dwApi\endpoint
  */
 class User extends Endpoint {
-  public function __construct(dwApi $api)
+  public function __construct(dwApiLib $api)
   {
     parent::__construct($api);
   }

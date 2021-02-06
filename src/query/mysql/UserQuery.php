@@ -1,9 +1,9 @@
 <?php
-namespace dwApi\query\mysql;
+namespace dwApiLib\query\mysql;
 
-use dwApi\api\DwapiException;
-use dwApi\query\UserQueryInterface;
-use dwApi\token\AccessToken;
+use dwApiLib\api\DwapiException;
+use dwApiLib\query\UserQueryInterface;
+use dwApiLib\token\AccessToken;
 
 class UserQuery extends Query implements UserQueryInterface {
 

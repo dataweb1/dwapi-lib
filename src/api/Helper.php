@@ -1,5 +1,5 @@
 <?php
-namespace dwApi\api;
+namespace dwApiLib\api;
 use voku\helper\URLify;
 use Symfony\Component\Yaml\Yaml;
 

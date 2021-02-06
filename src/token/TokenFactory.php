@@ -1,8 +1,8 @@
 <?php
-namespace dwApi\token;
+namespace dwApiLib\token;
 
-use dwApi\api\DwapiException;
-use dwApi\api\Request;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\Request;
 
 /**
  * Class TokenFactory

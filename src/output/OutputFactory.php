@@ -1,8 +1,8 @@
 <?php
-namespace dwApi\output;
-use dwApi\api\Request;
-use dwApi\output\Json;
-use dwApi\output\Redirect;
+namespace dwApiLib\output;
+use dwApiLib\api\Request;
+use dwApiLib\output\Json;
+use dwApiLib\output\Redirect;
 
 /**
  * Class OutputFactory

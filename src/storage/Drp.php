@@ -1,7 +1,7 @@
 <?php
-namespace dwApi\storage;
-use dwApi\api\DwapiException;
-use dwApi\api\Project;
+namespace dwApiLib\storage;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\Project;
 
 /**
  * Class Drp

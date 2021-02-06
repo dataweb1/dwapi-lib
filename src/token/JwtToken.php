@@ -1,7 +1,7 @@
 <?php
-namespace dwApi\token;
-use dwApi\api\DwapiException;
-use dwApi\query\QueryFactory;
+namespace dwApiLib\token;
+use dwApiLib\api\DwapiException;
+use dwApiLib\query\QueryFactory;
 use ReallySimpleJWT\Token as SimpleJWTToken;
 
 

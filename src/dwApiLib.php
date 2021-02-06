@@ -1,22 +1,22 @@
 <?php
-namespace dwApi;
-use dwApi\api\DwapiException;
-use dwApi\api\Mail;
-use dwApi\api\Project;
-use dwApi\api\Request;
-use dwApi\token\JwtToken;
-use dwApi\endpoint\Endpoint;
-use dwApi\query\QueryFactory;
-use dwApi\endpoint\EndpointFactory;
-use dwApi\api\Response;
-use dwApi\token\TokenFactory;
+namespace dwApiLib;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\Mail;
+use dwApiLib\api\Project;
+use dwApiLib\api\Request;
+use dwApiLib\token\JwtToken;
+use dwApiLib\endpoint\Endpoint;
+use dwApiLib\query\QueryFactory;
+use dwApiLib\endpoint\EndpointFactory;
+use dwApiLib\api\Response;
+use dwApiLib\token\TokenFactory;
 
 
 /**
  * Class dwApi
  * @package dwApi
  */
-class dwApi
+class dwApiLib
 {
   /**
    * @var $api_path, $reference_path initiated on dwApi creation

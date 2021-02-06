@@ -1,7 +1,7 @@
 <?php
-namespace dwApi\api;
+namespace dwApiLib\api;
 
-use dwApi\dwApi;
+use dwApiLib\dwApiLib;
 
 /**
  * Class Response
@@ -61,7 +61,7 @@ class Response {
     }
     $variables["result"] = $this->result;
     $variables["settings"] = Project::getInstance()->site;
-    $variables["settings"]["api_path"] = dwApi::$api_path;
+    $variables["settings"]["api_path"] = dwApiLib::$api_path;
     $variables["parameters"] = $this->request->getParameters();
 
     return Helper::maskValue($variables);

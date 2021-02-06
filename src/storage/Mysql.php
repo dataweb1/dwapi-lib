@@ -1,6 +1,6 @@
 <?php
-namespace dwApi\storage;
-use dwApi\api\Project;
+namespace dwApiLib\storage;
+use dwApiLib\api\Project;
 
 /**
  * Class Mysql

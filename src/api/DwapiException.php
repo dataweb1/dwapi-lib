@@ -1,5 +1,5 @@
 <?php
-namespace dwApi\api;
+namespace dwApiLib\api;
 use Throwable;
 
 /**

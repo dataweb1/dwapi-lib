@@ -1,10 +1,10 @@
 <?php
 
 
-namespace dwApi\query;
+namespace dwApiLib\query;
 
-use dwApi\api\Request;
-use dwApi\storage\Mysql;
+use dwApiLib\api\Request;
+use dwApiLib\storage\Mysql;
 
 class BaseQuery implements BaseQueryInterface
 {
@@ -67,7 +67,7 @@ class BaseQuery implements BaseQueryInterface
 
   /**
    * Get EntityType object.
-   * @return \dwApi\query\mysql\EntityType
+   * @return \dwApiLib\query\mysql\EntityType
    */
   public function getEntityType() {
     return $this->entity_type;

@@ -1,8 +1,8 @@
 <?php
-namespace dwApi\token;
+namespace dwApiLib\token;
 
-use dwApi\api\DwapiException;
-use dwApi\query\QueryFactory;
+use dwApiLib\api\DwapiException;
+use dwApiLib\query\QueryFactory;
 use Hashids\Hashids;
 //use ReallySimpleJWT\Token as SimpleJWTToken;
 
@@ -145,7 +145,7 @@ class AccessToken {
    * loadUser.
    * @param $user_id
    * @return bool|mixed
-   * @throws \dwApi\api\DwapiException
+   * @throws \dwApiLib\api\DwapiException
    */
   private function loadUser($user_id) {
     $token_user = QueryFactory::create("user");

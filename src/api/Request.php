@@ -1,9 +1,9 @@
 <?php
-namespace dwApi\api;
-use dwApi\api\DwapiException;
-use dwApi\dwApi;
-use dwApi\reference\PathDefinition;
-use dwApi\reference\Reference;
+namespace dwApiLib\api;
+use dwApiLib\api\DwapiException;
+use dwApiLib\dwApiLib;
+use dwApiLib\reference\PathDefinition;
+use dwApiLib\reference\Reference;
 
 
 /**
@@ -52,7 +52,7 @@ class Request
 
   /**
    * @return bool
-   * @throws \dwApi\api\DwapiException
+   * @throws \dwApiLib\api\DwapiException
    */
   public function initPath() {
     if ($this->path_definition = Reference::getInstance()->getPathDefinition($this->path, $this->method)) {
@@ -290,7 +290,7 @@ class Request
    * @param bool $multi_array_expected
    * @param bool $required
    * @return array|bool|mixed|null
-   * @throws \dwApi\api\DwapiException
+   * @throws \dwApiLib\api\DwapiException
    */
   public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $required = false) {
     if ($type != NULL) {

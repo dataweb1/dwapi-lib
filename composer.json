@@ -1,7 +1,7 @@
 {
   "name": "dataweb1/dwapi-lib",
   "type": "library",
-  "description": "dwAPI",
+  "description": "dwAPI library",
   "keywords": ["rest","openapi","mysql","drupal"],
   "homepage": "https://dwapi.dev",
   "license": "MIT",
@@ -24,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "dwApi\\": "src/"
+      "dwApiLib\\": "src/"
     }
   }
 }

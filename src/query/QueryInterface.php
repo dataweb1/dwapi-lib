@@ -1,5 +1,5 @@
 <?php
-namespace dwApi\query;
+namespace dwApiLib\query;
 
 
 /**

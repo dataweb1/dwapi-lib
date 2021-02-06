@@ -1,12 +1,12 @@
 <?php
-namespace dwApi\endpoint;
-use dwApi\api\DwapiException;
-use dwApi\api\Request;
-use dwApi\api\Response;
-use dwApi\api\JwtToken;
-use dwApi\dwApi;
-use dwApi\query\QueryInterface;
-use dwApi\query\UserQueryInterface;
+namespace dwApiLib\endpoint;
+use dwApiLib\api\DwapiException;
+use dwApiLib\api\Request;
+use dwApiLib\api\Response;
+use dwApiLib\api\JwtToken;
+use dwApiLib\dwApiLib;
+use dwApiLib\query\QueryInterface;
+use dwApiLib\query\UserQueryInterface;
 use Hashids\Hashids;
 
 
@@ -32,9 +32,9 @@ abstract class Endpoint
 
   /**
    * Endpoint constructor.
-   * @param dwApi $api
+   * @param dwApiLib $api
    */
-  public function __construct(dwApi $api) {
+  public function __construct(dwApiLib $api) {
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
 
