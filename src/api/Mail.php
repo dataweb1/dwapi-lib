@@ -44,8 +44,9 @@ class Mail{
     }
     else {
       $template = Template::pickTemplate(
-        $element,
         $this->request->project,
+        $element,
+        $this->request->endpoint,
         $this->request->action,
         $this->request->getParameters("get", "entity"));
       if ($template != "") {

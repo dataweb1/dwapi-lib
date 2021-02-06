@@ -31,6 +31,7 @@ class Redirect
   /**
    * Render redirect URL from TwigString or TwigFile
    * @return bool
+   * @throws \dwApiLib\api\DwapiException
    */
   private function renderRedirectUrl() {
     if ($this->redirect_parameters["redirect_url"] != "") {
@@ -38,8 +39,8 @@ class Redirect
     }
     else {
       $template = Template::pickTemplate(
-        "redirect_url",
         $this->request->project,
+        "redirect_url",
         $this->request->action,
         $this->request->getParameters("get", "entity"));
       if ($template != "") {

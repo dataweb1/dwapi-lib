@@ -54,32 +54,36 @@ class Template {
 
   /**
    * templateArray.
-   * @param $element
    * @param $project
+   * @param $element
+   * @param $endpoint
    * @param $action
    * @param string $entity
    * @return array
    */
-  public static function templateArray($element, $project, $action, $entity = "") {
+  public static function templateArray($project, $element, $endpoint, $action, $entity = "") {
     return array(
-      $project."/".URLify::filter($element)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
-      $project."/".URLify::filter($element)."--".URLify::filter($action),
+      $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
+      $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action),
+      $project."/".URLify::filter($element)."--".URLify::filter($endpoint),
       $project."/".URLify::filter($element),
-      URLify::filter($element)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
-      URLify::filter($element)."--".URLify::filter($action),
+      URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
+      URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action),
+      URLify::filter($element)."--".URLify::filter($endpoint),
       URLify::filter($element));
   }
 
   /**
    * pickTemplate.
-   * @param $element
    * @param $project
+   * @param $element
+   * @param $endpoint
    * @param $action
    * @param $entity
    * @return bool|mixed
    */
-  public static function pickTemplate($element, $project, $action, $entity) {
-    $template_array = self::templateArray($element, $project, $action, $entity);
+  public static function pickTemplate($project, $element, $endpoint, $action, $entity) {
+    $template_array = self::templateArray( $project, $element, $endpoint, $action, $entity);
     foreach($template_array as $template) {
       if (file_exists(self::TEMPLATE_PATH."/".$template.".html.twig")) {
         return $template;
