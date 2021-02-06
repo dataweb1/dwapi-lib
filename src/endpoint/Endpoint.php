@@ -62,6 +62,11 @@ abstract class Endpoint
    */
   public $sent_mail = false;
 
+  /**
+   * @var array\null
+   */
+  public $mail_parameters = null;
+
 
   /**
    * Endpoint constructor.

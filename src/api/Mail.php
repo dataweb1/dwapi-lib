@@ -24,11 +24,11 @@ class Mail{
    */
   private $response;
 
-  public function __construct()
+  public function __construct($mail_parameters)
   {
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
-    $this->mail_parameters = $this->request->getParameters("get", "mail");
+    $this->mail_parameters = $mail_parameters;
     Project::getInstance();
   }
 

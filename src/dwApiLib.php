@@ -102,7 +102,12 @@ class dwApiLib
       if (
           (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) ||
           ($this->endpoint->sent_mail == true)) {
-        $mail = new Mail();
+
+        $mail_parameters = $this->request->getParameters("get", "mail");
+        if (!is_null($this->endpoint->mail_parameters)) {
+          $mail_parameters = $this->endpoint->mail_parameters;
+        }
+        $mail = new Mail($mail_parameters);
         $mail->send();
       }
 
