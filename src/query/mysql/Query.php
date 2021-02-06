@@ -26,7 +26,6 @@ class Query extends BaseQuery implements QueryInterface {
   public $paging = NULL;
   public $relation = NULL;
 
-
   /**
    * Query constructor.
    * @param string $entity_type
@@ -43,7 +42,6 @@ class Query extends BaseQuery implements QueryInterface {
       $this->entity_type->load($entity_type);
     }
   }
-
 
   /**
    * single_read.
@@ -494,7 +492,6 @@ class Query extends BaseQuery implements QueryInterface {
     return true;
   }
 
-
   /**
    * checkRequiredValues.
    * @param $values
@@ -515,4 +512,15 @@ class Query extends BaseQuery implements QueryInterface {
     return true;
   }
 
+  /**
+   * setEntityType.
+   * @param $entity_type
+   * @throws \dwApiLib\api\DwapiException
+   */
+  public function setEntityType($entity_type) {
+    $this->entity_type = new EntityType();
+    if ($entity_type != "") {
+      $this->entity_type->load($entity_type);
+    }
+  }
 }

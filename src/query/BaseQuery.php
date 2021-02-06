@@ -4,6 +4,7 @@
 namespace dwApiLib\query;
 
 use dwApiLib\api\Request;
+use dwApiLib\query\mysql\EntityType;
 use dwApiLib\storage\Mysql;
 
 class BaseQuery implements BaseQueryInterface
@@ -55,7 +56,6 @@ class BaseQuery implements BaseQueryInterface
     }
   }
 
-
   /**
    * Get debug information.
    * @return mixed
@@ -64,12 +64,23 @@ class BaseQuery implements BaseQueryInterface
     return $this->debug;
   }
 
-
   /**
    * Get EntityType object.
    * @return \dwApiLib\query\mysql\EntityType
    */
   public function getEntityType() {
     return $this->entity_type;
+  }
+
+  /**
+   * setEntityType.
+   * @param $entity_type
+   * @throws \dwApiLib\api\DwapiException
+   */
+  public function setEntityType($entity_type) {
+    $this->entity_type = new EntityType();
+    if ($entity_type != "") {
+      $this->entity_type->load($entity_type);
+    }
   }
 }
