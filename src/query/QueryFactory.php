@@ -23,13 +23,13 @@ class QueryFactory {
     }
 
     if ($entity_type != "") {
-      $query_class_name = "dwApi\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type)."Query";
+      $query_class_name = "dwApiLib\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type)."Query";
       if (class_exists($query_class_name)) {
         return new $query_class_name($entity_type, $logged_in_user);
       }
     }
 
-    $query_class_name = "dwApi\\query\\".Project::getInstance()->type."\\Query";
+    $query_class_name = "dwApiLib\\query\\".Project::getInstance()->type."\\Query";
     if (!class_exists($query_class_name)) {
       throw new DwapiException("Project type '".Project::getInstance()->type."' unknown.", DwapiException::DW_PROJECT_TYPE_UNKNOWN);
     }
