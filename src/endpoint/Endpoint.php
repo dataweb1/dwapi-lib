@@ -75,7 +75,9 @@ abstract class Endpoint
     /**
      * create Query instance according to the endpoint parameter in the Request
      */
-    $this->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
+    if ($this->request->entity != "") {
+      $this->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
+    }
 
     $this->current_token = $api->getCurrentToken();
     $this->logged_in_user = $api->getLoggedInUser();
