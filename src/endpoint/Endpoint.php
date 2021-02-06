@@ -41,13 +41,16 @@ abstract class Endpoint
    */
   public $query;
 
+  public $http_response_code = 200;
+  public $result;
+  public $debug;
+
   /**
    * Endpoint constructor.
    * @param dwApiLib $api
    */
   public function __construct(dwApiLib $api) {
     $this->request = Request::getInstance();
-    $this->response = Response::getInstance();
 
     $this->current_token = $api->getCurrentToken();
     $this->logged_in_user = $api->getLoggedInUser();

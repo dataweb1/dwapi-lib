@@ -30,12 +30,12 @@ class Item extends Endpoint {
       $this->query->read();
     }
 
-    $this->response->result = $this->query->getResult();
+    $this->result = $this->query->getResult();
     if ($this->current_token && $this->current_token->token_type == "jwt") {
-      $this->response->result["extended_token"] = $this->current_token->extend_token();
+      $this->result["extended_token"] = $this->current_token->extend_token();
     }
 
-    $this->response->debug = $this->query->getDebug();
+    $this->debug = $this->query->getDebug();
   }
 
   /**
@@ -59,12 +59,12 @@ class Item extends Endpoint {
       $this->query->update();
     }
 
-    $this->response->result = $this->query->getResult();
+    $this->result = $this->query->getResult();
     if ($this->current_token && $this->current_token->token_type == "jwt") {
-      $this->response->result["extended_token"] = $this->current_token->extend_token();
+      $this->result["extended_token"] = $this->current_token->extend_token();
     }
 
-    $this->response->debug = $this->query->getDebug();
+    $this->debug = $this->query->getDebug();
   }
 
   /**
@@ -78,18 +78,18 @@ class Item extends Endpoint {
 
 
     if ($this->query->create()) {
-      $this->response->http_response_code = 201;
-      $this->response->result = $this->query->getResult();
+      $this->http_response_code = 201;
+      $this->result = $this->query->getResult();
       if ($this->current_token && $this->current_token->token_type == "jwt") {
-        $this->response->result["extended_token"] = $this->current_token->extend_token();
+        $this->result["extended_token"] = $this->current_token->extend_token();
       }
 
 
-      $this->response->debug = $this->query->getDebug();
+      $this->debug = $this->query->getDebug();
       return;
     }
     else {
-      $this->response->result = array("id" => NULL);
+      $this->result = array("id" => NULL);
     }
 
   }
@@ -111,11 +111,11 @@ class Item extends Endpoint {
       $this->query->delete();
     }
 
-    $this->response->result = $this->query->getResult();
+    $this->result = $this->query->getResult();
     if ($this->current_token && $this->current_token->token_type == "jwt") {
-      $this->response->result["extended_token"] = $this->current_token->extend_token();
+      $this->result["extended_token"] = $this->current_token->extend_token();
     }
 
-    $this->response->debug = $this->query->getDebug();
+    $this->debug = $this->query->getDebug();
   }
 }

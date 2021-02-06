@@ -25,8 +25,8 @@ class User extends Endpoint {
       $this->current_token->token_user = $this->query->getResult("item");
       $this->current_token->token = $this->current_token->create($this->query->getResult("id"));
 
-      $this->response->result = $this->query->getResult();
-      $this->response->result["token"] = $this->current_token->token;
+      $this->result = $this->query->getResult();
+      $this->result["token"] = $this->current_token->token;
     }
 
 
@@ -69,9 +69,8 @@ class User extends Endpoint {
       $temp_token = new JwtToken($this->request->project);
       $token = $temp_token->create(0, 1);
 
-      //$this->response->result = $this->query->getResult();
-      $this->response->result["hash"] = $this->query->getResult("items")[0]["hash"];
-      $this->response->result["temp_token"] = $token;
+      $this->result["hash"] = $this->query->getResult("items")[0]["hash"];
+      $this->result["temp_token"] = $token;
 
       if (!isset($this->request->mail["enabled"])) {
         $this->request->mail["enabled"] = true;
@@ -114,9 +113,9 @@ class User extends Endpoint {
       $this->query->email = $this->request->getParameters("get", "email");
       $this->query->password = $this->request->getParameters("post", "new_password");
 
-      if ($this->response->result = $this->query->confirm_password()) {
-        $this->response->result = $this->query->getResult();
-        $this->response->debug = $this->query->getDebug();
+      if ($this->result = $this->query->confirm_password()) {
+        $this->result = $this->query->getResult();
+        $this->debug = $this->query->getDebug();
       }
 
     }
@@ -133,8 +132,8 @@ class User extends Endpoint {
     $this->query->values = $this->request->getParameters("post");
 
     if ($this->query->register()) {
-      $this->response->result = $this->query->getResult();
-      $this->response->debug = $this->query->getDebug();
+      $this->result = $this->query->getResult();
+      $this->debug = $this->query->getDebug();
 
       if (!isset($this->request->mail["enabled"])) {
         $this->request->mail["enabled"] = true;
@@ -152,11 +151,11 @@ class User extends Endpoint {
    */
   public function validate_token() {
     if ($this->current_token->validate_token()) {
-      $this->response->result["token"] = $this->current_token->token;
+      $this->result["token"] = $this->current_token->token;
       return true;
     }
     else {
-      $this->response->http_response_code = 401;
+      $this->http_response_code = 401;
       throw new DwapiException('Valid token is required.', DwapiException::DW_VALID_TOKEN_REQUIRED, null, 401);
     }
   }
@@ -169,7 +168,7 @@ class User extends Endpoint {
     if ($this->current_token->validate_token()) {
       $this->current_token->extend_token();
 
-      $this->response->result["token"] = $this->current_token->token;
+      $this->result["token"] = $this->current_token->token;
       return;
     }
     throw new DwapiException('Valid token is required.', DwapiException::DW_VALID_TOKEN_REQUIRED);
@@ -184,7 +183,7 @@ class User extends Endpoint {
     $restrict_ip  = $this->request->getParameters("post", "restrict_ip");
 
     $access_token = new AccessToken($this->request->project);
-    $this->response->result["access_token"] = $access_token->create($id, $restrict_host, $restrict_ip);
+    $this->result["access_token"] = $access_token->create($id, $restrict_host, $restrict_ip);
 
     return;
   }
