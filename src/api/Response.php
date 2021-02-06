@@ -39,7 +39,6 @@ class Response {
    */
   private static $instance = null;
 
-
   /**
    * Response constructor.
    */

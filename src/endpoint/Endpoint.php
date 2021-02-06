@@ -5,6 +5,7 @@ use dwApiLib\api\Request;
 use dwApiLib\api\Response;
 use dwApiLib\api\JwtToken;
 use dwApiLib\dwApiLib;
+use dwApiLib\query\QueryFactory;
 use dwApiLib\query\QueryInterface;
 use dwApiLib\query\UserQueryInterface;
 use Hashids\Hashids;
@@ -41,16 +42,34 @@ abstract class Endpoint
    */
   public $query;
 
+  /**
+   * @var int
+   */
   public $http_response_code = 200;
-  public $result;
-  public $debug;
+
+  /**
+   * @var array\null
+   */
+  public $result = NULL;
+
+  /**
+   * @var array\null
+   */
+  public $debug = NULL;
 
   /**
    * Endpoint constructor.
    * @param dwApiLib $api
+   * @throws DwapiException
    */
   public function __construct(dwApiLib $api) {
     $this->request = Request::getInstance();
+    $this->response = Response::getInstance();
+
+    /**
+     * create Query instance according to the endpoint parameter in the Request
+     */
+    $this->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
 
     $this->current_token = $api->getCurrentToken();
     $this->logged_in_user = $api->getLoggedInUser();
@@ -59,14 +78,21 @@ abstract class Endpoint
   /**
    * execute.
    * @param $method
+   * @param Response $response
    * @throws DwapiException
    */
   public function execute($method) {
+
     if (!method_exists(get_class($this), $method)) {
       throw new DwapiException('Method does not (yet) exist.', DwapiException::DW_INVALID_ACTION);
     }
 
     $this->$method();
+
+    $response = Response::getInstance();
+    $response->http_response_code = $this->http_response_code;
+    $response->result = $this->result;
+    $response->debug = $this->debug;
   }
 
   /**

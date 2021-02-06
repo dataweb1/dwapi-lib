@@ -81,13 +81,7 @@ class dwApiLib
 
         /* create Endpoint instance according to the endpoint parameter in the Request */
         $this->endpoint = EndpointFactory::create($this);
-
-        /* create Query instance according to the endpoint parameter in the Request */
-        $this->endpoint->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
         $this->endpoint->execute($this->request->action);
-        $this->response->http_response_code = $this->endpoint->http_response_code;
-        $this->response->result = $this->endpoint->result;
-        $this->response->debug = $this->endpoint->debug;
       }
 
       if (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) {
@@ -114,4 +108,3 @@ class dwApiLib
     return $this->logged_in_user;
   }
 }
-?>
