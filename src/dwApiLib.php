@@ -24,10 +24,15 @@ class dwApiLib
   static $api_path;
   static $reference_path;
 
+  /**
+   * @var Request
+   */
   private $request;
+
+  /**
+   * @var Project
+   */
   private $project;
-
-
 
   /**
    * @var JwtToken
@@ -42,12 +47,23 @@ class dwApiLib
   private $response = NULL;
   private $logged_in_user = NULL;
 
+  private $allowed_paths = [];
+
+
   /**
    * Api constructor.
    */
   public function __construct($api_path, $reference_path) {
     self::$api_path = $api_path;
     self::$reference_path = $reference_path;
+  }
+
+  /**
+   * @param $path
+   * @param array $method
+   */
+  public function allowPath($path, $method = ["*"]) {
+    $this->allowed_paths[$path] = $method;
   }
 
   /**
@@ -59,7 +75,7 @@ class dwApiLib
       $this->response = Response::getInstance();
       $this->project = Project::getInstance();
 
-      if ($this->request->initPath()) {
+      if ($this->request->initPath($this->allowed_paths)) {
 
         $this->current_token = TokenFactory::create($this->request->token_type, $this->request->token);
         if ($this->current_token->valid) {

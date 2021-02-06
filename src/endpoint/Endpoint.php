@@ -3,7 +3,7 @@ namespace dwApiLib\endpoint;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Request;
 use dwApiLib\api\Response;
-use dwApiLib\api\JwtToken;
+use dwApiLib\token\JwtToken;
 use dwApiLib\dwApiLib;
 use dwApiLib\query\QueryFactory;
 use dwApiLib\query\QueryInterface;
@@ -78,7 +78,6 @@ abstract class Endpoint
   /**
    * execute.
    * @param $method
-   * @param Response $response
    * @throws DwapiException
    */
   public function execute($method) {

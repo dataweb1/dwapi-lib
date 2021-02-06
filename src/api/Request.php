@@ -1,7 +1,5 @@
 <?php
 namespace dwApiLib\api;
-use dwApiLib\api\DwapiException;
-use dwApiLib\dwApiLib;
 use dwApiLib\reference\PathDefinition;
 use dwApiLib\reference\Reference;
 
@@ -106,10 +104,26 @@ class Request
   }
 
   /**
+   * @param $allowed_paths
    * @return bool
    * @throws \dwApiLib\api\DwapiException
    */
-  public function initPath() {
+  public function initPath($allowed_paths) {
+
+    // allowed path?
+    if (array_key_exists($this->path, $allowed_paths)) {
+      if ($allowed_paths[$this->path] = ["*"] || isset($allowed_paths[$this->path][$this->method])) {
+        $path_elements = explode("/", $this->path);
+        $this->endpoint = $path_elements[1];
+        $this->action = $path_elements[2];
+        if ($this->action == "") {
+          $this->action = $this->method;
+        }
+        return true;
+      }
+    }
+
+    // path in reference?
     if ($this->path_definition = Reference::getInstance()->getPathDefinition($this->path, $this->method)) {
       $this->endpoint = (string)$this->path_definition->getBasePathElement(0);
       $this->action = (string)$this->path_definition->getBasePathElement(1);
@@ -118,9 +132,8 @@ class Request
       }
       return true;
     }
-    else {
-      throw new DwapiException('Path/method not valid.', DwapiException::DW_INVALID_PATH);
-    }
+
+    throw new DwapiException('Path/method not valid.', DwapiException::DW_INVALID_PATH);
   }
 
   /**

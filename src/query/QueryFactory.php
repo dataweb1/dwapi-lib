@@ -17,11 +17,11 @@ class QueryFactory {
    * @throws DwapiException
    */
   public static function create($entity_type = "", $logged_in_user = NULL) {
-
+    /*
     if ($entity_type == "") {
       $entity_type = Request::getInstance()->endpoint;
     }
-
+    */
     if ($entity_type != "") {
       $query_class_name = "dwApiLib\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type)."Query";
       if (class_exists($query_class_name)) {

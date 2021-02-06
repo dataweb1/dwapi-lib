@@ -39,7 +39,9 @@ class Query extends BaseQuery implements QueryInterface {
     $this->storage = Mysql::load();
 
     $this->entity_type = new EntityType();
-    $this->entity_type->load($entity_type);
+    if ($entity_type != "") {
+      $this->entity_type->load($entity_type);
+    }
   }
 
 
