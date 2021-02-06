@@ -83,7 +83,7 @@ abstract class Endpoint
   public function execute($method) {
 
     if (!method_exists(get_class($this), $method)) {
-      throw new DwapiException('Method does not (yet) exist.', DwapiException::DW_INVALID_ACTION);
+      throw new DwapiException('Class method "'.$method.'" does not (yet) exist.', DwapiException::DW_INVALID_ACTION);
     }
 
     $this->$method();

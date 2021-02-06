@@ -10,7 +10,15 @@ use dwApiLib\reference\Reference;
  */
 class Request
 {
+  /**
+   * @var string
+   */
   public $path;
+
+  /**
+   * @var array
+   */
+  public $path_elements;
 
   /**
    * @var PathDefinition
@@ -92,6 +100,7 @@ class Request
    */
   public function __construct() {
     $this->path = explode('?', $_SERVER["REQUEST_URI"], 2)[0];
+    $this->path_elements = preg_split('@/@', $this->path, NULL, PREG_SPLIT_NO_EMPTY);
     $this->method = strtolower(getenv('REQUEST_METHOD'));
     $this->project = $this->getParameters("get", "project");
     $this->entity = $this->getParameters("get", "entity");
@@ -113,9 +122,8 @@ class Request
     // allowed path?
     if (array_key_exists($this->path, $allowed_paths)) {
       if ($allowed_paths[$this->path] = ["*"] || isset($allowed_paths[$this->path][$this->method])) {
-        $path_elements = explode("/", $this->path);
-        $this->endpoint = $path_elements[1];
-        $this->action = $path_elements[2];
+        $this->endpoint = $this->path_elements[0];
+        $this->action = $this->path_elements[1];
         if ($this->action == "") {
           $this->action = $this->method;
         }
@@ -317,11 +325,9 @@ class Request
    */
   private function processPathParameters() {
     $parameters = [];
-    $path_elements = explode("/", $this->path);
-    array_shift($path_elements);
 
     foreach ($this->path_definition->getPathParameters() as $parameter) {
-      $parameters[$parameter["name"]] = $path_elements[$parameter["key"]];
+      $parameters[$parameter["name"]] = $this->path_elements[$parameter["key"]];
     }
 
     return $parameters;
@@ -444,9 +450,9 @@ class Request
         $target_file = $target_dir . basename($file["name"]);
 
         if (!copy($file["tmp_name"],$target_file)) {
-        //if (!move_uploaded_file($file["tmp_name"], $target_file)) {
+          //if (!move_uploaded_file($file["tmp_name"], $target_file)) {
           throw new DwapiException('Error uploading file(s)', DwapiException::DW_UPLOAD_ERROR);
-        } else { 
+        } else {
           //$processed_files[$field] = $file;
           $values[$field] = json_encode(array("type" => explode("/", $file["type"]), "name" => $file["name"], "size" => $file["size"]));
         }
@@ -516,7 +522,7 @@ class Request
 
     if (is_null($token_required)) {
 
-      if ($this->path_definition->isParameterRequired("header_authorization")) {
+      if ($this->path_definition && $this->path_definition->isParameterRequired("header_authorization")) {
         $token_required = true;
       } else {
         $token_required = false;
