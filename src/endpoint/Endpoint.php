@@ -58,6 +58,12 @@ abstract class Endpoint
   public $debug = NULL;
 
   /**
+   * @var bool
+   */
+  public $sent_mail = false;
+
+
+  /**
    * Endpoint constructor.
    * @param dwApiLib $api
    * @throws DwapiException

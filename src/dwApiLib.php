@@ -49,7 +49,6 @@ class dwApiLib
 
   private $allowed_paths = [];
 
-
   /**
    * Api constructor.
    */
@@ -100,7 +99,9 @@ class dwApiLib
         $this->endpoint->execute($this->request->action);
       }
 
-      if (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) {
+      if (
+          (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) ||
+          ($this->endpoint->sent_mail == true)) {
         $mail = new Mail();
         $mail->send();
       }

@@ -65,10 +65,12 @@ class Template {
     return array(
       $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
       $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action),
+      $project."/".URLify::filter($element)."----".URLify::filter($action),
       $project."/".URLify::filter($element)."--".URLify::filter($endpoint),
       $project."/".URLify::filter($element),
       URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
       URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action),
+      URLify::filter($element)."----".URLify::filter($action),
       URLify::filter($element)."--".URLify::filter($endpoint),
       URLify::filter($element));
   }
