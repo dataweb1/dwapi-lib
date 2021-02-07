@@ -20,7 +20,7 @@ class Reference {
    */
   public function __construct()
   {
-    if (!$this->reference = Helper::readJson(dwApiLib::$reference_path)) {
+    if (!$this->reference = Helper::readJson(dwApiLib::$settings->reference_path)) {
       throw new DwapiException('OpenAPI reference not found.', DwapiException::DW_PROJECT_NOT_FOUND);
     }
   }

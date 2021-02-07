@@ -58,14 +58,9 @@ abstract class Endpoint
   public $debug = NULL;
 
   /**
-   * @var bool
+   * @var \stdClass|null
    */
-  public $sent_mail = false;
-
-  /**
-   * @var array\null
-   */
-  public $mail_parameters = null;
+  public $settings = NULL;
 
 
   /**

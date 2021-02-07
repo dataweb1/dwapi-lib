@@ -91,7 +91,6 @@ class Mail{
 
     try {
       $mail->send();
-      //echo "Message has been sent successfully";
     } catch (DwapiException $e) {
       throw new DwapiException($mail->ErrorInfo, DwapiException::DW_MAIL_ERROR);
     }

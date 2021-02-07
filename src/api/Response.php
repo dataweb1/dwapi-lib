@@ -78,7 +78,7 @@ class Response {
     }
     $variables["result"] = $this->result;
     $variables["settings"] = Project::getInstance()->site;
-    $variables["settings"]["api_path"] = dwApiLib::$api_path;
+    $variables["settings"]["api_path"] = dwApiLib::$settings->api_path;
     $variables["parameters"] = $this->request->getParameters();
 
     return Helper::maskValue($variables);

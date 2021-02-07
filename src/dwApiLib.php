@@ -19,10 +19,9 @@ use dwApiLib\token\TokenFactory;
 class dwApiLib
 {
   /**
-   * @var $api_path, $reference_path initiated on dwApi creation
+   * @var \stdClass|null
    */
-  static $api_path;
-  static $reference_path;
+  static $settings = NULL;
 
   /**
    * @var Request
@@ -51,10 +50,10 @@ class dwApiLib
 
   /**
    * Api constructor.
+   * @param $settings
    */
-  public function __construct($api_path, $reference_path) {
-    self::$api_path = $api_path;
-    self::$reference_path = $reference_path;
+  public function __construct($settings) {
+    self::$settings = $settings;
   }
 
   /**
@@ -100,12 +99,12 @@ class dwApiLib
       }
 
       if (
-          (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) ||
-          ($this->endpoint->sent_mail == true)) {
+        (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) ||
+        (!is_null($this->endpoint->settings->mail) && $this->endpoint->settings->mail["enabled"] == true)) {
 
         $mail_parameters = $this->request->getParameters("get", "mail");
-        if (!is_null($this->endpoint->mail_parameters)) {
-          $mail_parameters = $this->endpoint->mail_parameters;
+        if (!is_null($this->endpoint->settings->mail)) {
+          $mail_parameters = $this->endpoint->settings->mail;
         }
         $mail = new Mail($mail_parameters);
         $mail->send();
