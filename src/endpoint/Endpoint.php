@@ -60,7 +60,7 @@ abstract class Endpoint
   /**
    * @var \stdClass|null
    */
-  public $settings = NULL;
+  public $hook_parameters = NULL;
 
 
   /**
