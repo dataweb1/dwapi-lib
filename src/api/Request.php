@@ -362,11 +362,11 @@ class Request
    * @param null $key
    * @param bool $array_expected
    * @param bool $multi_array_expected
-   * @param bool $required
+   * @param bool $parameters_required
    * @return array|bool|mixed|null
    * @throws \dwApiLib\api\DwapiException
    */
-  public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $required = false) {
+  public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $parameters_required = false) {
     if ($type != NULL) {
       if (!isset($this->parameters[$type])) {
         if ($type == "get" && $_GET) {
@@ -398,12 +398,12 @@ class Request
 
     if ($array_expected) {
       if ($key == NULL) {
-        if ($this->isParameterSyntaxCorrect("value", $this->parameters[$type], $required)) {
+        if ($this->isParameterSyntaxCorrect("value", $this->parameters[$type], $parameters_required)) {
           $this->sanitizeParameterArray($this->parameters[$type], $multi_array_expected);
         }
       }
       else {
-        if ($this->isParameterSyntaxCorrect($key, $this->parameters[$type][$key], $required)) {
+        if ($this->isParameterSyntaxCorrect($key, $this->parameters[$type][$key], $parameters_required)) {
           $this->sanitizeParameterArray($this->parameters[$type][$key], $multi_array_expected);
         }
       }
@@ -486,12 +486,12 @@ class Request
   /**
    * @param $verb
    * @param $parameter
-   * @param bool $required
+   * @param bool $parameter_required
    * @return bool
    * @throws DwapiException
    */
-  public function isParameterSyntaxCorrect($verb, $parameter, $required = true) {
-    if ($required) {
+  public function isParameterSyntaxCorrect($verb, $parameter, $parameter_required = true) {
+    if ($parameter_required) {
       if (!$parameter) {
         throw new DwapiException(ucfirst($verb) . " is missing. At least one is needed.", DwapiException::DW_SYNTAX_ERROR);
       }

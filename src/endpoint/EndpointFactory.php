@@ -15,25 +15,23 @@ class EndpointFactory {
 
   /**
    * Return a Endpoint instance according to the $endpoint parameter in the Request
-   * @param dwApiLib $api
    * @return Endpoint
    * @throws DwapiException
    */
-  public static function create(dwApiLib $api) {
+  public static function create() {
     $endpoint = Request::getInstance()->endpoint;
 
-    $to_check_namespace = ["dwApiLib"];
+    $to_check_classes = ["dwApiLib\\endpoint\\" . ucfirst($endpoint)];
 
-    $api_class = get_class($api);
+    $api_class = get_class(dwApiLib::getInstance());
     $api_ns = substr($api_class, 0, strrpos($api_class, '\\'));
     if ($api_ns != "dwApiLib") {
-      array_unshift($to_check_namespace, $api_ns);
+      array_unshift($to_check_classes, $api_ns."\\endpoint\\" . ucfirst($endpoint));
     }
 
-    foreach ($to_check_namespace as $namespace) {
-      $endpoint_class_name = $namespace."\\endpoint\\" . ucfirst($endpoint);
-      if (class_exists($endpoint_class_name)) {
-        return new $endpoint_class_name($api);
+    foreach ($to_check_classes as $class) {
+      if (class_exists($class)) {
+        return new $class();
       }
     }
 

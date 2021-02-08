@@ -76,14 +76,12 @@ class Item extends Endpoint {
     $this->query->values = $this->request->getParameters("post", NULL, true, false, true);
     $this->request->processFiles($this->query->values);
 
-
     if ($this->query->create()) {
       $this->http_response_code = 201;
       $this->result = $this->query->getResult();
       if ($this->current_token && $this->current_token->token_type == "jwt") {
         $this->result["extended_token"] = $this->current_token->extend_token();
       }
-
 
       $this->debug = $this->query->getDebug();
       return;

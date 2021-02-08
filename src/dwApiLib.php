@@ -49,11 +49,17 @@ class dwApiLib
   private $allowed_paths = [];
 
   /**
+   * @var dwApiLib|null
+   */
+  private static $instance = null;
+
+  /**
    * Api constructor.
    * @param $settings
    */
   public function __construct($settings) {
     self::$settings = $settings;
+    self::$instance = $this;
   }
 
   /**
@@ -94,7 +100,7 @@ class dwApiLib
         }
 
         /* create Endpoint instance according to the endpoint parameter in the Request */
-        $this->endpoint = EndpointFactory::create($this);
+        $this->endpoint = EndpointFactory::create();
         $this->endpoint->execute($this->request->action);
       }
 
@@ -127,5 +133,12 @@ class dwApiLib
    */
   public function getLoggedInUser() {
     return $this->logged_in_user;
+  }
+
+  /**
+   * @return dwApiLib|null
+   */
+  public static function getInstance() {
+    return self::$instance;
   }
 }

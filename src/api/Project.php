@@ -2,6 +2,9 @@
 namespace dwApiLib\api;
 
 
+use dwApiLib\dwApiLib;
+use dwApiLib\query\drp\UserQuery;
+
 /**
  * Class Project
  * @package dwApiLib\api
@@ -29,6 +32,9 @@ class Project {
   public function __construct()
   {
     $this->project = Request::getInstance()->project;
+    if (!is_null(dwApiLib::$settings->project)) {
+      $this->project = dwApiLib::$settings->project;
+    }
 
     if ($this->project == "") {
       throw new DwapiException('Project key is required', DwapiException::DW_PROJECT_REQUIRED);

@@ -2,7 +2,7 @@
 namespace dwApiLib\query;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Project;
-use dwApiLib\api\Request;
+use dwApiLib\dwApiLib;
 
 /**
  * Class QueryFactory
@@ -17,24 +17,27 @@ class QueryFactory {
    * @throws DwapiException
    */
   public static function create($entity_type = "", $logged_in_user = NULL) {
-    /*
-    if ($entity_type == "") {
-      $entity_type = Request::getInstance()->endpoint;
-    }
-    */
+    $to_check_classes = [];
     if ($entity_type != "") {
-      $query_class_name = "dwApiLib\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type)."Query";
-      if (class_exists($query_class_name)) {
-        return new $query_class_name($entity_type, $logged_in_user);
+      $to_check_classes[] = "dwApiLib\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type)."Query";
+    }
+    $to_check_classes[] = "dwApiLib\\query\\".Project::getInstance()->type."\\Query";
+
+    $api_class = get_class(dwApiLib::getInstance());
+    $api_ns = substr($api_class, 0, strrpos($api_class, '\\'));
+    if ($api_ns != "dwApiLib") {
+      if ($entity_type != "") {
+        array_unshift($to_check_classes, $api_ns."\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type)."Query");
+      }
+      array_unshift($to_check_classes, $api_ns."\\query\\".Project::getInstance()->type."\\Query");
+    }
+
+    foreach ($to_check_classes as $class) {
+      if (class_exists($class)) {
+        return new $class($entity_type, $logged_in_user);
       }
     }
 
-    $query_class_name = "dwApiLib\\query\\".Project::getInstance()->type."\\Query";
-    if (!class_exists($query_class_name)) {
-      throw new DwapiException("Project type '".Project::getInstance()->type."' unknown.", DwapiException::DW_PROJECT_TYPE_UNKNOWN);
-    }
-    else {
-      return new $query_class_name($entity_type, $logged_in_user);
-    }
+    throw new DwapiException("Project type '".Project::getInstance()->type."' unknown.", DwapiException::DW_PROJECT_TYPE_UNKNOWN);
   }
 }

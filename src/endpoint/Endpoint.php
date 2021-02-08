@@ -68,7 +68,7 @@ abstract class Endpoint
    * @param dwApiLib $api
    * @throws DwapiException
    */
-  public function __construct(dwApiLib $api) {
+  public function __construct() {
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
 
@@ -79,8 +79,8 @@ abstract class Endpoint
       $this->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
     }
 
-    $this->current_token = $api->getCurrentToken();
-    $this->logged_in_user = $api->getLoggedInUser();
+    $this->current_token = dwApiLib::getInstance()->getCurrentToken();
+    $this->logged_in_user = dwApiLib::getInstance()->getLoggedInUser();
   }
 
   /**
