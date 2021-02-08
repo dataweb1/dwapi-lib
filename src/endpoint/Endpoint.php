@@ -65,12 +65,13 @@ abstract class Endpoint
 
   /**
    * Endpoint constructor.
-   * @param dwApiLib $api
    * @throws DwapiException
    */
   public function __construct() {
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
+    $this->current_token = dwApiLib::getInstance()->getCurrentToken();
+    $this->logged_in_user = dwApiLib::getInstance()->getLoggedInUser();
 
     /**
      * create Query instance according to the endpoint parameter in the Request
@@ -78,28 +79,24 @@ abstract class Endpoint
     if ($this->request->entity != "") {
       $this->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
     }
-
-    $this->current_token = dwApiLib::getInstance()->getCurrentToken();
-    $this->logged_in_user = dwApiLib::getInstance()->getLoggedInUser();
   }
 
   /**
    * execute.
-   * @param $method
+   * @param $action
    * @throws DwapiException
    */
-  public function execute($method) {
+  public function execute($action) {
 
-    if (!method_exists(get_class($this), $method)) {
-      throw new DwapiException('Class method "'.$method.'" does not (yet) exist.', DwapiException::DW_INVALID_ACTION);
+    if (!method_exists(get_class($this), $action)) {
+      throw new DwapiException('Class method "'.$action.'" does not (yet) exist.', DwapiException::DW_INVALID_ACTION);
     }
 
-    $this->$method();
+    $this->$action();
 
-    $response = Response::getInstance();
-    $response->http_response_code = $this->http_response_code;
-    $response->result = $this->result;
-    $response->debug = $this->debug;
+    $this->response->http_response_code = $this->http_response_code;
+    $this->response->result = $this->result;
+    $this->response->debug = $this->debug;
   }
 
   /**

@@ -15,12 +15,11 @@ class EndpointFactory {
 
   /**
    * Return a Endpoint instance according to the $endpoint parameter in the Request
+   * @param $endpoint
    * @return Endpoint
    * @throws DwapiException
    */
-  public static function create() {
-    $endpoint = Request::getInstance()->endpoint;
-
+  public static function create($endpoint) {
     $to_check_classes = ["dwApiLib\\endpoint\\" . ucfirst($endpoint)];
 
     $api_class = get_class(dwApiLib::getInstance());

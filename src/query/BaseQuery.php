@@ -7,7 +7,7 @@ use dwApiLib\api\Request;
 use dwApiLib\query\mysql\EntityType;
 use dwApiLib\storage\Mysql;
 
-class BaseQuery implements BaseQueryInterface
+abstract class BaseQuery implements BaseQueryInterface
 {
   protected $storage;
   protected $request;

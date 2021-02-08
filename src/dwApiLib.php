@@ -100,7 +100,7 @@ class dwApiLib
         }
 
         /* create Endpoint instance according to the endpoint parameter in the Request */
-        $this->endpoint = EndpointFactory::create();
+        $this->endpoint = EndpointFactory::create($this->request->endpoint);
         $this->endpoint->execute($this->request->action);
       }
 
