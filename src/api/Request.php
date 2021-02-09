@@ -120,15 +120,13 @@ class Request
   public function initPath($allowed_paths) {
 
     // allowed path?
-    if (array_key_exists($this->path, $allowed_paths)) {
-      if ($allowed_paths[$this->path] = ["*"] || isset($allowed_paths[$this->path][$this->method])) {
-        $this->endpoint = $this->path_elements[0];
-        $this->action = $this->path_elements[1];
-        if ($this->action == "") {
-          $this->action = $this->method;
-        }
-        return true;
+    if ($this->matchPathWithAllowedPaths($this->path, $allowed_paths) == true) {
+      $this->endpoint = $this->path_elements[0];
+      $this->action = $this->path_elements[1];
+      if ($this->action == "") {
+        $this->action = $this->method;
       }
+      return true;
     }
 
     // path in reference?
@@ -159,6 +157,26 @@ class Request
     }
 
     return self::$instance;
+  }
+
+  /**
+   * matchPathWithAllowedPaths.
+   * @param $path
+   * @param $allowed_paths
+   * @return bool
+   */
+  private function matchPathWithAllowedPaths($path, $allowed_paths) {
+    foreach ($allowed_paths as $allowed_path => $methods) {
+      $preg_ready = '/^'.str_replace("*", ".*", trim(json_encode($allowed_path), '"')).'$/i';
+      if (preg_match($preg_ready, $path)) {
+
+        if ($methods == ["*"] || in_array($this->method, $methods)) {
+
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
