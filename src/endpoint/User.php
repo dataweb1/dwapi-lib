@@ -1,6 +1,7 @@
 <?php
 namespace dwApiLib\endpoint;
 use dwApiLib\api\DwapiException;
+use dwApiLib\api\Helper;
 use dwApiLib\api\JwtToken;
 use dwApiLib\dwApiLib;
 use dwApiLib\token\AccessToken;
@@ -52,7 +53,7 @@ class User extends Endpoint {
       $this->request->redirect["enabled"] = true;
     }
 
-    $this->query->id = Helper::getIdFromHash(getIdFromHash($this->query->hash);
+    $this->query->id = Helper::getIdFromHash($this->query->hash);
 
 
     $this->query->activate_link();

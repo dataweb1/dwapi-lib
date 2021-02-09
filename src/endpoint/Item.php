@@ -1,6 +1,7 @@
 <?php
 namespace dwApiLib\endpoint;
 use dwApiLib\api\DwapiException;
+use dwApiLib\api\Helper;
 
 /**
  * Class Item
@@ -99,7 +100,7 @@ class Item extends Endpoint {
   public function delete() {
     $this->query->hash = $this->request->getParameters("path", "hash");
     if (!is_null($this->query->hash)) {
-      $this->query->id = Helper::getIdFromHash(getIdFromHash($this->query->hash);
+      $this->query->id = Helper::getIdFromHash($this->query->hash);
 
       $this->query->single_delete();
 
