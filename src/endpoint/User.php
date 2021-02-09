@@ -52,7 +52,7 @@ class User extends Endpoint {
       $this->request->redirect["enabled"] = true;
     }
 
-    $this->query->id = $this->getIdFromHash($this->query->hash);
+    $this->query->id = Helper::getIdFromHash(getIdFromHash($this->query->hash);
 
 
     $this->query->activate_link();
@@ -91,7 +91,7 @@ class User extends Endpoint {
     $token = $this->request->getParameters("get", "temp_token");
     $temp_token = new JwtToken($this->request->project, $token);
     if ($temp_token->validate_token()) {
-      $this->query->id = $this->getIdFromHash($this->query->hash);
+      $this->query->id = Helper::getIdFromHash($this->query->hash);
 
       $this->query->reset_password_link();
     }
@@ -108,7 +108,7 @@ class User extends Endpoint {
     $token = $this->request->getParameters("get", "temp_token");
     $temp_token = new JwtToken($this->request->project, $token);
     if ($temp_token->validate_token()) {
-      $this->query->id = $this->getIdFromHash($this->query->hash);
+      $this->query->id = Helper::getIdFromHash($this->query->hash);
 
       $this->query->email = $this->request->getParameters("get", "email");
       $this->query->password = $this->request->getParameters("post", "new_password");

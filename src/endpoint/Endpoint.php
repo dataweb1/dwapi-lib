@@ -8,7 +8,6 @@ use dwApiLib\dwApiLib;
 use dwApiLib\query\QueryFactory;
 use dwApiLib\query\QueryInterface;
 use dwApiLib\query\UserQueryInterface;
-use Hashids\Hashids;
 
 
 /**
@@ -97,15 +96,5 @@ abstract class Endpoint
     $this->response->http_response_code = $this->http_response_code;
     $this->response->result = $this->result;
     $this->response->debug = $this->debug;
-  }
-
-  /**
-   * getIdFromHash.
-   * @param $hash
-   * @return mixed
-   */
-  protected function getIdFromHash($hash) {
-    $hashids = new Hashids('dwApi', 50);
-    return $hashids->decode($this->query->hash)[0];
   }
 }

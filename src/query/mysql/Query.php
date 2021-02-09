@@ -2,11 +2,9 @@
 namespace dwApiLib\query\mysql;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Helper;
-use dwApiLib\api\Request;
 use dwApiLib\query\BaseQuery;
 use dwApiLib\query\QueryInterface;
 use dwApiLib\query\UserQueryInterface;
-use Hashids\Hashids;
 use dwApiLib\storage\Mysql;
 
 
@@ -51,7 +49,7 @@ class Query extends BaseQuery implements QueryInterface {
   public function single_read()
   {
     if (!is_null($this->hash)) {
-      $this->id = $this->getIdFromHash($this->hash);
+      $this->id = Helper::getIdFromHash($this->hash);
     }
 
     $fields = self::prepareFields($this->property);
@@ -170,9 +168,9 @@ class Query extends BaseQuery implements QueryInterface {
   public function single_update()
   {
     if (!is_null($this->hash)) {
-      $this->id = $this->getIdFromHash($this->hash);
+      $this->id = Helper::getIdFromHash($this->hash);
     }
-    
+
     if (intval($this->id) > 0) {
       $this->filter = [[$this->entity_type->getPrimaryKey(), "=", $this->id]];
       $this->update();
@@ -244,7 +242,7 @@ class Query extends BaseQuery implements QueryInterface {
   public function single_delete()
   {
     if (!is_null($this->hash)) {
-      $this->id = $this->getIdFromHash($this->hash);
+      $this->id = Helper::getIdFromHash($this->hash);
     }
 
     if (intval($this->id) > 0) {

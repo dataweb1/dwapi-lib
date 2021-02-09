@@ -2,6 +2,7 @@
 namespace dwApiLib\api;
 use voku\helper\URLify;
 use Symfony\Component\Yaml\Yaml;
+use Hashids\Hashids;
 
 
 /**
@@ -120,5 +121,15 @@ class Helper {
         return false;
       }
     }
+  }
+
+  /**
+   * getIdFromHash.
+   * @param $hash
+   * @return mixed
+   */
+  public static function getIdFromHash($hash) {
+    $hashids = new Hashids('dwApi', 50);
+    return $hashids->decode($hash)[0];
   }
 }

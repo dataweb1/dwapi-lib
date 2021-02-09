@@ -18,7 +18,7 @@ class Item extends Endpoint {
     $this->query->relation = $this->request->getParameters("get", "relation", true, true, false);
     $this->query->hash = $this->request->getParameters("path", "hash");
     if (!is_null($this->query->hash)) {
-      $this->query->id = $this->getIdFromHash($this->query->hash);
+      $this->query->id = Helper::getIdFromHash($this->query->hash);
 
       $this->query->single_read();
     }
@@ -50,7 +50,7 @@ class Item extends Endpoint {
     $this->request->processFiles($this->query->values);
 
     if (!is_null($this->query->hash)) {
-      $this->query->id = $this->getIdFromHash($this->query->hash);
+      $this->query->id = Helper::getIdFromHash($this->query->hash);
       $this->query->single_update();
 
     }
@@ -99,7 +99,7 @@ class Item extends Endpoint {
   public function delete() {
     $this->query->hash = $this->request->getParameters("path", "hash");
     if (!is_null($this->query->hash)) {
-      $this->query->id = $this->getIdFromHash($this->query->hash);
+      $this->query->id = Helper::getIdFromHash(getIdFromHash($this->query->hash);
 
       $this->query->single_delete();
 
