@@ -50,6 +50,10 @@ class Query extends BaseQuery implements QueryInterface {
    */
   public function single_read()
   {
+    if (!is_null($this->hash)) {
+      $this->id = $this->getIdFromHash($this->hash);
+    }
+
     $fields = self::prepareFields($this->property);
 
     $sqlQuery = "SELECT " . $fields . " FROM `" . $this->entity_type->entity . "` WHERE `" . $this->entity_type->getPrimaryKey() . "` = :id  LIMIT 1";
@@ -165,6 +169,10 @@ class Query extends BaseQuery implements QueryInterface {
    */
   public function single_update()
   {
+    if (!is_null($this->hash)) {
+      $this->id = $this->getIdFromHash($this->hash);
+    }
+    
     if (intval($this->id) > 0) {
       $this->filter = [[$this->entity_type->getPrimaryKey(), "=", $this->id]];
       $this->update();
@@ -231,9 +239,14 @@ class Query extends BaseQuery implements QueryInterface {
   /**
    * Single delete.
    * @return bool
+   * @throws DwapiException
    */
   public function single_delete()
   {
+    if (!is_null($this->hash)) {
+      $this->id = $this->getIdFromHash($this->hash);
+    }
+
     if (intval($this->id) > 0) {
       $this->filter = [[$this->entity_type->getPrimaryKey(), "=", $this->id]];
       $this->delete();
@@ -274,6 +287,7 @@ class Query extends BaseQuery implements QueryInterface {
 
   /**
    * @param null $filter
+   * @param $entity_type
    * @return array
    */
   private function prepareWhere($filter = NULL, $entity_type)
