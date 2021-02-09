@@ -6,6 +6,7 @@ use dwApiLib\query\BaseQuery;
 use dwApiLib\query\QueryInterface;
 use dwApiLib\query\UserQueryInterface;
 use dwApiLib\storage\Mysql;
+use Hashids\Hashids;
 
 
 /**

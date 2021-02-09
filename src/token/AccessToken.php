@@ -3,7 +3,7 @@ namespace dwApiLib\token;
 
 use dwApiLib\api\DwapiException;
 use dwApiLib\query\QueryFactory;
-
+use Hashids\Hashids;
 
 /**
  * Class AccessToken
