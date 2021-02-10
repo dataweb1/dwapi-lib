@@ -1,11 +1,10 @@
 <?php
 namespace dwApiLib\query;
 
-
 /**
- * Interface QueryInterface
+ * Interface ItemInterface
  */
-interface QueryInterface extends BaseQueryInterface {
+interface ItemInterface extends BaseItemInterface {
 
   /**
    * Read.

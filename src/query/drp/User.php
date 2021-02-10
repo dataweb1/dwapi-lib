@@ -2,13 +2,13 @@
 namespace dwApiLib\query\drp;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\UserQueryInterface;
+use dwApiLib\query\UserInterface;
 
 /**
- * Class UserQuery
+ * Class User
  * @package dwApiLib\query\drp
  */
-class UserQuery extends Query implements UserQueryInterface {
+class User extends Item implements UserInterface {
 
   /* user parameters */
   public $email = NULL;

@@ -5,9 +5,9 @@ use dwApiLib\query\mysql\EntityType as MysqlEntityType;
 use dwApiLib\query\drp7\EntityType as Drp7EntityType;
 
 /**
- * Interface InterfaceQueryRepository
+ * Interface UserInterface
  */
-interface UserQueryInterface extends QueryInterface {
+interface UserInterface extends ItemInterface {
 
   /**
    * login.

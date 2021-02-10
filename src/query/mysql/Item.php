@@ -2,18 +2,18 @@
 namespace dwApiLib\query\mysql;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Helper;
-use dwApiLib\query\BaseQuery;
-use dwApiLib\query\QueryInterface;
-use dwApiLib\query\UserQueryInterface;
+use dwApiLib\query\BaseItem;
+use dwApiLib\query\ItemInterface;
+use dwApiLib\query\UserInterface;
 use dwApiLib\storage\Mysql;
 use Hashids\Hashids;
 
 
 /**
- * Class ItemRepository
+ * Class Item
  * @package dwApiLib\query\mysql
  */
-class Query extends BaseQuery implements QueryInterface {
+class Item extends BaseItem implements ItemInterface {
 
   /* item parameters */
   public $values = NULL;
@@ -28,7 +28,7 @@ class Query extends BaseQuery implements QueryInterface {
   /**
    * Query constructor.
    * @param string $entity_type
-   * @param UserQueryInterface|null $logged_in_user
+   * @param UserInterface|null $logged_in_user
    * @throws DwapiException
    */
   public function __construct($entity_type = "", $logged_in_user = NULL) {

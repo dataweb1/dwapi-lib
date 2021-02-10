@@ -1,10 +1,11 @@
 <?php
-
-
 namespace dwApiLib\query;
 
-
-interface BaseQueryInterface {
+/**
+ * Interface BaseItemInterface
+ * @package dwApiLib\query
+ */
+interface BaseItemInterface {
 
   /**
    * setResult.

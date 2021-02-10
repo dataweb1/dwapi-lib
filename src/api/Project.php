@@ -3,7 +3,7 @@ namespace dwApiLib\api;
 
 
 use dwApiLib\dwApiLib;
-use dwApiLib\query\drp\UserQuery;
+use dwApiLib\query\drp\User;
 
 /**
  * Class Project

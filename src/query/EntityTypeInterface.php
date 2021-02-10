@@ -1,7 +1,10 @@
 <?php
 namespace dwApiLib\query;
 
-
+/**
+ * Interface EntityTypeInterface
+ * @package dwApiLib\query
+ */
 interface EntityTypeInterface {
   /**
    * load.

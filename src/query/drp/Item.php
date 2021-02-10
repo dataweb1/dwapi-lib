@@ -1,17 +1,17 @@
 <?php
 namespace dwApiLib\query\drp;
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\BaseQuery;
-use dwApiLib\query\QueryInterface;
+use dwApiLib\query\BaseItem;
+use dwApiLib\query\ItemInterface;
 use dwApiLib\storage\Drp;
 
 
 
 /**
- * Class Query
+ * Class Item
  * @package dwApiLib\query\drp
  */
-class Query extends BaseQuery implements QueryInterface {
+class Item extends BaseItem implements ItemInterface {
 
   /* item parameters */
   public $values = NULL;

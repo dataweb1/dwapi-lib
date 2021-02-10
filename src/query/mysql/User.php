@@ -2,10 +2,14 @@
 namespace dwApiLib\query\mysql;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\UserQueryInterface;
+use dwApiLib\query\UserInterface;
 use dwApiLib\token\AccessToken;
 
-class UserQuery extends Query implements UserQueryInterface {
+/**
+ * Class User
+ * @package dwApiLib\query\mysql
+ */
+class User extends Item implements UserInterface {
 
   public $email = NULL;
   public $password = NULL;

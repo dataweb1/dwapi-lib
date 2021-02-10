@@ -1,13 +1,14 @@
 <?php
-
-
 namespace dwApiLib\query;
 
 use dwApiLib\api\Request;
 use dwApiLib\query\mysql\EntityType;
-use dwApiLib\storage\Mysql;
 
-abstract class BaseQuery implements BaseQueryInterface
+/**
+ * Class BaseItem
+ * @package dwApiLib\query
+ */
+abstract class BaseItem implements BaseItemInterface
 {
   protected $storage;
   protected $request;

@@ -6,8 +6,8 @@ use dwApiLib\api\Response;
 use dwApiLib\token\JwtToken;
 use dwApiLib\dwApiLib;
 use dwApiLib\query\QueryFactory;
-use dwApiLib\query\QueryInterface;
-use dwApiLib\query\UserQueryInterface;
+use dwApiLib\query\ItemInterface;
+use dwApiLib\query\UserInterface;
 
 
 /**
@@ -37,7 +37,7 @@ abstract class Endpoint
   protected $logged_in_user;
 
   /**
-   * @var QueryInterface|UserQueryInterface;
+   * @var ItemInterface|UserInterface;
    */
   public $query;
 
