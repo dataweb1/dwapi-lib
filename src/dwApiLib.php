@@ -142,6 +142,7 @@ class dwApiLib
   }
 
   /**
+   * getInstance.
    * @return dwApiLib|null
    */
   public static function getInstance() {

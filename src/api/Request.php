@@ -150,13 +150,11 @@ class Request
     throw new DwapiException('Path/method not valid.', DwapiException::DW_INVALID_PATH);
   }
 
+
   /**
    * getInstance.
-   * The object is created from within the class itself
-   * only if the class has no instance.
    * @return Request|null
    */
-
   public static function getInstance()
   {
     if (self::$instance == null)

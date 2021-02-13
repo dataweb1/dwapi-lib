@@ -56,12 +56,9 @@ class Project {
 
   /**
    * getInstance.
-   * The object is created from within the class itself
-   * only if the class has no instance.
    * @return Project|null
    * @throws DwapiException
    */
-
   public static function getInstance()
   {
     if (self::$instance == null)

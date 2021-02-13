@@ -47,8 +47,10 @@ class Response {
   }
 
 
-  // The object is created from within the class itself
-  // only if the class has no instance.
+  /**
+   * getInstance.
+   * @return Response|null
+   */
   public static function getInstance()
   {
     if (self::$instance == null)

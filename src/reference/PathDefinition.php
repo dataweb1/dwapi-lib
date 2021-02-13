@@ -187,8 +187,10 @@ class PathDefinition {
     }
   }
 
-  // The object is created from within the class itself
-  // only if the class has no instance.
+  /**
+   * getInstance.
+   * @return PathDefinition
+   */
   public static function getInstance()
   {
     if (self::$instance == null)
