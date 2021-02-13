@@ -15,8 +15,8 @@ class Item extends Endpoint {
    */
   public function get() {
 
-    $this->query->property = $this->request->getParameters("get", "property", true, true, false);
-    $this->query->relation = $this->request->getParameters("get", "relation", true, true, false);
+    $this->query->property = $this->request->getParameters("query", "property", true, true, false);
+    $this->query->relation = $this->request->getParameters("query", "relation", true, true, false);
     $this->query->hash = $this->request->getParameters("path", "hash");
     if (!is_null($this->query->hash)) {
       $this->query->id = Helper::getIdFromHash($this->query->hash);
@@ -24,9 +24,9 @@ class Item extends Endpoint {
       $this->query->single_read();
     }
     else {
-      $this->query->filter = $this->request->getParameters("get", "filter", true, true, false);
-      $this->query->paging = $this->request->getParameters("get", "paging", false, false, false);
-      $this->query->sort = $this->request->getParameters("get", "sort", true, true, false);
+      $this->query->filter = $this->request->getParameters("query", "filter", true, true, false);
+      $this->query->paging = $this->request->getParameters("query", "paging", false, false, false);
+      $this->query->sort = $this->request->getParameters("query", "sort", true, true, false);
 
       $this->query->read();
     }
@@ -46,7 +46,7 @@ class Item extends Endpoint {
   public function put() {
 
     $this->query->hash = $this->request->getParameters("path", "hash");
-    $this->query->values = $this->request->getParameters("put", NULL, true, false, true);
+    $this->query->values = $this->request->getParameters("formData", NULL, true, false, true);
 
     $this->request->processFiles($this->query->values);
 
@@ -56,7 +56,7 @@ class Item extends Endpoint {
 
     }
     else {
-      $this->query->filter = $this->request->getParameters("get", "filter", true, true, true);
+      $this->query->filter = $this->request->getParameters("query", "filter", true, true, true);
       $this->query->update();
     }
 
@@ -74,7 +74,7 @@ class Item extends Endpoint {
    */
   public function post()
   {
-    $this->query->values = $this->request->getParameters("post", NULL, true, false, true);
+    $this->query->values = $this->request->getParameters("formData", NULL, true, false, true);
     $this->request->processFiles($this->query->values);
 
     if ($this->query->create()) {
@@ -106,7 +106,7 @@ class Item extends Endpoint {
 
     }
     else {
-      $this->query->filter = $this->request->getParameters("delete", "filter", true, false, true);
+      $this->query->filter = $this->request->getParameters("formData", "filter", true, false, true);
       $this->query->delete();
     }
 

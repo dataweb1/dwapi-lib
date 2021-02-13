@@ -18,8 +18,8 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function login() {
-    $this->query->email = $this->request->getParameters("post", "email");
-    $this->query->password = $this->request->getParameters("post", "password");
+    $this->query->email = $this->request->getParameters("formData", "email");
+    $this->query->password = $this->request->getParameters("formData", "password");
 
 
     if ($this->query->login()) {
@@ -64,7 +64,7 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function reset_password() {
-    $this->query->email = $this->request->getParameters("get", "email");
+    $this->query->email = $this->request->getParameters("query", "email");
 
     if ($this->query->reset_password()) {
       $temp_token = new JwtToken($this->request->project);
@@ -89,7 +89,7 @@ class User extends Endpoint {
       $this->request->redirect["enabled"] = true;
     }
 
-    $token = $this->request->getParameters("get", "temp_token");
+    $token = $this->request->getParameters("query", "temp_token");
     $temp_token = new JwtToken($this->request->project, $token);
     if ($temp_token->validate_token()) {
       $this->query->id = Helper::getIdFromHash($this->query->hash);
@@ -106,13 +106,13 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function confirm_password() {
-    $token = $this->request->getParameters("get", "temp_token");
+    $token = $this->request->getParameters("query", "temp_token");
     $temp_token = new JwtToken($this->request->project, $token);
     if ($temp_token->validate_token()) {
       $this->query->id = Helper::getIdFromHash($this->query->hash);
 
-      $this->query->email = $this->request->getParameters("get", "email");
-      $this->query->password = $this->request->getParameters("post", "new_password");
+      $this->query->email = $this->request->getParameters("query", "email");
+      $this->query->password = $this->request->getParameters("formData", "new_password");
 
       if ($this->result = $this->query->confirm_password()) {
         $this->result = $this->query->getResult();
@@ -130,7 +130,7 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function register() {
-    $this->query->values = $this->request->getParameters("post");
+    $this->query->values = $this->request->getParameters("formData");
 
     if ($this->query->register()) {
       $this->result = $this->query->getResult();
@@ -179,9 +179,9 @@ class User extends Endpoint {
    * generate_access_token.
    */
   public function generate_access_token() {
-    $id = $this->request->getParameters("post", "id");
-    $restrict_host = $this->request->getParameters("post", "restrict_host");
-    $restrict_ip  = $this->request->getParameters("post", "restrict_ip");
+    $id = $this->request->getParameters("formData", "id");
+    $restrict_host = $this->request->getParameters("formData", "restrict_host");
+    $restrict_ip  = $this->request->getParameters("formData", "restrict_ip");
 
     $access_token = new AccessToken($this->request->project);
     $this->result["access_token"] = $access_token->create($id, $restrict_host, $restrict_ip);

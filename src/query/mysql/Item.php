@@ -73,7 +73,7 @@ class Item extends BaseItem implements ItemInterface {
       return true;
     }
     else {
-      throw new DwapiException(ucfirst($this->getEntityType()->entity).' does not exist.', DwapiException::DW_USER_NOT_FOUND);
+      throw new DwapiException('Item in entity '.ucfirst($this->getEntityType()->entity).' not found.', DwapiException::DW_ENTITY_NOT_FOUND);
     }
   }
 

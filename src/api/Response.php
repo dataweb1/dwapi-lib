@@ -43,7 +43,7 @@ class Response {
    * Response constructor.
    */
   public function __construct() {
-    $this->request = Request::getInstance();
+
   }
 
 
@@ -79,7 +79,7 @@ class Response {
     $variables["result"] = $this->result;
     $variables["settings"] = Project::getInstance()->site;
     $variables["settings"]["api_path"] = dwApiLib::$settings->api_path;
-    $variables["parameters"] = $this->request->getParameters();
+    $variables["parameters"] = Request::getInstance()->getParameters();
 
     return Helper::maskValue($variables);
   }
@@ -103,11 +103,11 @@ class Response {
         "success" => true);
 
       $variables["result"] = $this->result;
-      if ($this->request->debug == true) {
+      if (Request::getInstance()->debug == true) {
         $variables["debug"] = $this->debug;
       }
 
-      $variables["parameters"] = $this->request->getParameters();
+      $variables["parameters"] = Request::getInstance()->getParameters();
     }
 
     return Helper::maskValue($variables);

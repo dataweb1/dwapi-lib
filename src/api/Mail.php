@@ -48,7 +48,7 @@ class Mail{
         $element,
         $this->request->endpoint,
         $this->request->action,
-        $this->request->getParameters("get", "entity"));
+        $this->request->getParameters("query", "entity"));
       if ($template != "") {
         return Template::renderTwigFile($template, $this->response->getTwigVariables());
       }

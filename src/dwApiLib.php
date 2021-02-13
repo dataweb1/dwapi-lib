@@ -60,6 +60,9 @@ class dwApiLib
   public function __construct($settings) {
     self::$settings = $settings;
     self::$instance = $this;
+
+    $this->response = Response::getInstance();
+    $this->request = Request::getInstance();
   }
 
   /**
@@ -75,11 +78,16 @@ class dwApiLib
    */
   public function processCall() {
     try {
-      $this->request = Request::getInstance();
-      $this->response = Response::getInstance();
-      $this->project = Project::getInstance();
 
       if ($this->request->initPath($this->allowed_paths)) {
+        $this->request->initParameters();
+
+        if ($this->request->path_definition) {
+          $this->request->validateReference();
+        }
+
+        $this->project = Project::getInstance();
+        $this->project->initProject();
 
         $this->current_token = TokenFactory::create($this->request->token_type, $this->request->token);
         if ($this->current_token->valid) {
@@ -92,8 +100,7 @@ class dwApiLib
           if ($this->current_token->valid == false) {
             if ($this->request->entity == "user") {
               throw new DwapiException('For a user query a valid token is always required', DwapiException::DW_VALID_TOKEN_REQUIRED);
-            }
-            else {
+            } else {
               throw new DwapiException('Valid token is required', DwapiException::DW_VALID_TOKEN_REQUIRED);
             }
           }
@@ -108,14 +115,13 @@ class dwApiLib
         (!is_null($this->request->mail) && $this->request->mail["enabled"] == true) ||
         (!is_null($this->endpoint->hook_parameters->mail) && $this->endpoint->hook_parameters->mail["enabled"] == true)) {
 
-        $mail_parameters = $this->request->getParameters("get", "mail");
+        $mail_parameters = $this->request->getParameters("query", "mail");
         if (!is_null($this->endpoint->hook_parameters->mail)) {
           $mail_parameters = $this->endpoint->hook_parameters->mail;
         }
         $mail = new Mail($mail_parameters);
         $mail->send();
       }
-
     } catch (\Exception $error) {
       $this->response->error = $error;
     }

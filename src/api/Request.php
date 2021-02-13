@@ -99,25 +99,33 @@ class Request
    * Request constructor.
    */
   public function __construct() {
-    $this->path = explode('?', $_SERVER["REQUEST_URI"], 2)[0];
-    $this->path_elements = preg_split('@/@', $this->path, NULL, PREG_SPLIT_NO_EMPTY);
-    $this->method = strtolower(getenv('REQUEST_METHOD'));
-    $this->project = $this->getParameters("get", "project");
-    $this->entity = $this->getParameters("get", "entity");
-    $this->token_required = $this->getParameters("get", "token_required");
-    $this->hash = $this->getParameters("get", "hash");
-    $this->debug = boolval($this->getParameters("get", "debug"));
-    $this->redirect = $this->getParameters("get", "redirect");
-    $this->mail = $this->getParameters("get", "mail");
+
+  }
+
+  public function initParameters() {
+
+    $this->project = $this->getParameters("query", "project");
+    $this->entity = $this->getParameters("query", "entity");
+    $this->token_required = $this->getParameters("query", "token_required");
+    $this->hash = $this->getParameters("query", "hash");
+    $this->debug = boolval($this->getParameters("query", "debug"));
+    $this->redirect = $this->getParameters("query", "redirect");
+    $this->mail = $this->getParameters("query", "mail");
+
     list($this->token_type, $this->token) = $this->getToken();
   }
 
   /**
    * @param $allowed_paths
    * @return bool
-   * @throws \dwApiLib\api\DwapiException
+   * @throws DwapiException
    */
   public function initPath($allowed_paths) {
+
+    $this->path = explode('?', $_SERVER["REQUEST_URI"], 2)[0];
+    $this->path_elements = preg_split('@/@', $this->path, NULL, PREG_SPLIT_NO_EMPTY);
+    $this->method = strtolower(getenv('REQUEST_METHOD'));
+    $this->path_definition = Reference::getInstance()->getPathDefinition($this->path, $this->method);
 
     // allowed path?
     if ($this->matchPathWithAllowedPaths($this->path, $allowed_paths) == true) {
@@ -130,7 +138,7 @@ class Request
     }
 
     // path in reference?
-    if ($this->path_definition = Reference::getInstance()->getPathDefinition($this->path, $this->method)) {
+    if ($this->path_definition) {
       $this->endpoint = (string)$this->path_definition->getBasePathElement(0);
       $this->action = (string)$this->path_definition->getBasePathElement(1);
       if ($this->action == "") {
@@ -327,12 +335,18 @@ class Request
    * @param $body
    * @return mixed
    */
-  private function processPostPutParameters($body) {
+  private function processFormDataParameters($body) {
+
     if (Helper::isJson($body)) {
       $parameters = json_decode($body, true);
     } else {
       $parameters = $body;
     }
+    /*
+    echo "<pre>";
+    print_r($parameters);
+    echo "</pre>";
+    */
     return $parameters;
   }
 
@@ -382,27 +396,24 @@ class Request
    * @param bool $multi_array_expected
    * @param bool $parameters_required
    * @return array|bool|mixed|null
-   * @throws \dwApiLib\api\DwapiException
+   * @throws DwapiException
    */
   public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $parameters_required = false) {
     if ($type != NULL) {
       if (!isset($this->parameters[$type])) {
-        if ($type == "get" && $_GET) {
-          $this->parameters["get"] = $this->processParameters($_GET);
+        if ($type == "query" && $_REQUEST) {
+          $this->parameters["query"] = $this->processParameters($_REQUEST);
         }
-        if ($type == "post") {
-          $_POST = file_get_contents('php://input');
-          $this->parameters["post"] = $this->processPostPutParameters($_POST);
-        }
-        if ($type == "delete") {
-          parse_str(file_get_contents('php://input'), $_DELETE);
-          $this->parameters["delete"] = $this->processParameters($_DELETE);
-        }
-        if ($type == "put") {
-          //parse_str(file_get_contents('php://input'), $_PUT);
-          $this->_parsePut();//_parsePut
-          $GLOBALS["_PUT"] = array_key_first($GLOBALS["_PUT"]);
-          $this->parameters["put"] = $this->processPostPutParameters($GLOBALS['_PUT']);
+        if ($type == "formData" || $type == "body") {
+          if ($this->method == "post" || $this->method == "delete" || $this->method == "get") {
+            $body = file_get_contents('php://input');
+            $this->parameters[$type] = $this->processFormDataParameters($body);
+          }
+          if ($this->method == "put") {
+            $this->_parsePut();//_parsePut
+            $GLOBALS["_PUT"] = array_key_first($GLOBALS["_PUT"]);
+            $this->parameters["formData"] = $this->processFormDataParameters($GLOBALS['_PUT']);
+          }
         }
         if ($type == "files" && $_FILES) {
           $this->parameters["files"] = $_FILES;
@@ -448,6 +459,18 @@ class Request
   }
 
   /**
+   * setParameter.
+   * @param $type
+   * @param $key
+   * @param $value
+   */
+  public function setParameter($type, $key, $value) {
+    if (!is_array($this->parameters[$type])) { $this->parameters[$type] = array(); }
+    if (!is_array($this->parameters[$type][$key])) { $this->parameters[$type][$key] = array(); }
+    $this->parameters[$type][$key] = $value;
+  }
+
+  /**
    * processFiles.
    * @param $values
    * @throws DwapiException
@@ -456,11 +479,11 @@ class Request
 
     if ($files = $this->getParameters("files")) {
       foreach ($files as $field => $file) {
-        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "files/" . $this->getParameters("get", "project") . "/";
+        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "files/" . $this->getParameters("query", "project") . "/";
         if (!file_exists($target_dir)) {
           mkdir($target_dir);
         }
-        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "files/" . $this->getParameters("get", "project") . "/" . $this->getParameters("get", "entity") . "/";
+        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "files/" . $this->getParameters("query", "project") . "/" . $this->getParameters("query", "entity") . "/";
         if (!file_exists($target_dir)) {
           mkdir($target_dir);
         }
@@ -535,11 +558,8 @@ class Request
    * @return bool
    */
   public function isTokenRequired() {
-
     $token_required = $this->token_required;
-
     if (is_null($token_required)) {
-
       if ($this->path_definition && $this->path_definition->isParameterRequired("header_authorization")) {
         $token_required = true;
       } else {
@@ -550,8 +570,54 @@ class Request
     if (Request::getInstance()->entity == "user") {
       $token_required = true;
     }
-
     return $token_required;
+  }
 
+  /**
+   * validateParametersAgainstReference.
+   * @throws DwapiException
+   */
+  public function validateReference() {
+    $types = ["query", "formData", "body", "path"];
+
+    foreach($types as $type) {
+      $this->setReferenceDefaultValues($type);
+      $this->validateRefRequiredValues($type);
+    }
+  }
+
+  /**
+   * setRefDefaultValues.
+   * @throws DwapiException
+   */
+  public function setReferenceDefaultValues($type) {
+    foreach ($this->path_definition->getParameters() as $key => $ref_parameter) {
+      $key_elements = explode("_", $key);
+      if ($key_elements[0] == $type) {
+        $value = $this->getParameters($type)[$key_elements[1]];
+        if (!isset($value) || $value == "") {
+          $this->setParameter($key_elements[0], $key_elements[1], $ref_parameter["default"]);
+        }
+      }
+    }
+  }
+
+  /**
+   * validateRefRequiredValues.
+   * @return bool
+   * @throws DwapiException
+   */
+  public function validateRefRequiredValues() {
+    foreach ($this->path_definition->getRequiredParameters() as $key => $ref_parameter) {
+      $key_elements = explode("_", $key);
+      //echo $key_elements[0]."**".$key_elements[1]."**".$values[$key_elements[1]]."<br>";
+      if ($key_elements[0] == $type) {
+        if ($this->getParameters($type)[$key_elements[1]] == "") {
+          throw new DwapiException(ucfirst($key_elements[1]) . " is required.", DwapiException::DW_VALUE_REQUIRED);
+        }
+      }
+
+    }
+    return true;
   }
 }

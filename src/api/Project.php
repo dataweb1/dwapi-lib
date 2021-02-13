@@ -31,6 +31,10 @@ class Project {
    */
   public function __construct()
   {
+
+  }
+
+  public function initProject() {
     $this->project = Request::getInstance()->project;
     if (!is_null(dwApiLib::$settings->project)) {
       $this->project = dwApiLib::$settings->project;
@@ -49,7 +53,6 @@ class Project {
       throw new DwapiException('Project "' . $this->project . '" not found', DwapiException::DW_PROJECT_NOT_FOUND);
     }
   }
-
 
   /**
    * getInstance.

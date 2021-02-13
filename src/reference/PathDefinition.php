@@ -26,9 +26,11 @@ class PathDefinition {
       if ($item == "parameters") {
         foreach((array)$value as $parameter) {
           $in = $parameter["in"];
+          /*
           if ($in == "formData") {
             $in = $request_method;
           }
+          */
           $this->parameters[$in."_".$parameter["name"]] = $parameter;
         }
       }
@@ -91,6 +93,34 @@ class PathDefinition {
   }
 
   /**
+   * @return array
+   */
+  public function getQueryParameters() {
+    $path_parameters = [];
+    foreach ($this->parameters as $parameter_key => $parameter) {
+      if (substr($parameter_key, 0, 6) == "query_") {
+        $path_parameters[] = $parameter;
+      }
+    }
+    return $path_parameters;
+  }
+
+  /**
+   * getBodyParameters.
+   * @param $type
+   * @return array
+   */
+  public function getBodyParameters($type) {
+    $path_parameters = [];
+    foreach ($this->parameters as $parameter_key => $parameter) {
+      if (substr($parameter_key, 0, 9) == $type."_") {
+        $path_parameters[] = $parameter;
+      }
+    }
+    return $path_parameters;
+  }
+
+  /**
    * @param $key
    * @return bool|mixed
    */
@@ -116,12 +146,29 @@ class PathDefinition {
   /**
    * @return array
    */
+  public function getParameters() {
+    return $this->parameters;
+  }
+
+  /**
+   * @param $parameter
+   * @return bool
+   */
+  public function getParameterDefaultValue($parameter) {
+    if (array_key_exists("default", $parameter)) {
+      return $parameter["default"];
+    }
+  }
+
+  /**
+   * @return array
+   */
   public function getRequiredParameters() {
     $required_parameters = [];
-
-    foreach ($this->parameters as $parameter) {
+    $parameters = $this->getParameters();
+    foreach ($parameters as $key => $parameter) {
       if ($parameter["required"] == 1) {
-        $required_parameters[strtolower($parameter["in"] . "_" . $parameter["name"])] = $parameter;
+        $required_parameters[$key] = $parameter;
       }
     }
 

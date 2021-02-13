@@ -24,7 +24,7 @@ class Redirect
   {
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
-    $this->redirect_parameters = $this->request->getParameters("get", "redirect");
+    $this->redirect_parameters = $this->request->getParameters("query", "redirect");
   }
 
 
@@ -42,7 +42,7 @@ class Redirect
         $this->request->project,
         "redirect_url",
         $this->request->action,
-        $this->request->getParameters("get", "entity"));
+        $this->request->getParameters("query", "entity"));
       if ($template != "") {
         return Template::renderTwigFile($template, $this->response->getTwigVariables());
       }
