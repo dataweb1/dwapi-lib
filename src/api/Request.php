@@ -581,8 +581,8 @@ class Request
     $types = ["query", "formData", "body", "path"];
 
     foreach($types as $type) {
-      $this->setReferenceDefaultValues($type);
-      $this->validateReferenceRequiredValues($type);
+      $this->referenceDefaultValues($type);
+      $this->referenceRequiredValues($type);
     }
   }
 
