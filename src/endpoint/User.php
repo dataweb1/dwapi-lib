@@ -18,18 +18,19 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function login() {
-    $this->query->email = $this->request->getParameters("formData", "email");
-    $this->query->password = $this->request->getParameters("formData", "password");
+    if ($this->query) {
+      $this->query->email = $this->request->getParameters("formData", "email");
+      $this->query->password = $this->request->getParameters("formData", "password");
 
 
-    if ($this->query->login()) {
-      $this->current_token->token_user = $this->query->getResult("item");
-      $this->current_token->token = $this->current_token->create($this->query->getResult("id"));
+      if ($this->query->login()) {
+        $this->current_token->token_user = $this->query->getResult("item");
+        $this->current_token->token = $this->current_token->create($this->query->getResult("id"));
 
-      $this->result = $this->query->getResult();
-      $this->result["token"] = $this->current_token->token;
+        $this->result = $this->query->getResult();
+        $this->result["token"] = $this->current_token->token;
+      }
     }
-
 
     return true;
   }
@@ -38,8 +39,10 @@ class User extends Endpoint {
    * logout.
    */
   public function logout() {
-    if ($this->query->logout()) {
-      $this->logged_in_user = NULL;
+    if ($this->query) {
+      if ($this->query->logout()) {
+        $this->logged_in_user = NULL;
+      }
     }
   }
 
@@ -48,15 +51,14 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function activate_link() {
+    if ($this->query) {
+      if (!isset($this->request->redirect["enabled"])) {
+        $this->request->redirect["enabled"] = true;
+      }
 
-    if (!isset($this->request->redirect["enabled"])) {
-      $this->request->redirect["enabled"] = true;
+      $this->query->id = Helper::getIdFromHash($this->query->hash);
+      $this->query->activate_link();
     }
-
-    $this->query->id = Helper::getIdFromHash($this->query->hash);
-
-
-    $this->query->activate_link();
   }
 
   /**
@@ -64,17 +66,19 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function reset_password() {
-    $this->query->email = $this->request->getParameters("query", "email");
+    if ($this->query) {
+      $this->query->email = $this->request->getParameters("query", "email");
 
-    if ($this->query->reset_password()) {
-      $temp_token = new JwtToken($this->request->project);
-      $token = $temp_token->create(0, 1);
+      if ($this->query->reset_password()) {
+        $temp_token = new JwtToken($this->request->project);
+        $token = $temp_token->create(0, 1);
 
-      $this->result["hash"] = $this->query->getResult("items")[0]["hash"];
-      $this->result["temp_token"] = $token;
+        $this->result["hash"] = $this->query->getResult("items")[0]["hash"];
+        $this->result["temp_token"] = $token;
 
-      if (!isset($this->request->mail["enabled"])) {
-        $this->request->mail["enabled"] = true;
+        if (!isset($this->request->mail["enabled"])) {
+          $this->request->mail["enabled"] = true;
+        }
       }
     }
   }
@@ -84,20 +88,21 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function reset_password_link() {
-    // override redirect "enabled" to true if not given in parameter
-    if (!isset($this->request->redirect["enabled"])) {
-      $this->request->redirect["enabled"] = true;
-    }
+    if ($this->query) {
+      // override redirect "enabled" to true if not given in parameter
+      if (!isset($this->request->redirect["enabled"])) {
+        $this->request->redirect["enabled"] = true;
+      }
 
-    $token = $this->request->getParameters("query", "temp_token");
-    $temp_token = new JwtToken($this->request->project, $token);
-    if ($temp_token->validate_token()) {
-      $this->query->id = Helper::getIdFromHash($this->query->hash);
+      $token = $this->request->getParameters("query", "temp_token");
+      $temp_token = new JwtToken($this->request->project, $token);
+      if ($temp_token->validate_token()) {
+        $this->query->id = Helper::getIdFromHash($this->query->hash);
 
-      $this->query->reset_password_link();
-    }
-    else {
-      throw new DwapiException('Temp token invalid.', DwapiException::DW_VALID_TOKEN_REQUIRED);
+        $this->query->reset_password_link();
+      } else {
+        throw new DwapiException('Temp token invalid.', DwapiException::DW_VALID_TOKEN_REQUIRED);
+      }
     }
   }
 
@@ -106,22 +111,23 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function confirm_password() {
-    $token = $this->request->getParameters("query", "temp_token");
-    $temp_token = new JwtToken($this->request->project, $token);
-    if ($temp_token->validate_token()) {
-      $this->query->id = Helper::getIdFromHash($this->query->hash);
+    if ($this->query) {
+      $token = $this->request->getParameters("query", "temp_token");
+      $temp_token = new JwtToken($this->request->project, $token);
+      if ($temp_token->validate_token()) {
+        $this->query->id = Helper::getIdFromHash($this->query->hash);
 
-      $this->query->email = $this->request->getParameters("query", "email");
-      $this->query->password = $this->request->getParameters("formData", "new_password");
+        $this->query->email = $this->request->getParameters("query", "email");
+        $this->query->password = $this->request->getParameters("formData", "new_password");
 
-      if ($this->result = $this->query->confirm_password()) {
-        $this->result = $this->query->getResult();
-        $this->debug = $this->query->getDebug();
+        if ($this->result = $this->query->confirm_password()) {
+          $this->result = $this->query->getResult();
+          $this->debug = $this->query->getDebug();
+        }
+
+      } else {
+        throw new DwapiException('Temp token invalid.', DwapiException::DW_VALID_TOKEN_REQUIRED);
       }
-
-    }
-    else {
-      throw new DwapiException('Temp token invalid.', DwapiException::DW_VALID_TOKEN_REQUIRED);
     }
   }
 
@@ -130,18 +136,19 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function register() {
-    $this->query->values = $this->request->getParameters("formData");
+    if ($this->query) {
+      $this->query->values = $this->request->getParameters("formData");
 
-    if ($this->query->register()) {
-      $this->result = $this->query->getResult();
-      $this->debug = $this->query->getDebug();
+      if ($this->query->register()) {
+        $this->result = $this->query->getResult();
+        $this->debug = $this->query->getDebug();
 
-      if (!isset($this->request->mail["enabled"])) {
-        $this->request->mail["enabled"] = true;
+        if (!isset($this->request->mail["enabled"])) {
+          $this->request->mail["enabled"] = true;
+        }
+      } else {
+        throw new DwapiException('User with this email already exists.', DwapiException::DW_USER_EXISTS);
       }
-    }
-    else {
-      throw new DwapiException('User with this email already exists.', DwapiException::DW_USER_EXISTS);
     }
   }
 
