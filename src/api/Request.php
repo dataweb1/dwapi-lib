@@ -582,15 +582,16 @@ class Request
 
     foreach($types as $type) {
       $this->setReferenceDefaultValues($type);
-      $this->validateRefRequiredValues($type);
+      $this->validateReferenceRequiredValues($type);
     }
   }
 
   /**
-   * setRefDefaultValues.
+   * referenceDefaultValues.
+   * @param $type
    * @throws DwapiException
    */
-  public function setReferenceDefaultValues($type) {
+  public function referenceDefaultValues($type) {
     foreach ($this->path_definition->getParameters() as $key => $ref_parameter) {
       $key_elements = explode("_", $key);
       if ($key_elements[0] == $type) {
@@ -603,14 +604,14 @@ class Request
   }
 
   /**
-   * validateRefRequiredValues.
+   * referenceRequiredValues.
+   * @param $type
    * @return bool
    * @throws DwapiException
    */
-  public function validateRefRequiredValues() {
+  public function referenceRequiredValues($type) {
     foreach ($this->path_definition->getRequiredParameters() as $key => $ref_parameter) {
       $key_elements = explode("_", $key);
-      //echo $key_elements[0]."**".$key_elements[1]."**".$values[$key_elements[1]]."<br>";
       if ($key_elements[0] == $type) {
         if ($this->getParameters($type)[$key_elements[1]] == "") {
           throw new DwapiException(ucfirst($key_elements[1]) . " is required.", DwapiException::DW_VALUE_REQUIRED);
