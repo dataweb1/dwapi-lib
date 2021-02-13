@@ -83,7 +83,7 @@ class dwApiLib
         $this->request->initParameters();
 
         if ($this->request->path_definition) {
-          $this->request->validateReference();
+          $this->request->validateParameters();
         }
 
         $this->project = Project::getInstance();

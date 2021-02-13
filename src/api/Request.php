@@ -577,7 +577,7 @@ class Request
    * validateParametersAgainstReference.
    * @throws DwapiException
    */
-  public function validateReference() {
+  public function validateParameters() {
     $types = ["query", "formData", "body", "path"];
 
     foreach($types as $type) {
