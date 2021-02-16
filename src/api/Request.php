@@ -150,21 +150,6 @@ class Request
     throw new DwapiException('Path/method not valid.', DwapiException::DW_INVALID_PATH);
   }
 
-
-  /**
-   * getInstance.
-   * @return Request|null
-   */
-  public static function getInstance()
-  {
-    if (self::$instance == null)
-    {
-      self::$instance = new Request();
-    }
-
-    return self::$instance;
-  }
-
   /**
    * matchPathWithAllowedPaths.
    * @param $path
@@ -334,17 +319,11 @@ class Request
    * @return mixed
    */
   private function processFormDataParameters($body) {
-
     if (Helper::isJson($body)) {
       $parameters = json_decode($body, true);
     } else {
       $parameters = $body;
     }
-    /*
-    echo "<pre>";
-    print_r($parameters);
-    echo "</pre>";
-    */
     return $parameters;
   }
 
@@ -397,31 +376,34 @@ class Request
    * @throws DwapiException
    */
   public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $parameters_required = false) {
+
     if ($type != NULL) {
-      if (!isset($this->parameters[$type])) {
-        if ($type == "query" && $_REQUEST) {
-          $this->parameters["query"] = $this->processParameters($_REQUEST);
+      //if (!isset($this->parameters[$type])) {
+      if ($type == "query" && $_REQUEST) {
+        $this->parameters["query"] = $this->processParameters($_REQUEST);
+      }
+      if ($type == "formData" || $type == "body") {
+        if ($this->method == "post" || $this->method == "delete" || $this->method == "get") {
+          $body = file_get_contents('php://input');
+          $this->parameters["body"] = $this->processFormDataParameters($body);
         }
-        if ($type == "formData" || $type == "body") {
-          if ($this->method == "post" || $this->method == "delete" || $this->method == "get") {
-            $body = file_get_contents('php://input');
-            $this->parameters[$type] = $this->processFormDataParameters($body);
-          }
-          if ($this->method == "put") {
-            $this->_parsePut();//_parsePut
-            $GLOBALS["_PUT"] = array_key_first($GLOBALS["_PUT"]);
-            $this->parameters["formData"] = $this->processFormDataParameters($GLOBALS['_PUT']);
-          }
-        }
-        if ($type == "files" && $_FILES) {
-          $this->parameters["files"] = $_FILES;
+        if ($this->method == "put") {
+          $this->_parsePut();//_parsePut
+          $GLOBALS["_PUT"] = array_key_first($GLOBALS["_PUT"]);
+          $body = $GLOBALS["_PUT"];
+          $this->parameters["body"] = $this->processFormDataParameters($body);
         }
 
-        if ($type == "path") {
-          $this->parameters["path"] = $this->processPathParameters();
-        }
+      }
+      if ($type == "files" && $_FILES) {
+        $this->parameters["files"] = $_FILES;
+      }
+
+      if ($type == "path") {
+        $this->parameters["path"] = $this->processPathParameters();
       }
     }
+    //}
 
     if ($array_expected) {
       if ($key == NULL) {
@@ -593,7 +575,14 @@ class Request
     foreach ($this->path_definition->getParameters() as $key => $ref_parameter) {
       $key_elements = explode("_", $key);
       if ($key_elements[0] == $type) {
-        $value = $this->getParameters($type)[$key_elements[1]];
+        if ($this->getParameters($type)) {
+          /*
+          echo "<pre>++";
+          print_r($this->getParameters());
+          echo "++</pre>";
+          */
+          $value = $this->getParameters($type)[$key_elements[1]];
+        }
         if (!isset($value) || $value == "") {
           $this->setParameter($key_elements[0], $key_elements[1], $ref_parameter["default"]);
         }
@@ -618,5 +607,19 @@ class Request
 
     }
     return true;
+  }
+
+  /**
+   * getInstance.
+   * @return Request|null
+   */
+  public static function getInstance()
+  {
+    if (self::$instance == null)
+    {
+      self::$instance = new Request();
+    }
+
+    return self::$instance;
   }
 }

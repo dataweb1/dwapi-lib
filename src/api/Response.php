@@ -81,7 +81,9 @@ class Response {
     $variables["result"] = $this->result;
     $variables["settings"] = Project::getInstance()->site;
     $variables["settings"]["api_path"] = dwApiLib::$settings->api_path;
-    $variables["parameters"] = Request::getInstance()->getParameters();
+
+    $parameters = Request::getInstance()->getParameters();
+    $variables["parameters"] = $parameters;
 
     return Helper::maskValue($variables);
   }
@@ -109,10 +111,11 @@ class Response {
         $variables["debug"] = $this->debug;
       }
 
-      $variables["parameters"] = Request::getInstance()->getParameters();
+      $parameters = Request::getInstance()->getParameters();
+      $variables["parameters"] = $parameters;
     }
 
-    return Helper::maskValue($variables);
+    return $variables;
   }
 
 }

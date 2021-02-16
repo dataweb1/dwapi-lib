@@ -46,7 +46,7 @@ class Item extends Endpoint {
   public function put() {
     if ($this->query) {
       $this->query->hash = $this->request->getParameters("path", "hash");
-      $this->query->values = $this->request->getParameters("formData", NULL, true, false, true);
+      $this->query->values = $this->request->getParameters("body", NULL, true, false, true);
 
       $this->request->processFiles($this->query->values);
 
@@ -75,7 +75,7 @@ class Item extends Endpoint {
   public function post()
   {
     if ($this->query) {
-      $this->query->values = $this->request->getParameters("formData", NULL, true, false, true);
+      $this->query->values = $this->request->getParameters("body", NULL, true, false, true);
       $this->request->processFiles($this->query->values);
 
       if ($this->query->create()) {
