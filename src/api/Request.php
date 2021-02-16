@@ -319,6 +319,7 @@ class Request
    * @return mixed
    */
   private function processFormDataParameters($body) {
+    //$body = "{ \"ok\":\"ok\", \"test\": \"test_def\", \"test1\": \"test1_def\", \"test2\": { \"test2_1\": \"string\", \"test2_2\": \"string\" } }";
     if (Helper::isJson($body)) {
       $parameters = json_decode($body, true);
     } else {
@@ -378,7 +379,6 @@ class Request
   public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $parameters_required = false) {
 
     if ($type != NULL) {
-      //if (!isset($this->parameters[$type])) {
       if ($type == "query" && $_REQUEST) {
         $this->parameters["query"] = $this->processParameters($_REQUEST);
       }
@@ -393,7 +393,6 @@ class Request
           $body = $GLOBALS["_PUT"];
           $this->parameters["body"] = $this->processFormDataParameters($body);
         }
-
       }
       if ($type == "files" && $_FILES) {
         $this->parameters["files"] = $_FILES;
@@ -403,7 +402,7 @@ class Request
         $this->parameters["path"] = $this->processPathParameters();
       }
     }
-    //}
+
 
     if ($array_expected) {
       if ($key == NULL) {
@@ -576,15 +575,11 @@ class Request
       $key_elements = explode("_", $key);
       if ($key_elements[0] == $type) {
         if ($this->getParameters($type)) {
-          /*
-          echo "<pre>++";
-          print_r($this->getParameters());
-          echo "++</pre>";
-          */
           $value = $this->getParameters($type)[$key_elements[1]];
         }
         if (!isset($value) || $value == "") {
-          $this->setParameter($key_elements[0], $key_elements[1], $ref_parameter["default"]);
+          //echo "**".$type."**".$key_elements[1]."<br>";
+          //$this->setParameter($type, $key_elements[1], $ref_parameter["default"]);
         }
       }
     }
