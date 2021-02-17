@@ -20,9 +20,21 @@ class Reference {
    */
   public function __construct()
   {
-    if (!$this->reference = Helper::readJson(dwApiLib::$settings->reference_path)) {
-      throw new DwapiException('OpenAPI reference not found.', DwapiException::DW_PROJECT_NOT_FOUND);
+    $reference_path = dwApiLib::$settings->reference_path;
+    $info = pathinfo($reference_path);
+    if ($info["extension"] == "json") {
+      if ($this->reference = Helper::readJson($reference_path)) {
+        return true;
+      }
     }
+
+    if ($info["extension"] == "yaml") {
+      if ($this->reference = Helper::readYaml($reference_path)) {
+        return true;
+      }
+    }
+
+    throw new DwapiException('OpenAPI reference not found.', DwapiException::DW_PROJECT_NOT_FOUND);
   }
 
 

@@ -572,14 +572,14 @@ class Request
    */
   public function referenceDefaultValues($type) {
     foreach ($this->path_definition->getParameters() as $key => $ref_parameter) {
-      $key_elements = explode("_", $key);
-      if ($key_elements[0] == $type) {
-        if ($this->getParameters($type)) {
-          $value = $this->getParameters($type)[$key_elements[1]];
+      list($key_type, $key_parameter) = $this->path_definition->breakParameterKeyIntoElements($key);
+      if ($key_type == $type) {
+        if ($this->getParameters($key_type)) {
+          $value = $this->getParameters($key_type)[$key_parameter];
         }
         if (!isset($value) || $value == "") {
           //echo "**".$type."**".$key_elements[1]."<br>";
-          //$this->setParameter($type, $key_elements[1], $ref_parameter["default"]);
+          $this->setParameter($type, $key_elements[1], $ref_parameter["default"]);
         }
       }
     }
@@ -593,10 +593,10 @@ class Request
    */
   public function referenceRequiredValues($type) {
     foreach ($this->path_definition->getRequiredParameters() as $key => $ref_parameter) {
-      $key_elements = explode("_", $key);
-      if ($key_elements[0] == $type) {
-        if ($this->getParameters($type)[$key_elements[1]] == "") {
-          throw new DwapiException(ucfirst($key_elements[1]) . " is required.", DwapiException::DW_VALUE_REQUIRED);
+      list($key_type, $key_parameter) = $this->path_definition->breakParameterKeyIntoElements($key);
+      if ($key_type == $type) {
+        if ($this->getParameters($key_type)[$key_parameter] == "") {
+          throw new DwapiException(ucfirst($key_parameter) . " is required.", DwapiException::DW_VALUE_REQUIRED);
         }
       }
 
@@ -617,4 +617,5 @@ class Request
 
     return self::$instance;
   }
+
 }

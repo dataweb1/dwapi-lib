@@ -201,4 +201,26 @@ class PathDefinition {
     return self::$instance;
   }
 
+  /**
+   * breakParameterKeyIntoElements.
+   * @param $key
+   * @return array
+   */
+  public function breakParameterKeyIntoElements($key) {
+    $key_elements = explode("_", $key);
+    $key_type = $key_elements[0];
+    $key_parameter = "";
+    foreach($key_elements as $i => $key_element) {
+      if ($i > 0) {
+        if ($i == 1) {
+          $key_parameter .= $key_element;
+        } else {
+          $key_parameter .= "_" . $key_element;
+        }
+      }
+    }
+
+    return array($key_type, $key_parameter);
+  }
+
 }
