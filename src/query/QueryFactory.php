@@ -19,7 +19,7 @@ class QueryFactory {
   public static function create($entity_type = "", $logged_in_user = NULL) {
     $to_check_classes = [];
     if ($entity_type != "") {
-      $to_check_classes[] = "dwApiLib\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type);
+      $to_check_classes[] = "dwApiLib\\query\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "_", $entity_type));
     }
     $to_check_classes[] = "dwApiLib\\query\\".Project::getInstance()->type."\\Item";
 
@@ -27,7 +27,7 @@ class QueryFactory {
     $api_ns = substr($api_class, 0, strrpos($api_class, '\\'));
     if ($api_ns != "dwApiLib") {
       if ($entity_type != "") {
-        array_unshift($to_check_classes, $api_ns."\\query\\".Project::getInstance()->type."\\".ucfirst($entity_type));
+        array_unshift($to_check_classes, $api_ns."\\query\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "_", $entity_type)));
       }
       array_unshift($to_check_classes, $api_ns."\\query\\".Project::getInstance()->type."\\Item");
     }
