@@ -35,6 +35,9 @@ class Item extends BaseItem implements ItemInterface {
     $this->storage = Drp::load();
     $this->storage->setPostValue("api_host", $_SERVER["HTTP_HOST"]);
     $this->storage->setPostValue("project", $this->request->project);
+    if ($entity == "user") {
+      $entity = "user-user";
+    }
     $this->storage->setPostValue("entity", $entity);
   }
 

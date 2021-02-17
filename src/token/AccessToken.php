@@ -61,7 +61,8 @@ class AccessToken {
 
     if ($this->validate_token($data)) {
       if ($this->token_user == NULL) {
-        if ($this->token_user = $this->loadUser($data["user_id"])) {
+        $this->token_user = $this->loadUser($data["user_id"]);
+        if ($this->token_user) {
           $this->valid = true;
           $this->data = $data;
           $this->token = $token;
@@ -110,34 +111,36 @@ class AccessToken {
       $to_check_data = $this->data;
     }
 
-    if ($_SERVER["REMOTE_ADDR"] == "172.20.0.1" || $_SERVER["REMOTE_HOST"] == "dwapi.dev") {
-      $this->valid = true;
+    $this->valid = true;
+
+
+    if ($to_check_data["restrict_host"] != "") {
+      if (strpos($to_check_data["restrict_host"], $_SERVER["REMOTE_HOST"]) === false) {
+        $this->valid = false;
+      }
     }
-    else {
-      if ($to_check_data["restrict_host"] != "") {
-        if (strpos($to_check_data["restrict_host"], $_SERVER["REMOTE_HOST"]) !== false) {
-          $this->valid = true;
-        }
-      }
 
-      if ($to_check_data["restrict_ip"] != "") {
-        if (strpos($to_check_data["restrict_ip"], $_SERVER["REMOTE_ADDR"]) !== false) {
-          $this->valid = true;
-        }
+    if ($to_check_data["restrict_ip"] != "") {
+      if (strpos($to_check_data["restrict_ip"], $_SERVER["REMOTE_ADDR"]) === false) {
+        $this->valid = false;
       }
+    }
 
+    if ($to_check_data["project"] != "") {
       if ($to_check_data["project"] != $this->project) {
         $this->valid = false;
       }
+    }
 
+    if ($_SERVER["REMOTE_ADDR"] == "172.20.0.1" || $_SERVER["REMOTE_HOST"] == "dwapi.dev") {
+      $this->valid = true;
+    }
 
-      if (!$this->valid) {
-        $this->reset();
-      }
+    if (!$this->valid) {
+      $this->reset();
     }
 
     return $this->valid;
-
   }
 
   /**

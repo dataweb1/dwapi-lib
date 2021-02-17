@@ -114,6 +114,7 @@ class User extends Item implements UserInterface {
   /**
    * reset_password_link.
    * @return mixed
+   * @throws DwapiException
    */
   public function reset_password_link()
   {
