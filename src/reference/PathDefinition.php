@@ -137,8 +137,11 @@ class PathDefinition {
    * @return bool
    */
   public function isParameterRequired($parameter) {
-    if (array_key_exists($parameter, $this->getRequiredParameters())) {
-      return true;
+    $parameters = $this->getRequiredParameters();
+    foreach($parameters as $key => $p) {
+      if (strtolower($key) == strtolower($parameter)) {
+        return true;
+      }
     }
     return false;
   }
