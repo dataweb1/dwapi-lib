@@ -78,7 +78,9 @@ class Response {
         "error_code" => $this->error->getCode(),
         "message" => $this->error->getMessage());
     }
-    $variables["result"] = $this->result;
+    if (!is_null($this->result)) {
+      $variables["result"] = $this->result;
+    }
     $variables["settings"] = Project::getInstance()->site;
     $variables["settings"]["api_path"] = dwApiLib::$settings->api_path;
 
@@ -99,6 +101,7 @@ class Response {
     if ($this->error != NULL) {
       $variables["status"] = array(
         "success" => false,
+        "response_code" => $this->http_response_code,
         "error_code" => $this->error->getCode(),
         "message" => $this->error->getMessage());
     }
@@ -106,7 +109,9 @@ class Response {
       $variables["status"] = array(
         "success" => true);
 
-      $variables["result"] = $this->result;
+      if (!is_null($this->result)) {
+        $variables["result"] = $this->result;
+      }
       if (Request::getInstance()->debug == true) {
         $variables["debug"] = $this->debug;
 
