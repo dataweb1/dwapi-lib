@@ -299,10 +299,11 @@ class Request
    * @param $items
    * @return array
    */
-  private function processParameters($items) {
+  private function processQueryParameters($items) {
     $parameters = [];
     if (is_array($items)) {
       foreach ($items as $key => $item) {
+        $item = addslashes(strip_tags(htmlspecialchars($item)));
         if (Helper::isJson($item)) {
           $parameters[$key] = json_decode($item, true);
         } else {
@@ -380,7 +381,7 @@ class Request
 
     if ($type != NULL) {
       if ($type == "query" && $_REQUEST) {
-        $this->parameters["query"] = $this->processParameters($_REQUEST);
+        $this->parameters["query"] = $this->processQueryParameters($_REQUEST);
       }
       if ($type == "formData" || $type == "body") {
         if ($this->method == "post" || $this->method == "delete" || $this->method == "get") {
