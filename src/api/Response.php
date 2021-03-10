@@ -109,10 +109,10 @@ class Response {
       $variables["result"] = $this->result;
       if (Request::getInstance()->debug == true) {
         $variables["debug"] = $this->debug;
-      }
 
-      $parameters = Request::getInstance()->getParameters();
-      $variables["parameters"] = $parameters;
+        $parameters = Request::getInstance()->getParameters();
+        $variables["parameters"] = $parameters;
+      }
     }
 
     return $variables;
