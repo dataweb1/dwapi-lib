@@ -26,7 +26,11 @@ class User extends Item implements UserInterface {
     $this->storage->setPostValue("password", $this->password);
     $this->result = $this->storage->execute("UserQuery", "login");
 
-    return $this->result;
+    if (intval($this->result["id"]) > 0) {
+      return true;
+    }
+
+    return false;
   }
 
 
@@ -50,7 +54,11 @@ class User extends Item implements UserInterface {
     $this->storage->setPostValue("id", $this->id);
     $this->result = $this->storage->execute("UserQuery", "login_by_id");
 
-    return $this->result;
+    if (intval($this->result["id"]) > 0) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -61,7 +69,11 @@ class User extends Item implements UserInterface {
     $this->storage->setPostValue("id", $this->id);
     $this->result = $this->storage->execute("UserQuery", "login_by_access_token");
 
-    return $this->result;
+    if (intval($this->result["id"]) > 0) {
+      return true;
+    }
+
+    return false;
   }
 
   /**

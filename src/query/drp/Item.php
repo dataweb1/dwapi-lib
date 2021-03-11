@@ -81,7 +81,7 @@ class Item extends BaseItem implements ItemInterface {
    */
   public function create()
   {
-    $this->values["uid"] = $this->logged_in_user["id"];
+    $this->values["uid"] = $this->logged_in_user->id;
     $this->storage->setPostValue("values", $this->values);
     $this->result = $this->storage->execute("Query", "create");
 

@@ -136,7 +136,7 @@ class JwtToken
     $token_user->id = $user_id;
 
     if ($token_user->login_by_id()) {
-      return $token_user->getResult("item");
+      return $token_user;
     }
     else {
       return false;

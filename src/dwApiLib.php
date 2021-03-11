@@ -91,9 +91,7 @@ class dwApiLib
 
         $this->current_token = TokenFactory::create($this->request->token_type, $this->request->token);
         if ($this->current_token->valid) {
-          $this->logged_in_user = array(
-            "id" => $this->current_token->data["user_id"],
-            "item" => $this->current_token->token_user);
+          $this->logged_in_user = $this->current_token->token_user;
         }
 
         if ($this->request->isTokenRequired()) {

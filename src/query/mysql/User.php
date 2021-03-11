@@ -50,7 +50,7 @@ class User extends Item implements UserInterface {
    */
   public function logout() {
     $this->values = ["force_login" => 1];
-    $this->filter = [["user_id", "=", $this->logged_in_user["id"]]];
+    $this->filter = [["user_id", "=", $this->logged_in_user->id]];
     $this->update();
 
     return true;

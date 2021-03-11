@@ -66,7 +66,7 @@ class Item extends BaseItem implements ItemInterface {
     if ($fetched_item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
       $this->result["id"] = $this->id;
-      $this->result["item"] = $this->processFetchedItem($fetched_item, $this->entity_type->entity);;
+      $this->result["item"] = $this->processFetchedItem($fetched_item, $this->entity_type->entity);
       $this->result["assets_path"] = "//" . $_SERVER["HTTP_HOST"] . "/files/" . $this->request->project . "/" . $this->entity_type->entity;
 
       $this->debug["query"] = $sqlQuery;
@@ -154,10 +154,9 @@ class Item extends BaseItem implements ItemInterface {
         $this->id = $this->storage->lastInsertId();
         $this->single_read();
         return true;
-      } else {
-        return false;
       }
     }
+    return false;
   }
 
 
@@ -203,11 +202,10 @@ class Item extends BaseItem implements ItemInterface {
         $this->result["affected_items"] = $stmt->rowCount();
 
         return true;
-      } else {
-        return false;
-
       }
     }
+
+    return false;
   }
 
 
@@ -228,10 +226,9 @@ class Item extends BaseItem implements ItemInterface {
       $this->debug["query"] = $sqlQuery;
       $this->result["affected_items"] = $stmt->rowCount();
       return true;
-    } else {
-      return false;
     }
 
+    return false;
   }
 
 
@@ -511,8 +508,7 @@ class Item extends BaseItem implements ItemInterface {
    * @return bool
    * @throws DwapiException
    */
-  protected function checkRequiredValues($values)
-  {
+  protected function checkRequiredValues($values) {
     foreach ($values as $property_key => $value) {
       if ($this->getEntityType()->isPropertyRequired($property_key)) {
         if ((array_key_exists($property_key, $values) && $values[$property_key] == "") ||
