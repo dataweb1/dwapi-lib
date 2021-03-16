@@ -1,12 +1,12 @@
 <?php
-namespace dwApiLib\query\drp8;
-use dwApiLib\query\drp\User as drpUserQuery;
+namespace dwApiLib\item\drp8;
+use dwApiLib\item\drp\User as drpUser;
 
 /**
  * Class User
- * @package dwApiLib\query\drp8
+ * @package dwApiLib\item\drp8
  */
-class User extends drpUserQuery {
+class User extends drpUser {
 
 
 }

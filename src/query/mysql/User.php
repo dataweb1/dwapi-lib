@@ -1,13 +1,13 @@
 <?php
-namespace dwApiLib\query\mysql;
+namespace dwApiLib\item\mysql;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\UserInterface;
+use dwApiLib\item\UserInterface;
 use dwApiLib\token\AccessToken;
 
 /**
  * Class User
- * @package dwApiLib\query\mysql
+ * @package dwApiLib\item\mysql
  */
 class User extends Item implements UserInterface {
 

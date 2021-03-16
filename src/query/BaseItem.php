@@ -1,12 +1,12 @@
 <?php
-namespace dwApiLib\query;
+namespace dwApiLib\item;
 
 use dwApiLib\api\Request;
-use dwApiLib\query\mysql\EntityType;
+use dwApiLib\item\mysql\EntityType;
 
 /**
  * Class BaseItem
- * @package dwApiLib\query
+ * @package dwApiLib\item
  */
 abstract class BaseItem implements BaseItemInterface
 {
@@ -23,7 +23,7 @@ abstract class BaseItem implements BaseItemInterface
 
 
   /**
-   * BaseQuery constructor.
+   * BaseItem constructor.
    * @param null $logged_in_user
    */
   public function __construct($logged_in_user = NULL) {
@@ -67,7 +67,7 @@ abstract class BaseItem implements BaseItemInterface
 
   /**
    * Get EntityType object.
-   * @return \dwApiLib\query\mysql\EntityType
+   * @return \dwApiLib\item\mysql\EntityType
    */
   public function getEntityType() {
     return $this->entity_type;

@@ -5,9 +5,9 @@ use dwApiLib\api\Request;
 use dwApiLib\api\Response;
 use dwApiLib\token\JwtToken;
 use dwApiLib\dwApiLib;
-use dwApiLib\query\QueryFactory;
-use dwApiLib\query\ItemInterface;
-use dwApiLib\query\UserInterface;
+use dwApiLib\item\ItemFactory;
+use dwApiLib\item\ItemInterface;
+use dwApiLib\item\UserInterface;
 
 
 /**
@@ -39,7 +39,7 @@ abstract class Endpoint
   /**
    * @var ItemInterface|UserInterface;
    */
-  public $query;
+  public $item;
 
   /**
    * @var int
@@ -73,10 +73,10 @@ abstract class Endpoint
     $this->logged_in_user = dwApiLib::getInstance()->getLoggedInUser();
 
     /**
-     * create Query instance according to the endpoint parameter in the Request
+     * create Item instance according to the endpoint parameter in the Request
      */
     if ($this->request->entity != "") {
-      $this->query = QueryFactory::create($this->request->entity, $this->logged_in_user);
+      $this->query = ItemFactory::create($this->request->entity, $this->logged_in_user);
     }
   }
 

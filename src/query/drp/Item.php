@@ -1,15 +1,15 @@
 <?php
-namespace dwApiLib\query\drp;
+namespace dwApiLib\item\drp;
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\BaseItem;
-use dwApiLib\query\ItemInterface;
+use dwApiLib\item\BaseItem;
+use dwApiLib\item\ItemInterface;
 use dwApiLib\storage\Drp;
 
 
 
 /**
  * Class Item
- * @package dwApiLib\query\drp
+ * @package dwApiLib\item\drp
  */
 class Item extends BaseItem implements ItemInterface {
 
@@ -51,7 +51,7 @@ class Item extends BaseItem implements ItemInterface {
     $this->storage->setPostValue("id", $this->id);
     $this->storage->setPostValue("relation", $this->relation);
     $this->storage->setPostValue("property", $this->property);
-    $this->result = $this->storage->execute("Query", "single_read");
+    $this->result = $this->storage->execute("Item", "single_read");
 
     return true;
   }
@@ -68,7 +68,7 @@ class Item extends BaseItem implements ItemInterface {
     $this->storage->setPostValue("paging", $this->paging);
     $this->storage->setPostValue("relation", $this->relation);
     $this->storage->setPostValue("property", $this->property);
-    $this->result = $this->storage->execute("Query", "read");
+    $this->result = $this->storage->execute("Item", "read");
 
     return true;
   }
@@ -83,7 +83,7 @@ class Item extends BaseItem implements ItemInterface {
   {
     $this->values["uid"] = $this->logged_in_user->id;
     $this->storage->setPostValue("values", $this->values);
-    $this->result = $this->storage->execute("Query", "create");
+    $this->result = $this->storage->execute("Item", "create");
 
     return true;
   }
@@ -111,7 +111,7 @@ class Item extends BaseItem implements ItemInterface {
   public function update() {
     $this->storage->setPostValue("filter", $this->filter);
     $this->storage->setPostValue("values", $this->values);
-    $this->result = $this->storage->execute("Query", "update");
+    $this->result = $this->storage->execute("Item", "update");
 
     return true;
   }
@@ -139,7 +139,7 @@ class Item extends BaseItem implements ItemInterface {
   public function delete()
   {
     $this->storage->setPostValue("filter", $this->filter);
-    $this->result = $this->storage->execute("Query", "delete");
+    $this->result = $this->storage->execute("Item", "delete");
 
     return true;
   }

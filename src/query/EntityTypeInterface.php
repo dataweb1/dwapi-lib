@@ -1,9 +1,9 @@
 <?php
-namespace dwApiLib\query;
+namespace dwApiLib\item;
 
 /**
  * Interface EntityTypeInterface
- * @package dwApiLib\query
+ * @package dwApiLib\item
  */
 interface EntityTypeInterface {
   /**

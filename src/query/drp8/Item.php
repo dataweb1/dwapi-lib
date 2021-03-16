@@ -1,11 +1,11 @@
 <?php
-namespace dwApiLib\query\drp8;
-use dwApiLib\query\drp\Item as drpQuery;
+namespace dwApiLib\item\drp8;
+use dwApiLib\item\drp\Item as drpItem;
 
 /**
  * Class Item
- * @package dwApiLib\query\drp8
+ * @package dwApiLib\item\drp8
  */
-class Item extends drpQuery {
+class Item extends drpItem {
   
 }

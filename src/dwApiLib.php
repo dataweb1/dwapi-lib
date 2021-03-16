@@ -6,7 +6,7 @@ use dwApiLib\api\Project;
 use dwApiLib\api\Request;
 use dwApiLib\token\JwtToken;
 use dwApiLib\endpoint\Endpoint;
-use dwApiLib\query\QueryFactory;
+use dwApiLib\item\ItemFactory;
 use dwApiLib\endpoint\EndpointFactory;
 use dwApiLib\api\Response;
 use dwApiLib\token\TokenFactory;

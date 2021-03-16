@@ -1,5 +1,5 @@
 <?php
-namespace dwApiLib\query;
+namespace dwApiLib\item;
 
 /**
  * Interface ItemInterface

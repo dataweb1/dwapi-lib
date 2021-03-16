@@ -1,8 +1,8 @@
 <?php
-namespace dwApiLib\query;
+namespace dwApiLib\item;
 
-use dwApiLib\query\mysql\EntityType as MysqlEntityType;
-use dwApiLib\query\drp7\EntityType as Drp7EntityType;
+use dwApiLib\item\mysql\EntityType as MysqlEntityType;
+use dwApiLib\item\drp7\EntityType as Drp7EntityType;
 
 /**
  * Interface UserInterface

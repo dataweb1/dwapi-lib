@@ -1,12 +1,12 @@
 <?php
-namespace dwApiLib\query\drp;
+namespace dwApiLib\item\drp;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\UserInterface;
+use dwApiLib\item\UserInterface;
 
 /**
  * Class User
- * @package dwApiLib\query\drp
+ * @package dwApiLib\item\drp
  */
 class User extends Item implements UserInterface {
 
@@ -24,7 +24,7 @@ class User extends Item implements UserInterface {
   public function login() {
     $this->storage->setPostValue("email", $this->email);
     $this->storage->setPostValue("password", $this->password);
-    $this->result = $this->storage->execute("UserQuery", "login");
+    $this->result = $this->storage->execute("User", "login");
 
     if (intval($this->result["id"]) > 0) {
       return true;
@@ -52,7 +52,7 @@ class User extends Item implements UserInterface {
   public function login_by_id()
   {
     $this->storage->setPostValue("id", $this->id);
-    $this->result = $this->storage->execute("UserQuery", "login_by_id");
+    $this->result = $this->storage->execute("User", "login_by_id");
 
     if (intval($this->result["id"]) > 0) {
       return true;
@@ -67,7 +67,7 @@ class User extends Item implements UserInterface {
    */
   public function login_by_access_token() {
     $this->storage->setPostValue("id", $this->id);
-    $this->result = $this->storage->execute("UserQuery", "login_by_access_token");
+    $this->result = $this->storage->execute("User", "login_by_access_token");
 
     if (intval($this->result["id"]) > 0) {
       return true;

@@ -1,13 +1,13 @@
 <?php
-namespace dwApiLib\query\mysql;
+namespace dwApiLib\item\mysql;
 use dwApiLib\api\DwapiException;
-use dwApiLib\query\EntityTypeInterface;
+use dwApiLib\item\EntityTypeInterface;
 use dwApiLib\storage\Mysql;
 
 
 /**
  * Class EntityType
- * @package dwApiLib\query\mysql
+ * @package dwApiLib\item\mysql
  */
 class EntityType implements EntityTypeInterface {
   public $entity;
