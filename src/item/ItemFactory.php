@@ -26,10 +26,10 @@ class ItemFactory {
     $api_class = get_class(DwApiLib::getInstance());
     $api_ns = substr($api_class, 0, strrpos($api_class, '\\'));
     if ($api_ns != "dwApiLib") {
+      array_unshift($to_check_classes, $api_ns."\\item\\".Project::getInstance()->type."\\Item");
       if ($entity_type != "") {
         array_unshift($to_check_classes, $api_ns."\\item\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "_", $entity_type)));
       }
-      array_unshift($to_check_classes, $api_ns."\\item\\".Project::getInstance()->type."\\Item");
     }
 
     foreach ($to_check_classes as $class) {
