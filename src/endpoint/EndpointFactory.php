@@ -3,7 +3,7 @@ namespace dwApiLib\endpoint;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Request;
 use dwApiLib\api\JwtToken;
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 use dwApiLib\reference\Reference;
 
 
@@ -22,7 +22,7 @@ class EndpointFactory {
   public static function create($endpoint) {
     $to_check_classes = ["dwApiLib\\endpoint\\" . ucfirst($endpoint)];
 
-    $api_class = get_class(dwApiLib::getInstance());
+    $api_class = get_class(DwApiLib::getInstance());
     $api_ns = substr($api_class, 0, strrpos($api_class, '\\'));
     if ($api_ns != "dwApiLib") {
       array_unshift($to_check_classes, $api_ns."\\endpoint\\" . ucfirst($endpoint));

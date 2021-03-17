@@ -13,10 +13,10 @@ use dwApiLib\token\TokenFactory;
 
 
 /**
- * Class dwApi
- * @package dwApi
+ * Class DwApiLib
+ * @package DwApiLib
  */
-class dwApiLib
+class DwApiLib
 {
   /**
    * @var \stdClass|null
@@ -49,7 +49,7 @@ class dwApiLib
   private $allowed_paths = [];
 
   /**
-   * @var dwApiLib|null
+   * @var DwApiLib|null
    */
   private static $instance = null;
 
@@ -141,7 +141,7 @@ class dwApiLib
 
   /**
    * getInstance.
-   * @return dwApiLib|null
+   * @return DwApiLib|null
    */
   public static function getInstance() {
     return self::$instance;

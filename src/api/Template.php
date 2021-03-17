@@ -1,6 +1,6 @@
 <?php
 namespace dwApiLib\api;
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use voku\helper\URLify;
@@ -41,7 +41,7 @@ class Template {
    * @throws \Twig\Error\SyntaxError
    */
   public static function renderTwigFile($template, $variables) {
-    $loader = new FilesystemLoader(dwApiLib::$settings->template_path);
+    $loader = new FilesystemLoader(DwApiLib::$settings->template_path);
     $twig = new Environment($loader,[
       'debug' => true]);
     $twig->addExtension(new \Twig\Extension\DebugExtension());
@@ -86,7 +86,7 @@ class Template {
   public static function pickTemplate($project, $element, $endpoint, $action, $entity) {
     $template_array = self::templateArray( $project, $element, $endpoint, $action, $entity);
     foreach($template_array as $template) {
-      if (file_exists(dwApiLib::$settings->template_path . "/" . $template . ".html.twig")) {
+      if (file_exists(DwApiLib::$settings->template_path . "/" . $template . ".html.twig")) {
         return $template;
       }
     }

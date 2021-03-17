@@ -2,7 +2,7 @@
 namespace dwApiLib\item;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Project;
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 
 /**
  * Class ItemFactory
@@ -23,7 +23,7 @@ class ItemFactory {
     }
     $to_check_classes[] = "dwApiLib\\item\\".Project::getInstance()->type."\\Item";
 
-    $api_class = get_class(dwApiLib::getInstance());
+    $api_class = get_class(DwApiLib::getInstance());
     $api_ns = substr($api_class, 0, strrpos($api_class, '\\'));
     if ($api_ns != "dwApiLib") {
       if ($entity_type != "") {

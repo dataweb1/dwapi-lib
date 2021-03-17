@@ -4,7 +4,7 @@ use dwApiLib\api\DwapiException;
 use dwApiLib\api\Request;
 use dwApiLib\api\Response;
 use dwApiLib\token\JwtToken;
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 use dwApiLib\item\ItemFactory;
 use dwApiLib\item\ItemInterface;
 use dwApiLib\item\UserInterface;
@@ -69,8 +69,8 @@ abstract class Endpoint
   public function __construct() {
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
-    $this->current_token = dwApiLib::getInstance()->getCurrentToken();
-    $this->logged_in_user = dwApiLib::getInstance()->getLoggedInUser();
+    $this->current_token = DwApiLib::getInstance()->getCurrentToken();
+    $this->logged_in_user = DwApiLib::getInstance()->getLoggedInUser();
 
     /**
      * create Item instance according to the endpoint parameter in the Request

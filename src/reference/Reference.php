@@ -2,7 +2,7 @@
 namespace dwApiLib\reference;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 use dwApiLib\api\Helper;
 
 /**
@@ -20,7 +20,7 @@ class Reference {
    */
   public function __construct()
   {
-    $reference_path = dwApiLib::$settings->reference_path;
+    $reference_path = DwApiLib::$settings->reference_path;
     $info = pathinfo($reference_path);
     if ($info["extension"] == "json") {
       if ($this->reference = Helper::readJson($reference_path)) {

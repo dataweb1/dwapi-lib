@@ -1,6 +1,6 @@
 <?php
 namespace dwApiLib\output;
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 use dwApiLib\api\Request;
 use dwApiLib\api\Response;
 use dwApiLib\api\Template;

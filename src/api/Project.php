@@ -2,7 +2,7 @@
 namespace dwApiLib\api;
 
 
-use dwApiLib\dwApiLib;
+use dwApiLib\DwApiLib;
 use dwApiLib\item\drp\User;
 
 /**
@@ -36,8 +36,8 @@ class Project {
 
   public function initProject() {
     $this->project = Request::getInstance()->project;
-    if (!is_null(dwApiLib::$settings->project)) {
-      $this->project = dwApiLib::$settings->project;
+    if (!is_null(DwApiLib::$settings->project)) {
+      $this->project = DwApiLib::$settings->project;
     }
 
     if ($this->project == "") {
