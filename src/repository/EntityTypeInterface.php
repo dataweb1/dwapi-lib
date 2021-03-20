@@ -1,9 +1,9 @@
 <?php
-namespace dwApiLib\item;
+namespace dwApiLib\repository;
 
 /**
  * Interface EntityTypeInterface
- * @package dwApiLib\item
+ * @package dwApiLib\repository
  */
 interface EntityTypeInterface {
   /**

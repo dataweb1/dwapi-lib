@@ -5,9 +5,9 @@ use dwApiLib\api\Request;
 use dwApiLib\api\Response;
 use dwApiLib\token\JwtToken;
 use dwApiLib\DwApiLib;
-use dwApiLib\item\ItemFactory;
-use dwApiLib\item\ItemInterface;
-use dwApiLib\item\UserInterface;
+use dwApiLib\repository\RepositoryFactory;
+use dwApiLib\repository\ItemInterface;
+use dwApiLib\repository\UserInterface;
 
 
 /**
@@ -39,7 +39,7 @@ abstract class Endpoint
   /**
    * @var ItemInterface|UserInterface;
    */
-  public $item;
+  public $repository;
 
   /**
    * @var int
@@ -76,7 +76,7 @@ abstract class Endpoint
      * create Item instance according to the endpoint parameter in the Request
      */
     if ($this->request->entity != "") {
-      $this->query = ItemFactory::create($this->request->entity, $this->logged_in_user);
+      $this->repository = RepositoryFactory::create($this->request->entity, $this->logged_in_user);
     }
   }
 

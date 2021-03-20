@@ -11,7 +11,7 @@ use dwApiLib\output\Redirect;
 class OutputFactory
 {
   /**
-   * Return a Output Repository instance based on $redirect parameter
+   * Return a Output instance based on $redirect parameter
    * @param $api
    * @return mixed
    */

@@ -1,13 +1,13 @@
 <?php
-namespace dwApiLib\item\mysql;
+namespace dwApiLib\repository\mysql;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\item\UserInterface;
+use dwApiLib\repository\UserInterface;
 use dwApiLib\token\AccessToken;
 
 /**
  * Class User
- * @package dwApiLib\item\mysql
+ * @package dwApiLib\repository\mysql
  */
 class User extends Item implements UserInterface {
 
@@ -209,7 +209,7 @@ class User extends Item implements UserInterface {
 
       if ($this->getResult("item_count") == 1) {
         $this->setResult("item", $this->getResult("items")[0]);
-        $this->id = $this->query->getResult("items")[0]["user_id"];
+        $this->id = $this->repository->getResult("items")[0]["user_id"];
         $this->values = array("active" => 0, "force_login" => 1);
 
         if ($this->single_update()) {

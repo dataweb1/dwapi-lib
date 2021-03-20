@@ -1,5 +1,5 @@
 <?php
-namespace dwApiLib\item;
+namespace dwApiLib\repository;
 
 /**
  * Interface ItemInterface

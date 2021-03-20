@@ -1,12 +1,12 @@
 <?php
-namespace dwApiLib\item\drp;
+namespace dwApiLib\repository\drp;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\item\UserInterface;
+use dwApiLib\repository\UserInterface;
 
 /**
  * Class User
- * @package dwApiLib\item\drp
+ * @package dwApiLib\repository\drp
  */
 class User extends Item implements UserInterface {
 

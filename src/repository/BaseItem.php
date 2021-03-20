@@ -1,12 +1,12 @@
 <?php
-namespace dwApiLib\item;
+namespace dwApiLib\repository;
 
 use dwApiLib\api\Request;
-use dwApiLib\item\mysql\EntityType;
+use dwApiLib\repository\mysql\EntityType;
 
 /**
  * Class BaseItem
- * @package dwApiLib\item
+ * @package dwApiLib\repository
  */
 abstract class BaseItem implements BaseItemInterface
 {
@@ -67,7 +67,7 @@ abstract class BaseItem implements BaseItemInterface
 
   /**
    * Get EntityType object.
-   * @return \dwApiLib\item\mysql\EntityType
+   * @return \dwApiLib\repository\mysql\EntityType
    */
   public function getEntityType() {
     return $this->entity_type;

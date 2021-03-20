@@ -1,17 +1,17 @@
 <?php
-namespace dwApiLib\item\mysql;
+namespace dwApiLib\repository\mysql;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Helper;
-use dwApiLib\item\BaseItem;
-use dwApiLib\item\ItemInterface;
-use dwApiLib\item\UserInterface;
+use dwApiLib\repository\BaseItem;
+use dwApiLib\repository\ItemInterface;
+use dwApiLib\repository\UserInterface;
 use dwApiLib\storage\Mysql;
 use Hashids\Hashids;
 
 
 /**
  * Class Item
- * @package dwApiLib\item\mysql
+ * @package dwApiLib\repository\mysql
  */
 class Item extends BaseItem implements ItemInterface {
 

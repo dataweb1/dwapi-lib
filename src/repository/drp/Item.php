@@ -1,15 +1,15 @@
 <?php
-namespace dwApiLib\item\drp;
+namespace dwApiLib\repository\drp;
 use dwApiLib\api\DwapiException;
-use dwApiLib\item\BaseItem;
-use dwApiLib\item\ItemInterface;
+use dwApiLib\repository\BaseItem;
+use dwApiLib\repository\ItemInterface;
 use dwApiLib\storage\Drp;
 
 
 
 /**
  * Class Item
- * @package dwApiLib\item\drp
+ * @package dwApiLib\repository\drp
  */
 class Item extends BaseItem implements ItemInterface {
 

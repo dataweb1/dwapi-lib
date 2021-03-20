@@ -2,7 +2,7 @@
 namespace dwApiLib\token;
 
 use dwApiLib\api\DwapiException;
-use dwApiLib\item\ItemFactory;
+use dwApiLib\repository\RepositoryFactory;
 use Hashids\Hashids;
 
 /**
@@ -150,7 +150,7 @@ class AccessToken {
    * @throws \dwApiLib\api\DwapiException
    */
   private function loadUser($user_id) {
-    $token_user = ItemFactory::create("user");
+    $token_user = RepositoryFactory::create("user");
     $token_user->id = $user_id;
 
     if ($token_user->login_by_access_token()) {

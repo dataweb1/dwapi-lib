@@ -1,14 +1,14 @@
 <?php
-namespace dwApiLib\item;
+namespace dwApiLib\repository;
 use dwApiLib\api\DwapiException;
 use dwApiLib\api\Project;
 use dwApiLib\DwApiLib;
 
 /**
- * Class ItemFactory
- * @package dwApiLib\item
+ * Class RepositoryFactory
+ * @package dwApiLib\repository
  */
-class ItemFactory {
+class RepositoryFactory {
   /**
    * create.
    * @param string $entity_type
@@ -22,11 +22,11 @@ class ItemFactory {
 
     $to_check_classes = [];
     if ($entity_type != "") {
-      $to_check_classes[] = $api_ns."\\item\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "_", $entity_type));
-      $to_check_classes[] = "dwApiLib\\item\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "_", $entity_type));
+      $to_check_classes[] = $api_ns."\\repository\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "", ucfirst($entity_type)));
+      $to_check_classes[] = "dwApiLib\\repository\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "", ucfirst($entity_type)));
     }
-    $to_check_classes[] = $api_ns."\\item\\".Project::getInstance()->type."\\Item";
-    $to_check_classes[] = "dwApiLib\\item\\".Project::getInstance()->type."\\Item";
+    $to_check_classes[] = $api_ns."\\repository\\".Project::getInstance()->type."\\Item";
+    $to_check_classes[] = "dwApiLib\\repository\\".Project::getInstance()->type."\\Item";
 
     foreach ($to_check_classes as $class) {
       if (class_exists($class)) {

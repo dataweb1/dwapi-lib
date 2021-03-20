@@ -14,28 +14,28 @@ class Item extends Endpoint {
    * @throws DwapiException
    */
   public function get() {
-    if ($this->query) {
-      $this->query->property = $this->request->getParameters("query", "property", true, true, false);
-      $this->query->relation = $this->request->getParameters("query", "relation", true, true, false);
-      $this->query->hash = $this->request->getParameters("path", "hash");
-      if (!is_null($this->query->hash)) {
-        $this->query->id = Helper::getIdFromHash($this->query->hash);
+    if ($this->repository) {
+      $this->repository->property = $this->request->getParameters("query", "property", true, true, false);
+      $this->repository->relation = $this->request->getParameters("query", "relation", true, true, false);
+      $this->repository->hash = $this->request->getParameters("path", "hash");
+      if (!is_null($this->repository->hash)) {
+        $this->repository->id = Helper::getIdFromHash($this->repository->hash);
 
-        $this->query->single_read();
+        $this->repository->single_read();
       } else {
-        $this->query->filter = $this->request->getParameters("query", "filter", true, true, false);
-        $this->query->paging = $this->request->getParameters("query", "paging", false, false, false);
-        $this->query->sort = $this->request->getParameters("query", "sort", true, true, false);
+        $this->repository->filter = $this->request->getParameters("query", "filter", true, true, false);
+        $this->repository->paging = $this->request->getParameters("query", "paging", false, false, false);
+        $this->repository->sort = $this->request->getParameters("query", "sort", true, true, false);
 
-        $this->query->read();
+        $this->repository->read();
       }
 
-      $this->result = $this->query->getResult();
+      $this->result = $this->repository->getResult();
       if ($this->current_token && $this->current_token->token_type == "jwt") {
         $this->result["extended_token"] = $this->current_token->extend_token();
       }
 
-      $this->debug = $this->query->getDebug();
+      $this->debug = $this->repository->getDebug();
     }
   }
 
@@ -44,27 +44,27 @@ class Item extends Endpoint {
    * @throws DwapiException
    */
   public function put() {
-    if ($this->query) {
-      $this->query->hash = $this->request->getParameters("path", "hash");
-      $this->query->values = $this->request->getParameters("body", NULL, true, false, true);
+    if ($this->repository) {
+      $this->repository->hash = $this->request->getParameters("path", "hash");
+      $this->repository->values = $this->request->getParameters("body", NULL, true, false, true);
 
-      $this->request->processFiles($this->query->values);
+      $this->request->processFiles($this->repository->values);
 
-      if (!is_null($this->query->hash)) {
-        $this->query->id = Helper::getIdFromHash($this->query->hash);
-        $this->query->single_update();
+      if (!is_null($this->repository->hash)) {
+        $this->repository->id = Helper::getIdFromHash($this->repository->hash);
+        $this->repository->single_update();
 
       } else {
-        $this->query->filter = $this->request->getParameters("query", "filter", true, true, true);
-        $this->query->update();
+        $this->repository->filter = $this->request->getParameters("query", "filter", true, true, true);
+        $this->repository->update();
       }
 
-      $this->result = $this->query->getResult();
+      $this->result = $this->repository->getResult();
       if ($this->current_token && $this->current_token->token_type == "jwt") {
         $this->result["extended_token"] = $this->current_token->extend_token();
       }
 
-      $this->debug = $this->query->getDebug();
+      $this->debug = $this->repository->getDebug();
     }
   }
 
@@ -74,18 +74,18 @@ class Item extends Endpoint {
    */
   public function post()
   {
-    if ($this->query) {
-      $this->query->values = $this->request->getParameters("body", NULL, true, false, true);
-      $this->request->processFiles($this->query->values);
+    if ($this->repository) {
+      $this->repository->values = $this->request->getParameters("body", NULL, true, false, true);
+      $this->request->processFiles($this->repository->values);
 
-      if ($this->query->create()) {
+      if ($this->repository->create()) {
         $this->http_response_code = 201;
-        $this->result = $this->query->getResult();
+        $this->result = $this->repository->getResult();
         if ($this->current_token && $this->current_token->token_type == "jwt") {
           $this->result["extended_token"] = $this->current_token->extend_token();
         }
 
-        $this->debug = $this->query->getDebug();
+        $this->debug = $this->repository->getDebug();
         return;
       } else {
         $this->result = array("id" => NULL);
@@ -98,24 +98,24 @@ class Item extends Endpoint {
    * @throws DwapiException
    */
   public function delete() {
-    if ($this->query) {
-      $this->query->hash = $this->request->getParameters("path", "hash");
-      if (!is_null($this->query->hash)) {
-        $this->query->id = Helper::getIdFromHash($this->query->hash);
+    if ($this->repository) {
+      $this->repository->hash = $this->request->getParameters("path", "hash");
+      if (!is_null($this->repository->hash)) {
+        $this->repository->id = Helper::getIdFromHash($this->repository->hash);
 
-        $this->query->single_delete();
+        $this->repository->single_delete();
 
       } else {
-        $this->query->filter = $this->request->getParameters("formData", "filter", true, false, true);
-        $this->query->delete();
+        $this->repository->filter = $this->request->getParameters("formData", "filter", true, false, true);
+        $this->repository->delete();
       }
 
-      $this->result = $this->query->getResult();
+      $this->result = $this->repository->getResult();
       if ($this->current_token && $this->current_token->token_type == "jwt") {
         $this->result["extended_token"] = $this->current_token->extend_token();
       }
 
-      $this->debug = $this->query->getDebug();
+      $this->debug = $this->repository->getDebug();
     }
   }
 }
