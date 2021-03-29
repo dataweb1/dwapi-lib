@@ -22,8 +22,8 @@ class RepositoryFactory {
 
     $to_check_classes = [];
     if ($entity_type != "") {
-      $to_check_classes[] = $api_ns."\\repository\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "", ucfirst($entity_type)));
-      $to_check_classes[] = "dwApiLib\\repository\\".Project::getInstance()->type."\\".ucfirst(str_replace("-", "", ucfirst($entity_type)));
+      $to_check_classes[] = $api_ns."\\repository\\".Project::getInstance()->type."\\".str_replace('_', '', str_replace('-', '', ucwords($entity_type, '-_')));
+      $to_check_classes[] = "dwApiLib\\repository\\".Project::getInstance()->type."\\".str_replace('_', '', str_replace('-', '', ucwords($entity_type, '-_')));
     }
     $to_check_classes[] = $api_ns."\\repository\\".Project::getInstance()->type."\\Item";
     $to_check_classes[] = "dwApiLib\\repository\\".Project::getInstance()->type."\\Item";
