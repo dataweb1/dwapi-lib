@@ -303,7 +303,7 @@ class Request
     $parameters = [];
     if (is_array($items)) {
       foreach ($items as $key => $item) {
-        $item = addslashes(strip_tags(htmlspecialchars($item)));
+        //$item = addslashes(strip_tags(htmlspecialchars($item)));
         if (Helper::isJson($item)) {
           $parameters[$key] = json_decode($item, true);
         } else {

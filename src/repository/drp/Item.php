@@ -32,7 +32,7 @@ class Item extends BaseItem implements ItemInterface {
   public function __construct($entity = "", $logged_in_user = NULL) {
     parent::__construct($logged_in_user);
 
-    $this->storage = Drp::load();
+    $this->storage = new Drp();//Drp::load();
     $this->storage->setPostValue("api_host", $_SERVER["HTTP_HOST"]);
     $this->storage->setPostValue("project", $this->request->project);
     if ($entity == "user") {
