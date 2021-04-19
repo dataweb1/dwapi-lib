@@ -142,7 +142,7 @@ class User extends Endpoint {
 
   /**
    * Do login on $query based on $email and $password parameter.
-   * @throws ErrorException
+   * @throws DwapiException
    */
   public function login() {
     if ($this->repository) {
@@ -165,7 +165,7 @@ class User extends Endpoint {
         $this->result["token"] = $this->current_token->token;
       } else {
         $this->http_response_code = 400;
-        throw new ErrorException('Active user with this e-mail/password not found.', ErrorException::DW_USER_NOT_FOUND);
+        throw new DwapiException('Active user with this e-mail/password not found.', DwapiException::DW_USER_NOT_FOUND);
       }
 
       return;
@@ -186,7 +186,7 @@ class User extends Endpoint {
 
   /**
    * Activate link clicked.
-   * @throws ErrorException
+   * @throws DwapiException
    */
   public function activate_link() {
 
@@ -225,7 +225,7 @@ class User extends Endpoint {
    * Deactivate/logout user.
    * Prepare for sending reset password mail.
    * @return bool
-   * @throws ErrorException
+   * @throws DwapiException
    */
   public function reset_password() {
     $email = $this->request->getParameters("query", "email");
@@ -253,7 +253,7 @@ class User extends Endpoint {
         }
       }
       else {
-        throw new ErrorException('User not found.', ErrorException::DW_USER_NOT_FOUND);
+        throw new DwapiException('User not found.', DwapiException::DW_USER_NOT_FOUND);
       }
     }
   }
@@ -262,7 +262,7 @@ class User extends Endpoint {
   /**
    * Reset link clicked.
    * @return bool
-   * @throws ErrorException
+   * @throws DwapiException
    */
   public function reset_link() {
     // override redirect "enabled" to true if not given in parameter
@@ -282,11 +282,11 @@ class User extends Endpoint {
         }
       }
       else {
-        throw new ErrorException('User hash is invalid', ErrorException::DW_INVALID_HASH);
+        throw new DwapiException('User hash is invalid', DwapiException::DW_INVALID_HASH);
       }
     }
     else {
-      throw new ErrorException('Link invalid.', ErrorException::DW_INVALID_LINK);
+      throw new DwapiException('Link invalid.', DwapiException::DW_INVALID_LINK);
     }
   }
 
@@ -315,16 +315,16 @@ class User extends Endpoint {
           return true;
         }
         else {
-          throw new ErrorException('User with e-mail not found.', ErrorException::DW_USER_NOT_FOUND);
+          throw new DwapiException('User with e-mail not found.', DwapiException::DW_USER_NOT_FOUND);
         }
         //}
       }
       else {
-        throw new ErrorException('User hash is invalid.', ErrorException::DW_INVALID_HASH);
+        throw new DwapiException('User hash is invalid.', DwapiException::DW_INVALID_HASH);
       }
     }
     else {
-      throw new ErrorException('Link invalid.', ErrorException::DW_INVALID_LINK);
+      throw new DwapiException('Link invalid.', DwapiException::DW_INVALID_LINK);
     }
   }
 
@@ -351,7 +351,7 @@ class User extends Endpoint {
       }
       return;
     } else {
-      throw new ErrorException('User with this email already exists.', ErrorException::DW_USER_EXISTS);
+      throw new DwapiException('User with this email already exists.', DwapiException::DW_USER_EXISTS);
     }
     //}
   }
@@ -359,7 +359,7 @@ class User extends Endpoint {
   /**
    * Validate $current_token.
    * @return bool
-   * @throws ErrorException
+   * @throws DwapiException
    */
   public function validate_token() {
     if ($this->current_token->validate_token()) {
@@ -368,13 +368,13 @@ class User extends Endpoint {
     }
     else {
       $this->http_response_code = 401;
-      throw new ErrorException('Valid token is required.', ErrorException::DW_VALID_TOKEN_REQUIRED);
+      throw new DwapiException('Valid token is required.', DwapiException::DW_VALID_TOKEN_REQUIRED);
     }
   }
 
   /**
    * Extend $current_token.
-   * @throws ErrorException
+   * @throws DwapiException
    */
   public function extend_token() {
     if ($this->current_token->validate_token()) {
@@ -384,7 +384,7 @@ class User extends Endpoint {
       return;
     }
     $this->http_response_code = 401;
-    throw new ErrorException('Valid token is required.', ErrorException::DW_VALID_TOKEN_REQUIRED);
+    throw new DwapiException('Valid token is required.', DwapiException::DW_VALID_TOKEN_REQUIRED);
   }
 
 }
