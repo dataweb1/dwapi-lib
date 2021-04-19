@@ -18,10 +18,9 @@ class TokenFactory
    * @return AccessToken|JwtToken
    * @throws DwapiException
    */
-  public static function create($token_type, $token) {
+  public static function create($token_type, $token = NULL) {
     if ($token_type != "") {
       $item_class_name = "dwApiLib\\token\\" . ucfirst($token_type) . "Token";
-
       if (!class_exists($item_class_name)) {
         throw new DwapiException("Token type '" . $token_type . "' unknown.", DwapiException::DW_TOKEN_TYPE_UNKNOWN);
       } else {

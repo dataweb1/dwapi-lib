@@ -6,6 +6,7 @@ use dwApiLib\api\Request;
 use dwApiLib\api\Response;
 use dwApiLib\DwApiLib;
 use dwApiLib\repository\RepositoryFactory;
+use dwApiLib\token\TokenFactory;
 
 /**
  * Class User
@@ -145,25 +146,29 @@ class User extends Endpoint {
    */
   public function login() {
     if ($this->repository) {
-      $this->repository->email = $this->request->getParameters("post", "email");
-      $this->repository->password = $this->request->getParameters("post", "password");
+      $this->repository->email = $this->request->getParameters("body", "email");
+      $this->repository->password = $this->request->getParameters("body", "password");
 
-      if ($this->checkRequiredValues(array("email" => $this->repository->email, "password" => $this->repository->password))) {
-        if ($this->repository->login()) {
-          $id = $this->repository->getResult("items")[0][$this->repository->getEntityType()->getPrimaryKey()];
-          $this->current_token->create($id);
-          $this->logged_in_user = RepositoryFactory::create("user");
-          $this->logged_in_user->id = $id;
-          $this->logged_in_user->single_read();
 
-          $this->result = $this->logged_in_user->getResult();
-          $this->result["token"] = $this->current_token->token;
-        } else {
-          $this->http_response_code = 400;
-          throw new ErrorException('Active user with this e-mail/password not found.', ErrorException::DW_USER_NOT_FOUND);
+      if ($this->repository->login()) {
+        if (!$this->current_token) {
+          $this->current_token = TokenFactory::create("jwt");
         }
-        return;
+
+        $id = $this->repository->getResult("id");
+        $this->current_token->create($id);
+        $this->logged_in_user = RepositoryFactory::create("user");
+        $this->logged_in_user->id = $id;
+        $this->logged_in_user->single_read();
+
+        $this->result = $this->logged_in_user->getResult();
+        $this->result["token"] = $this->current_token->token;
+      } else {
+        $this->http_response_code = 400;
+        throw new ErrorException('Active user with this e-mail/password not found.', ErrorException::DW_USER_NOT_FOUND);
       }
+
+      return;
     }
   }
 
@@ -172,9 +177,9 @@ class User extends Endpoint {
    * Logout on $query based on $logged_in_user id.
    */
   public function logout() {
-    $success = $this->query->logout($this->api->logged_in_user->id);
+    $success = $this->repository->logout($this->logged_in_user->id);
     if ($success == true) {
-      $this->api->logged_in_user = NULL;
+      $this->logged_in_user = NULL;
     }
   }
 
@@ -190,27 +195,27 @@ class User extends Endpoint {
     }
 
     $hashids = new Hashids('dwApi', 50);
-    $this->query->id = $hashids->decode($this->request->hash)[0];
-    if (intval($this->query->id) > 0) {
-      if ($this->query->single_read()) {
-        if ($this->query->getResult("item")["active"] == 0) {
-          $this->query->values = array("active" => 1);
-          if ($this->query->single_update()) {
-            $this->response->result = $this->query->getResult();
-            $this->response->debug = $this->query->getDebug();
+    $this->repository->id = $hashids->decode($this->request->hash)[0];
+    if (intval($this->repository->id) > 0) {
+      if ($this->repository->single_read()) {
+        if ($this->repository->getResult("item")["active"] == 0) {
+          $this->repository->values = array("active" => 1);
+          if ($this->repository->single_update()) {
+            $this->result = $this->repository->getResult();
+            $this->debug = $this->repository->getDebug();
           }
         }
         else {
-          $this->response->http_response_code = 400;
+          $this->http_response_code = 400;
           throw new ErrorException('User is activate already.', ErrorException::DW_USER_ACTIVATED);
         }
       } else {
-        $this->response->http_response_code = 400;
+        $this->http_response_code = 400;
         throw new ErrorException('User not found.', ErrorException::DW_USER_NOT_FOUND);
       }
     }
     else {
-      $this->response->http_response_code = 400;
+      $this->http_response_code = 400;
       throw new ErrorException('User does not exist.', ErrorException::DW_USER_NOT_FOUND);
     }
   }
@@ -223,23 +228,22 @@ class User extends Endpoint {
    * @throws ErrorException
    */
   public function reset_password() {
-    $email = $this->request->getParameters("get", "email");
-    $this->query->filter = [["email", "=", $email]];
-    if ($this->query->read()) {
+    $email = $this->request->getParameters("query", "email");
+    $this->repository->filter = [["email", "=", $email]];
+    if ($this->repository->read()) {
 
-      if ($this->query->getResult("item_count") > 0) {
-        $this->query->setResult("item", $this->query->getResult("items")[0]);
-        $this->query->id = $this->query->getResult("items")[0]["user_id"];
-        $this->query->values = array("active" => 0, "force_login" => 1);
+      if ($this->repository->getResult("item_count") > 0) {
+        $this->repository->setResult("item", $this->repository->getResult("items")[0]);
+        $this->repository->id = $this->repository->getResult("items")[0]["user_id"];
+        $this->repository->values = array("active" => 0, "force_login" => 1);
 
-        if ($this->query->single_update()) {
+        if ($this->repository->single_update()) {
 
           $temp_token = new Token($this->request->project);
           $token = $temp_token->create(0, 1);
 
-          //$this->response->result = $this->query->getResult();
-          $this->response->result["hash"] = $this->query->getResult("items")[0]["user_id_hash"];
-          $this->response->result["temp_token"] = $token;
+          $this->result["hash"] = $this->repository->getResult("items")[0]["user_id_hash"];
+          $this->result["temp_token"] = $token;
 
           if (!isset($this->request->mail["enabled"])) {
             $this->request->mail["enabled"] = true;
@@ -266,14 +270,14 @@ class User extends Endpoint {
       $this->request->redirect["enabled"] = true;
     }
 
-    $token = $this->request->getParameters("get", "temp_token");
+    $token = $this->request->getParameters("query", "temp_token");
     $temp_token = new Token($this->request->project, $token);
     if ($temp_token->validate_token()) {
       $hashids = new Hashids('dwApi', 50);
-      $this->query->id = $hashids->decode($this->request->hash)[0];
-      if ($this->query->single_read()) {
-        $this->query->values = array("active" => 0, "force_login" => 1);
-        if ($this->query->single_update()) {
+      $this->repository->id = $hashids->decode($this->request->hash)[0];
+      if ($this->repository->single_read()) {
+        $this->repository->values = array("active" => 0, "force_login" => 1);
+        if ($this->repository->single_update()) {
           return true;
         }
       }
@@ -292,28 +296,28 @@ class User extends Endpoint {
    */
   public function confirm_password() {
 
-    $token = $this->request->getParameters("get", "temp_token");
+    $token = $this->request->getParameters("query", "temp_token");
     $temp_token = new Token($this->request->project, $token);
     if ($temp_token->validate_token()) {
       $hashids = new Hashids('dwApi', 50);
-      $this->query->id = $hashids->decode($this->request->hash)[0];
-      if ($this->query->single_read()) {
-        $email = $this->request->getParameters("get", "email");
-        $new_password = $this->request->getParameters("post", "new_password");
+      $this->repository->id = $hashids->decode($this->request->hash)[0];
+      if ($this->repository->single_read()) {
+        $email = $this->request->getParameters("query", "email");
+        $new_password = $this->request->getParameters("body", "new_password");
         $array_to_check = array(
           "email" => $email,
           "password" => $new_password);
 
-        if ($this->checkRequiredValues($array_to_check)) {
-          $this->query->values = array("email" => $email, "password" => $new_password, "active" => 1, "force_login" => 1);
-          if ($this->query->reset_password()) {
-            $this->response->result = $this->query->getResult();
-            return true;
-          }
-          else {
-            throw new ErrorException('User with e-mail not found.', ErrorException::DW_USER_NOT_FOUND);
-          }
+        //if ($this->checkRequiredValues($array_to_check)) {
+        $this->repository->values = array("email" => $email, "password" => $new_password, "active" => 1, "force_login" => 1);
+        if ($this->repository->reset_password()) {
+          $this->result = $this->repository->getResult();
+          return true;
         }
+        else {
+          throw new ErrorException('User with e-mail not found.', ErrorException::DW_USER_NOT_FOUND);
+        }
+        //}
       }
       else {
         throw new ErrorException('User hash is invalid.', ErrorException::DW_INVALID_HASH);
@@ -326,31 +330,30 @@ class User extends Endpoint {
 
 
   /**
-   * Register on $query based on $email, $password and custom parameters.
-   * Prepare for sending activation email.
-   * @throws ErrorException
+   * register.
+   * @throws DwapiException
    */
   public function register() {
-    $this->query->values = $this->request->getParameters("post", "values");
+    $this->repository->values = $this->request->getParameters("body", "values");
 
     $array_to_check = array(
-      "email" => $this->query->values["email"],
-      "password" => $this->query->values["password"]);
+      "email" => $this->repository->values["email"],
+      "password" => $this->repository->values["password"]);
 
-    if ($this->checkRequiredValues($array_to_check)) {
-      if ($this->query->register()) {
+    //if ($this->repository->checkRequiredValues($array_to_check)) {
+    if ($this->repository->register()) {
 
-        $this->response->result = $this->query->getResult();
-        $this->response->debug = $this->query->getDebug();
+      $this->result = $this->repository->getResult();
+      $this->debug = $this->repository->getDebug();
 
-        if (!isset($this->request->mail["enabled"])) {
-          $this->request->mail["enabled"] = true;
-        }
-        return;
-      } else {
-        throw new ErrorException('User with this email already exists.', ErrorException::DW_USER_EXISTS);
+      if (!isset($this->request->mail["enabled"])) {
+        $this->request->mail["enabled"] = true;
       }
+      return;
+    } else {
+      throw new ErrorException('User with this email already exists.', ErrorException::DW_USER_EXISTS);
     }
+    //}
   }
 
   /**
@@ -360,11 +363,11 @@ class User extends Endpoint {
    */
   public function validate_token() {
     if ($this->current_token->validate_token()) {
-      $this->response->result["token"] = $this->current_token->token;
+      $this->result["token"] = $this->current_token->token;
       return true;
     }
     else {
-      $this->response->http_response_code = 401;
+      $this->http_response_code = 401;
       throw new ErrorException('Valid token is required.', ErrorException::DW_VALID_TOKEN_REQUIRED);
     }
   }
@@ -377,10 +380,10 @@ class User extends Endpoint {
     if ($this->current_token->validate_token()) {
       $this->current_token->extend_token();
 
-      $this->response->result["token"] = $this->current_token->token;
+      $this->result["token"] = $this->current_token->token;
       return;
     }
-    $this->response->http_response_code = 401;
+    $this->http_response_code = 401;
     throw new ErrorException('Valid token is required.', ErrorException::DW_VALID_TOKEN_REQUIRED);
   }
 
