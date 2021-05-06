@@ -87,6 +87,10 @@ abstract class BaseItem implements BaseItemInterface
     }
   }
 
+  /**
+   * reset.
+   * @return mixed|void$
+   */
   public function reset() {
     $this->result = [];
     $this->entity_type = NULL;

@@ -36,4 +36,9 @@ interface BaseItemInterface {
    */
   public function getEntityType();
 
+  /**
+   * reset.
+   * @return mixed
+   */
+  public function reset();
 }
