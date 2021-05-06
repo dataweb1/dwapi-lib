@@ -45,7 +45,7 @@ class Template {
     $twig = new Environment($loader,[
       'debug' => true]);
     $twig->addExtension(new \Twig\Extension\DebugExtension());
-
+    
     return $twig->render(
       $template.".html.twig",
       $variables);

@@ -386,7 +386,7 @@ class Request
       if ($type == "formData" || $type == "body") {
         if ($this->method == "post" || $this->method == "delete" || $this->method == "get") {
           $body = file_get_contents('php://input');
-          $this->parameters["body"] = $this->processFormDataParameters($body);
+          $this->parameters[$type] = $this->processFormDataParameters($body);
         }
         if ($this->method == "put") {
           $this->_parsePut();//_parsePut
@@ -403,7 +403,6 @@ class Request
         $this->parameters["path"] = $this->processPathParameters();
       }
     }
-
 
     if ($array_expected) {
       if ($key == NULL) {

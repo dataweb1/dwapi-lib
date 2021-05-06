@@ -1,5 +1,6 @@
 <?php
 namespace dwApiLib\api;
+use dwApiLib\DwApiLib;
 use Symfony\Component\Yaml\Yaml;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -24,8 +25,14 @@ class Mail{
    */
   private $response;
 
+  /**
+   * @var array|null
+   */
+  private $smtp = NULL;
+
   public function __construct($mail_parameters)
   {
+    $this->smtp = DwApiLib::$settings->smtp;
     $this->request = Request::getInstance();
     $this->response = Response::getInstance();
     $this->mail_parameters = $mail_parameters;
@@ -64,6 +71,17 @@ class Mail{
    */
   public function send() {
     $mail = new PHPMailer(true); //Argument true in constructor enables exceptions
+
+    if (!is_null($this->smtp)) {
+      $mail->IsSMTP();
+			//$mail->Debugoutput = 'html';
+			$mail->SMTPAuth = true;
+			$mail->Host = $this->smtp["host"];
+			$mail->Port = $this->smtp["port"];
+			$mail->Username = $this->smtp["username"];
+			$mail->Password = $this->smtp["password"];
+
+    }
 
     //From email address and name
     $mail->From = $this->getElement("from_email");
