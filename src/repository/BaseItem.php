@@ -18,8 +18,8 @@ abstract class BaseItem implements BaseItemInterface
   protected $entity_type = NULL;
 
   /* response */
-  protected $result;
-  protected $debug;
+  protected $result = [];
+  protected $debug = NULL;
 
 
   /**
@@ -27,6 +27,8 @@ abstract class BaseItem implements BaseItemInterface
    * @param null $logged_in_user
    */
   public function __construct($logged_in_user = NULL) {
+    $this->reset();
+
     $this->request = Request::getInstance();
     $this->logged_in_user = $logged_in_user;
   }
@@ -83,5 +85,10 @@ abstract class BaseItem implements BaseItemInterface
     if ($entity_type != "") {
       $this->entity_type->load($entity_type);
     }
+  }
+
+  public function reset() {
+    $this->result = [];
+    $this->entity_type = NULL;
   }
 }

@@ -14,7 +14,6 @@ use dwApiLib\token\TokenFactory;
  */
 class User extends Endpoint {
 
-
   public function __construct()
   {
     $this->request = Request::getInstance();

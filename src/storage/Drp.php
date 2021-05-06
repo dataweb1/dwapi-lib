@@ -13,7 +13,6 @@ class Drp
   private $host;
   private $post_values = [];
 
-
   public function __construct()
   {
       $credentials = Project::getInstance()->credentials;
@@ -48,6 +47,18 @@ class Drp
     $this->post_values[$key] =  $value;
   }
 
+
+  public function getSuccess() {
+    return $this->response["success"];
+  }
+
+  public function getResult() {
+    return $this->response["result"];
+  }
+
+  public function getError() {
+    return $this->response["error"];
+  }
 
   /**
    * execute.
@@ -85,20 +96,32 @@ class Drp
         return false;
       } else {
 
-        /*
+
+/*
         print_r("--> ".$class . "/" . $method);
         echo "<pre>";
         print_r($this->post_values);
         echo "</pre>";
-        echo "<pre>";
-        print_r($response);
-        echo "</pre>";
-        */
 
+
+
+*/
+
+        //print_r("--> ".$class . "/" . $method);
+ 
+
+        return $response;
+
+        /*
         if ($response["success"] == false) {
           if ($response["message"] != "") {
-            throw new DwapiException($response["message"], $response["error_code"]);
-          }
+            $response["error"] = json_decode($response["message"]);
+
+
+
+            return $response;
+            //throw new DwapiException($response["message"], $response["error_code"]);
+          }  
           else {
             return NULL;
           }
@@ -106,6 +129,7 @@ class Drp
         else {
           return $response["output"];
         }
+        */
       }
     }
   }

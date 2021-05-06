@@ -23,6 +23,8 @@ class Item extends BaseItem implements ItemInterface {
   public $paging = NULL;
   public $relation = NULL;
 
+  protected $success = false;
+  protected $error = [];
 
   /**
    * Query constructor.
@@ -30,15 +32,19 @@ class Item extends BaseItem implements ItemInterface {
    * @param null $logged_in_user
    */
   public function __construct($entity = "", $logged_in_user = NULL) {
+
     parent::__construct($logged_in_user);
 
-    $this->storage = new Drp();//Drp::load();
+    $this->reset();
+    $this->storage = new Drp();//
     $this->storage->setPostValue("api_host", $_SERVER["HTTP_HOST"]);
     $this->storage->setPostValue("project", $this->request->project);
     if ($entity == "user") {
       $entity = "user-user";
     }
     $this->storage->setPostValue("entity", $entity);
+
+
   }
 
 
@@ -51,9 +57,9 @@ class Item extends BaseItem implements ItemInterface {
     $this->storage->setPostValue("id", $this->id);
     $this->storage->setPostValue("relation", $this->relation);
     $this->storage->setPostValue("property", $this->property);
-    $this->result = $this->storage->execute("Item", "single_read");
+    $this->processResponse($this->storage->execute("Item", "single_read"));
 
-    return true;
+    return $this->success;
   }
 
 
@@ -68,9 +74,11 @@ class Item extends BaseItem implements ItemInterface {
     $this->storage->setPostValue("paging", $this->paging);
     $this->storage->setPostValue("relation", $this->relation);
     $this->storage->setPostValue("property", $this->property);
-    $this->result = $this->storage->execute("Item", "read");
 
-    return true;
+
+    $this->processResponse($this->storage->execute("Item", "read"));
+
+    return $this->success;
   }
 
 
@@ -83,9 +91,9 @@ class Item extends BaseItem implements ItemInterface {
   {
     $this->values["uid"] = $this->logged_in_user->id;
     $this->storage->setPostValue("values", $this->values);
-    $this->result = $this->storage->execute("Item", "create");
+    $this->processResponse($this->storage->execute("Item", "create"));
 
-    return true;
+    return $this->success;
   }
 
 
@@ -99,7 +107,7 @@ class Item extends BaseItem implements ItemInterface {
     $this->filter = [["entity_id", "=", $this->id]];
     $this->update();
 
-    return true;
+    return $this->success;
   }
 
 
@@ -109,11 +117,12 @@ class Item extends BaseItem implements ItemInterface {
    * @throws DwapiException
    */
   public function update() {
+    $this->values["uid"] = $this->logged_in_user->id;
     $this->storage->setPostValue("filter", $this->filter);
     $this->storage->setPostValue("values", $this->values);
-    $this->result = $this->storage->execute("Item", "update");
+    $this->processResponse($this->storage->execute("Item", "update"));
 
-    return true;
+    return $this->success;
   }
 
 
@@ -127,7 +136,7 @@ class Item extends BaseItem implements ItemInterface {
     $this->filter = [["entity_id", "=", $this->id]];
     $this->delete();
 
-    return false;
+    return $this->success;
   }
 
 
@@ -139,8 +148,53 @@ class Item extends BaseItem implements ItemInterface {
   public function delete()
   {
     $this->storage->setPostValue("filter", $this->filter);
-    $this->result = $this->storage->execute("Item", "delete");
+    $this->processResponse($this->storage->execute("Item", "delete"));
 
-    return true;
+    return $this->success;
+  }
+
+  /**
+   * processResponse.
+   * @param $response
+   */
+  protected function processResponse($response) {
+    $this->success = $response["success"];
+    $this->result = $response["result"];
+    $this->error = $response["error"];
+  }
+
+  /**
+   * getSuccess.
+   * @return mixed
+   */
+  public function getSuccess() {
+    return $this->success;
+  }
+
+  /**
+   * getError.
+   * @return mixed
+   */
+  public function getError() {
+    return $this->error;
+  }
+
+  /**
+   * reset.
+   */
+  public function reset()
+  {
+    parent::reset();
+    $this->values = NULL;
+    $this->filter = NULL;
+    $this->property = NULL;
+    $this->sort = NULL;
+    $this->hash = NULL;
+    $this->id = NULL;
+    $this->paging = NULL;
+    $this->relation = NULL;
+
+    $this->success = [];
+    $this->error = [];
   }
 }
