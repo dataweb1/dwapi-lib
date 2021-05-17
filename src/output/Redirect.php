@@ -61,5 +61,8 @@ class Redirect
       header("location: ".$redirect_url);
       print_r("Redirecting...");
     }
+    else {
+      print_r("No website to redirect to...");
+    }
   }
 }
