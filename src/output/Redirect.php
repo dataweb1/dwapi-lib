@@ -41,6 +41,7 @@ class Redirect
       $template = Template::pickTemplate(
         $this->request->project,
         "redirect_url",
+        $this->request->endpoint,
         $this->request->action,
         $this->request->getParameters("query", "entity"));
       if ($template != "") {

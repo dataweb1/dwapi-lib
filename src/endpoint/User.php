@@ -207,16 +207,16 @@ class User extends Endpoint {
         }
         else {
           $this->http_response_code = 400;
-          throw new ErrorException('User is activate already.', ErrorException::DW_USER_ACTIVATED);
+          throw new DwapiException('User is activate already.', DwapiException::DW_USER_ACTIVATED);
         }
       } else {
         $this->http_response_code = 400;
-        throw new ErrorException('User not found.', ErrorException::DW_USER_NOT_FOUND);
+        throw new DwapiException('User not found.', DwapiException::DW_USER_NOT_FOUND);
       }
     }
     else {
       $this->http_response_code = 400;
-      throw new ErrorException('User does not exist.', ErrorException::DW_USER_NOT_FOUND);
+      throw new DwapiException('User does not exist.', DwapiException::DW_USER_NOT_FOUND);
     }
   }
 
