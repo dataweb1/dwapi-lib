@@ -30,7 +30,7 @@ class Mail{
    */
   private $smtp = NULL;
 
-  public function __construct($mail_parameters)
+  public function __construct($mail_parameters = [])
   {
     $this->smtp = DwApiLib::$settings->smtp;
     $this->request = Request::getInstance();
