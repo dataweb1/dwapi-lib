@@ -14,6 +14,9 @@ class Json {
     $this->response = Response::getInstance();
   }
 
+  /**
+   * setHeaders.
+   */
   public function setHeaders(){
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
       // return only the headers and not the content
@@ -34,12 +37,15 @@ class Json {
     header("Content-Type: application/json; charset=UTF-8");
   }
 
+  /**
+   * render.
+   * Show response
+   * @throws \dwApiLib\api\DwapiException
+   */
   public function render(){
     $this->setHeaders();
 
-    if ($this->response->error == NULL) {
-      http_response_code($this->response->http_response_code);
-    } else {
+    if (!is_null($this->response->error)) {
       if (get_class($this->response->error) == "DwapiException" && $this->response->error->getResponseCode() != NULL) {
         $this->response->http_response_code = $this->response->error->getResponseCode();
       }
@@ -54,9 +60,9 @@ class Json {
           }
         }
       }
-      http_response_code($this->response->http_response_code);
 
     }
+    http_response_code($this->response->http_response_code);
 
     echo json_encode($this->response->getJsonVariables(), JSON_PRETTY_PRINT);
   }

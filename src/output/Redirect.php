@@ -18,7 +18,7 @@ class Redirect
 
   /**
    * Redirect constructor.
-   * @param $api
+   * @throws \dwApiLib\api\DwapiException
    */
   public function __construct()
   {
@@ -29,8 +29,12 @@ class Redirect
 
 
   /**
+   * renderRedirectUrl.
    * Render redirect URL from TwigString or TwigFile
-   * @return bool
+   * @return bool|string
+   * @throws \Twig\Error\LoaderError
+   * @throws \Twig\Error\RuntimeError
+   * @throws \Twig\Error\SyntaxError
    * @throws \dwApiLib\api\DwapiException
    */
   private function renderRedirectUrl() {
@@ -53,7 +57,9 @@ class Redirect
 
 
   /**
-   * Do redirect
+   * render.
+   * Do redirect.
+   * @throws \dwApiLib\api\DwapiException
    */
   public function render() {
     $redirect_url = $this->renderRedirectUrl();
