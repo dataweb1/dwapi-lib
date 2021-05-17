@@ -106,8 +106,10 @@ class Item extends Endpoint {
         $this->repository->single_delete();
 
       } else {
-        $this->repository->filter = $this->request->getParameters("formData", "filter", true, false, true);
+        $this->repository->filter = $this->request->getParameters("formData", "filter", true, true, true);
+        $this->result["filter"] = $this->repository->filter;
         $this->repository->delete();
+
       }
 
       $this->result = $this->repository->getResult();

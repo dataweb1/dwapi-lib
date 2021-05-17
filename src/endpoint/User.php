@@ -7,6 +7,7 @@ use dwApiLib\api\Response;
 use dwApiLib\DwApiLib;
 use dwApiLib\repository\RepositoryFactory;
 use dwApiLib\token\TokenFactory;
+use Hashids\Hashids;
 
 /**
  * Class User
@@ -126,7 +127,7 @@ class User extends Endpoint {
 
       } else {
         $this->repository->filter = $this->request->getParameters("formData", "filter", true, false, true);
-        $this->repository->delete();
+        $this->repository->delete(); 
       }
 
       $this->result = $this->repository->getResult();
@@ -333,7 +334,8 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function register() {
-    $this->repository->values = $this->request->getParameters("body", "values");
+    //$this->repository->values = $this->request->getParameters("body", "values");
+    $this->repository->values = $this->request->getParameters("body", NULL, true, false, true);
 
     $array_to_check = array(
       "email" => $this->repository->values["email"],
@@ -345,9 +347,14 @@ class User extends Endpoint {
       $this->result = $this->repository->getResult();
       $this->debug = $this->repository->getDebug();
 
+
       if (!isset($this->request->mail["enabled"])) {
+        //$this->request->mail["to_email"] = $this->repository->values["email"];
+        $this->hook_parameters = new \stdClass();
+        $this->hook_parameters->mail["to_email"] = $this->repository->values["email"];
         $this->request->mail["enabled"] = true;
       }
+
       return;
     } else {
       throw new DwapiException('User with this email already exists.', DwapiException::DW_USER_EXISTS);
