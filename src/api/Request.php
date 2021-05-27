@@ -194,10 +194,11 @@ class Request
 
     // Fetch content and determine boundary
     $boundary = substr($raw_data, 0, strpos($raw_data, "\r\n"));
-
     if(empty($boundary)){
-      parse_str($raw_data,$data);
-      $GLOBALS[ '_PUT' ] = $data;
+      //parse_str($raw_data,$data);
+      //$data["values"] = $raw_data;
+
+      $GLOBALS[ '_PUT' ] = $raw_data;
       return;
     }
 
@@ -380,18 +381,44 @@ class Request
   public function getParameters($type = NULL, $key = NULL, $array_expected = false, $multi_array_expected = false, $parameters_required = false) {
 
     if ($type != NULL) {
-      if ($type == "query" && $_REQUEST) {
-        $this->parameters["query"] = $this->processQueryParameters($_REQUEST);
+      if ($type == "query" && $_GET) {
+        $this->parameters["query"] = $this->processQueryParameters($_GET);
       }
       if ($type == "formData" || $type == "body") {
-        if ($this->method == "post" || $this->method == "delete" || $this->method == "get") {
+        if ( $this->method == "delete" || $this->method == "get") {
           $body = file_get_contents('php://input');
+          $this->parameters[$type] = $this->processFormDataParameters($body);
+        }
+        if ($this->method == "post") {
+          $body = $_POST;
+          if ((array)$body == []) {
+            $body = file_get_contents('php://input');
+          }
+          //$body = $_POST;
+
+          // if Content-Type: application/json in header then $_POST is valid
+          // if not data is in first key of $_POST
+
+          /*
+          $first_key = array_key_first($body);
+          if (Helper::isJson($first_key)) {
+            $body = $first_key;
+          }
+          */
+
           $this->parameters[$type] = $this->processFormDataParameters($body);
         }
         if ($this->method == "put") {
           $this->_parsePut();//_parsePut
+          $body = $GLOBALS["_PUT"];//["body"];
+          //$body = array_key_first($GLOBALS["_PUT"]);
+          //$body = $GLOBALS["_PUT"]);
+          /*
           $GLOBALS["_PUT"] = array_key_first($GLOBALS["_PUT"]);
           $body = $GLOBALS["_PUT"];
+          */
+
+
           $this->parameters["body"] = $this->processFormDataParameters($body);
         }
       }
@@ -458,20 +485,20 @@ class Request
 
     if ($files = $this->getParameters("files")) {
       foreach ($files as $field => $file) {
-        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "files/" . $this->getParameters("query", "project") . "/";
+        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "/files/" . $this->getParameters("query", "project") . "/";
         if (!file_exists($target_dir)) {
           mkdir($target_dir);
         }
-        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "files/" . $this->getParameters("query", "project") . "/" . $this->getParameters("query", "entity") . "/";
+        $target_dir = $_SERVER["DOCUMENT_ROOT"] . "/files/" . $this->getParameters("query", "project") . "/" . $this->getParameters("query", "entity") . "/";
         if (!file_exists($target_dir)) {
           mkdir($target_dir);
         }
 
-        $target_file = $target_dir . basename($file["name"]);
+        $target_file = $target_dir .  basename($file["name"]);
 
         if (!copy($file["tmp_name"],$target_file)) {
           //if (!move_uploaded_file($file["tmp_name"], $target_file)) {
-          throw new DwapiException('Error uploading file(s)', DwapiException::DW_UPLOAD_ERROR);
+          throw new DwapiException('Error uploading file(s) - '.$target_file, DwapiException::DW_UPLOAD_ERROR);
         } else {
           //$processed_files[$field] = $file;
           $values[$field] = json_encode(array("type" => explode("/", $file["type"]), "name" => $file["name"], "size" => $file["size"]));
