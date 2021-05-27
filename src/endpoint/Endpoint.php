@@ -82,16 +82,16 @@ abstract class Endpoint
 
   /**
    * execute.
-   * @param $action
+   * @param $to_execute_method
    * @throws DwapiException
    */
-  public function execute($action) {
+  public function execute($to_execute_method) {
 
-    if (!method_exists(get_class($this), $action)) {
-      throw new DwapiException('Class method "'.$action.'" is not yet defined.', DwapiException::DW_INVALID_ACTION);
+    if (!method_exists(get_class($this), $to_execute_method)) {
+      throw new DwapiException('Class method "'.$to_execute_method.'" is not yet defined.', DwapiException::DW_INVALID_ACTION);
     }
 
-    $this->$action();
+    $this->$to_execute_method();
 
     $this->response->http_response_code = $this->http_response_code;
     $this->response->result = $this->result;

@@ -60,16 +60,22 @@ class Template {
    * @param string $entity
    * @return array
    */
-  public static function templateArray($project, $element, $endpoint, $action, $entity = "") {
+  public static function templateArray($project, $element, $endpoint, $action, $method, $entity = "") {
     return array(
+      $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter($method)."--".URLify::filter(strval($entity)),
       $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
+      $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter($method),
       $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action),
-      $project."/".URLify::filter($element)."----".URLify::filter($action),
+      $project."/".URLify::filter($element)."------".URLify::filter($method),
+      $project."/".URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($method),
       $project."/".URLify::filter($element)."--".URLify::filter($endpoint),
       $project."/".URLify::filter($element),
+      URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter($method)."--".URLify::filter(strval($entity)),
       URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter(strval($entity)),
+      URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action)."--".URLify::filter($method),
       URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($action),
-      URLify::filter($element)."----".URLify::filter($action),
+      URLify::filter($element)."------".URLify::filter($method),
+      URLify::filter($element)."--".URLify::filter($endpoint)."--".URLify::filter($method),
       URLify::filter($element)."--".URLify::filter($endpoint),
       URLify::filter($element));
   }
@@ -83,8 +89,8 @@ class Template {
    * @param $entity
    * @return bool|mixed
    */
-  public static function pickTemplate($project, $element, $endpoint, $action, $entity) {
-    $template_array = self::templateArray( $project, $element, $endpoint, $action, $entity);
+  public static function pickTemplate($project, $element, $endpoint, $action, $method, $entity) {
+    $template_array = self::templateArray( $project, $element, $endpoint, $action, $method, $entity);
     foreach($template_array as $template) {
       if (file_exists(DwApiLib::$settings->template_path . "/" . $template . ".html.twig")) {
         return $template;

@@ -106,7 +106,11 @@ class DwApiLib
 
         /* create Endpoint instance according to the endpoint parameter in the Request */
         $this->endpoint = EndpointFactory::create($this->request->endpoint);
-        $this->endpoint->execute($this->request->action);
+        $to_execute_method = $this->request->action;
+        if ($to_execute_method == "") {
+          $to_execute_method = $this->request->method;
+        }
+        $this->endpoint->execute($to_execute_method);
       }
 
       if (

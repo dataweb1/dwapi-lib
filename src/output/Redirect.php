@@ -47,6 +47,7 @@ class Redirect
         "redirect_url",
         $this->request->endpoint,
         $this->request->action,
+        $this->request->method,
         $this->request->getParameters("query", "entity"));
       if ($template != "") {
         return Template::renderTwigFile($template, $this->response->getTwigVariables());

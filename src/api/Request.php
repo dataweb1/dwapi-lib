@@ -129,11 +129,8 @@ class Request
 
     // allowed path?
     if ($this->matchPathWithAllowedPaths($this->path, $allowed_paths) == true) {
-      $this->endpoint = $this->path_elements[0];
-      $this->action = $this->path_elements[1];
-      if ($this->action == "") {
-        $this->action = $this->method;
-      }
+      $this->endpoint = (string)$this->path_elements[0];
+      $this->action = (string)$this->path_elements[1];
       return true;
     }
 
@@ -141,9 +138,6 @@ class Request
     if ($this->path_definition) {
       $this->endpoint = (string)$this->path_definition->getBasePathElement(0);
       $this->action = (string)$this->path_definition->getBasePathElement(1);
-      if ($this->action == "") {
-        $this->action = $this->method;
-      }
       return true;
     }
 
