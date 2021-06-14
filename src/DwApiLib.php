@@ -124,7 +124,7 @@ class DwApiLib
         $mail = new Mail($mail_parameters);
         $mail->send();
       }
-    } catch (\Exception $error) {
+    } catch (\Throwable $error) {
       $this->response->error = $error;
     }
   }
