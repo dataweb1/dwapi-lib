@@ -127,7 +127,7 @@ class User extends Endpoint {
 
       } else {
         $this->repository->filter = $this->request->getParameters("formData", "filter", true, false, true);
-        $this->repository->delete(); 
+        $this->repository->delete();
       }
 
       $this->result = $this->repository->getResult();
@@ -239,7 +239,7 @@ class User extends Endpoint {
 
         if ($this->repository->single_update()) {
 
-          $temp_token = new Token($this->request->project);
+          $temp_token = TokenFactory::create("jwt");
           $token = $temp_token->create(0, 1);
 
           $this->result["hash"] = $this->repository->getResult("items")[0]["user_id_hash"];
@@ -271,7 +271,8 @@ class User extends Endpoint {
     }
 
     $token = $this->request->getParameters("query", "temp_token");
-    $temp_token = new Token($this->request->project, $token);
+    $temp_token = TokenFactory::create("jwt", $token);
+    //$temp_token = new Token($this->request->project, $token);
     if ($temp_token->validate_token()) {
       $hashids = new Hashids('dwApi', 50);
       $this->repository->id = $hashids->decode($this->request->hash)[0];
@@ -297,7 +298,8 @@ class User extends Endpoint {
   public function confirm_password() {
 
     $token = $this->request->getParameters("query", "temp_token");
-    $temp_token = new Token($this->request->project, $token);
+    //$temp_token = new Token($this->request->project, $token);
+    $temp_token = TokenFactory::create("jwt", $token);
     if ($temp_token->validate_token()) {
       $hashids = new Hashids('dwApi', 50);
       $this->repository->id = $hashids->decode($this->request->hash)[0];
