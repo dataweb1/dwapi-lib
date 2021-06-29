@@ -62,8 +62,22 @@ class User extends Item implements UserInterface {
    * @throws DwapiException
    */
   public function login_by_id() {
-    $this->single_read();
-    return true;
+    $this->filter = [["user_id", "=", $this->id]];
+    $this->read();
+    if ($this->isActiveUser()) {
+      $user = $this->getResult("items")[0];
+      $user_id = $user[$this->getEntityType()->getPrimaryKey()];
+      $this->values = ["force_login" => 0];
+      $this->filter = [["user_id", "=", $user_id]];
+      $this->update();
+
+      unset($this->result["items"]);
+
+      $this->result["id"] = $user_id;
+      $this->result["item"] = $user;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -72,8 +86,7 @@ class User extends Item implements UserInterface {
    * @throws DwapiException
    */
   public function login_by_access_token() {
-    $this->single_read();
-    return true;
+    return $this->login_by_id();
   }
 
   /**
