@@ -24,7 +24,6 @@ class Item extends BaseItem implements ItemInterface {
   public $relation = NULL;
 
   protected $success = false;
-  protected $error = [];
 
   /**
    * Query constructor.
@@ -169,14 +168,6 @@ class Item extends BaseItem implements ItemInterface {
    */
   public function getSuccess() {
     return $this->success;
-  }
-
-  /**
-   * getError.
-   * @return mixed
-   */
-  public function getError() {
-    return $this->error;
   }
 
   /**

@@ -35,6 +35,11 @@ class Response {
   public $error;
 
   /**
+   * @var array
+   */
+  public $variables = [];
+
+  /**
    * @var Response|null
    */
   private static $instance = null;
@@ -67,27 +72,24 @@ class Response {
    * @throws DwapiException
    */
   public function getTwigVariables() {
-    $variables = [];
 
     if ($this->error == NULL) {
-      $variables["status"] = array("success" => true);
+      $this->variables["status"]["success"] = true;
     }
     else {
-      $variables["status"] = array(
-        "success" => false,
-        "error_code" => $this->error->getCode(),
-        "message" => $this->error->getMessage());
+      $this->variables["status"]["success"] = false;
+      $this->variables["status"]["error_code"] = $this->error->getCode();
+      $this->variables["status"]["message"] = $this->error->getMessage();
     }
     if (!is_null($this->result)) {
-      $variables["result"] = $this->result;
+      $this->variables["result"] = $this->result;
     }
-    $variables["settings"] = Project::getInstance()->site;
-    $variables["settings"]["api_path"] = DwApiLib::$settings->api_path;
+    $this->variables["settings"] = Project::getInstance()->site;
+    $this->variables["settings"]["api_path"] = DwApiLib::$settings->api_path;
 
-    $parameters = Request::getInstance()->getParameters();
-    $variables["parameters"] = $parameters;
+    $this->variables["parameters"] = Request::getInstance()->getParameters();;
 
-    return Helper::maskValue($variables);
+    return Helper::maskValue($this->variables);
   }
 
   /**
@@ -96,31 +98,26 @@ class Response {
    * @throws DwapiException
    */
   public function getJsonVariables() {
-    $variables = [];
 
     if ($this->error != NULL) {
-      $variables["status"] = array(
-        "success" => false,
-        "response_code" => $this->http_response_code,
-        "error_code" => $this->error->getCode(),
-        "message" => $this->error->getMessage());
+      $this->variables["status"]["success"] = false;
+      $this->variables["status"]["response_code"] = $this->http_response_code;
+      $this->variables["status"]["error_code"] = $this->error->getCode();
+      $this->variables["status"]["message"] = $this->error->getMessage();
     }
     else {
-      $variables["status"] = array(
-        "success" => true);
+      $this->variables["status"]["success"] = true;
 
       if (!is_null($this->result)) {
-        $variables["result"] = $this->result;
+        $this->variables["result"] = $this->result;
       }
       if (Request::getInstance()->debug == true) {
-        $variables["debug"] = $this->debug;
-
-        $parameters = Request::getInstance()->getParameters();
-        $variables["parameters"] = $parameters;
+        $this->variables["debug"] = $this->debug;
+        $this->variables["parameters"] = Request::getInstance()->getParameters();;
       }
     }
 
-    return $variables;
+    return $this->variables;
   }
 
 }

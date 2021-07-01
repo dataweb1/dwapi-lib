@@ -52,6 +52,11 @@ abstract class Endpoint
   public $result = NULL;
 
   /**
+   * @var array
+   */
+  public $error = [];
+
+  /**
    * @var array\null
    */
   public $debug = NULL;
@@ -96,6 +101,10 @@ abstract class Endpoint
     $this->response->http_response_code = $this->http_response_code;
     $this->response->result = $this->result;
     $this->response->debug = $this->debug;
+
+    if (count($this->repository->getError()) > 0) {
+      throw new DwapiException($this->repository->getError()[0]);
+    }
   }
 
 }

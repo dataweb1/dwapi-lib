@@ -19,6 +19,7 @@ abstract class BaseItem implements BaseItemInterface
 
   /* response */
   protected $result = [];
+  protected $error = [];
   protected $debug = NULL;
 
 
@@ -94,5 +95,14 @@ abstract class BaseItem implements BaseItemInterface
   public function reset() {
     $this->result = [];
     $this->entity_type = NULL;
+  }
+
+  /**
+   * getError.
+   * @return array|mixed
+   */
+  public function getError()
+  {
+    return $this->error;
   }
 }

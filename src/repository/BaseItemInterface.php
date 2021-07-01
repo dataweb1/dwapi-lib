@@ -29,6 +29,11 @@ interface BaseItemInterface {
    */
   public function getDebug();
 
+  /**
+   * getError.
+   * @return mixed
+   */
+  public function getError();
 
   /**
    * getEntityType.
