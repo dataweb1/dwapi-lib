@@ -371,13 +371,19 @@ class User extends Endpoint {
    */
   public function validate_token() {
     if ($this->current_token->validate_token()) {
-      $this->result["token"] = $this->current_token->token;
-      return true;
+      $this->repository->id = $this->current_token->data["user_id"];
+      $this->repository->single_read();
+      if ($this->repository->getResult("item")["force_login"] == 0 &&
+        $this->repository->getResult("item")["active"] == 1) {
+        //throw new DwapiException( "ok--".$this->repository->getResult("item")["force_login"]."--".$this->repository->getResult("item")["active"] );
+        $this->result["token"] = $this->current_token->token;
+        return true;
+      }
     }
-    else {
-      $this->http_response_code = 401;
-      throw new DwapiException('Valid token is required.', DwapiException::DW_VALID_TOKEN_REQUIRED);
-    }
+    //else {
+    $this->http_response_code = 401;
+    throw new DwapiException( 'Valid token is required.', DwapiException::DW_VALID_TOKEN_REQUIRED);
+    //}
   }
 
   /**
@@ -385,7 +391,7 @@ class User extends Endpoint {
    * @throws DwapiException
    */
   public function extend_token() {
-    if ($this->current_token->validate_token()) {
+    if ($this->validate_token()) {
       $this->current_token->extend_token();
 
       $this->result["token"] = $this->current_token->token;

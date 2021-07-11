@@ -49,7 +49,7 @@ class Item extends Endpoint {
       $this->repository->values = $this->request->getParameters("body", NULL, true, false, true);
 
       $this->request->processFiles($this->repository->values);
-
+      /* TODO: check if logged in / token_required false */
       if (!is_null($this->repository->hash)) {
         $this->repository->id = Helper::getIdFromHash($this->repository->hash);
         $this->repository->single_update();
@@ -78,6 +78,7 @@ class Item extends Endpoint {
       $this->repository->values = $this->request->getParameters("body", NULL, true, false, true);
       $this->request->processFiles($this->repository->values);
 
+      /* TODO: check if logged in / token_required false */
       if ($this->repository->create()) {
         $this->http_response_code = 201;
         $this->result = $this->repository->getResult();
@@ -99,6 +100,7 @@ class Item extends Endpoint {
    */
   public function delete() {
     if ($this->repository) {
+      /* TODO: check if logged in / token_required false */
       $this->repository->hash = $this->request->getParameters("path", "hash");
       if (!is_null($this->repository->hash)) {
         $this->repository->id = Helper::getIdFromHash($this->repository->hash);

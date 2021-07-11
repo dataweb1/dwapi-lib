@@ -135,7 +135,7 @@ class JwtToken
     $token_user = RepositoryFactory::create("user");
     $token_user->id = $user_id;
 
-    if ($token_user->login_by_id()) {
+    if ($token_user->login_by_id(false)) {
       return $token_user;
     }
     else {

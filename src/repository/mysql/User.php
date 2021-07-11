@@ -61,15 +61,17 @@ class User extends Item implements UserInterface {
    * @return bool|mixed
    * @throws DwapiException
    */
-  public function login_by_id() {
+  public function login_by_id($update = true) {
     $this->filter = [["user_id", "=", $this->id]];
     $this->read();
     if ($this->isActiveUser()) {
       $user = $this->getResult("items")[0];
       $user_id = $user[$this->getEntityType()->getPrimaryKey()];
-      $this->values = ["force_login" => 0];
-      $this->filter = [["user_id", "=", $user_id]];
-      $this->update();
+      if ($update == true) {
+        $this->values = ["force_login" => 0];
+        $this->filter = [["user_id", "=", $user_id]];
+        $this->update();
+      }
 
       unset($this->result["items"]);
 
@@ -163,7 +165,20 @@ class User extends Item implements UserInterface {
    * isActiveUser.
    * @return bool|mixed
    */
-  private function isActiveUser() {
+  public function isActiveUser() {
+    $force_login = $this->getResult("items")[0]["force_login"];
+    $active = $this->getResult("items")[0]["active"];
+    if ($active == 0) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * isLoggedInUser.
+   * @return bool|mixed
+   */
+  public function isLoggedInUser() {
     $force_login = $this->getResult("items")[0]["force_login"];
     $active = $this->getResult("items")[0]["active"];
     if ($force_login == 1 || $active == 0) {

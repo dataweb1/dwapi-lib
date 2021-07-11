@@ -102,8 +102,10 @@ abstract class Endpoint
     $this->response->result = $this->result;
     $this->response->debug = $this->debug;
 
-    if (count($this->repository->getError()) > 0) {
-      throw new DwapiException($this->repository->getError()[0]);
+    if ($this->repository) {
+      if (count($this->repository->getError()) > 0) {
+        throw new DwapiException($this->repository->getError()[0]);
+      }
     }
   }
 

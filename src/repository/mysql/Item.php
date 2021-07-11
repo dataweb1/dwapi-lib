@@ -423,11 +423,14 @@ class Item extends BaseItem implements ItemInterface {
 
     $stmt->execute();
 
+    $sec_entity = new EntityType();
+    $sec_entity->load($relation["sec_entity"]);
+
     $items = [];
     /* process result */
     while ($fetched_item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-
-      $items[$fetched_item[$relation["sec_key"]]] = $this->processFetchedItem($fetched_item,  $relation["sec_entity"]);
+      //$items[$fetched_item[$relation["sec_key"]]] = $this->processFetchedItem($fetched_item,  $relation["sec_entity"]);
+      $items[$fetched_item[$sec_entity->getPrimaryKey()]] = $this->processFetchedItem($fetched_item, $relation["sec_entity"]);
     }
 
     return $items;
