@@ -142,4 +142,4 @@ class JwtToken
       return false;
     }
   }
-}
+} 
